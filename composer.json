@@ -1,0 +1,14 @@
+{
+    "name": "yaaann/oc-projet-5",
+    "description": "Fifth and last project of my web developer training with OpenClassrooms.",
+    "type": "project",
+    "require": {
+
+    },
+    "authors": [
+        {
+            "name": "Yaaann",
+            "email": "yann.tachier@gmail.com"
+        }
+    ]
+}
