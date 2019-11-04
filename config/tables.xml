@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <definitions>
-	<define var="posts" value="fort_exple_posts" ></define>
-	<define var="comments" value="fort_exple_comments" ></define>
-	<define var="members" value="fort_exple_members" ></define>
-	<define var="reports" value="fort_exple_reports" ></define>
-	
+	<define var="posts" value="jobs_posts" ></define>
+	<define var="members" value="jobs_candidates" ></define>
+	<define var="members" value="jobs_recruiters" ></define>
+
 </definitions>

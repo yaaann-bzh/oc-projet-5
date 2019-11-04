@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <definitions>
 	<define var="db_host" value="localhost" ></define>
-	<define var="db_name" value="forteroche" ></define>
+	<define var="db_name" value="yannsjobs" ></define>
 	<define var="db_user" value="root" ></define>
 	<define var="db_pass" value="" ></define>
 	
