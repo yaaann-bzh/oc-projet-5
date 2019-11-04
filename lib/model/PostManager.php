@@ -7,7 +7,7 @@ class PostManager extends \framework\Manager
 {
     protected $entities = 'posts';
 
-    public function getList($debut, $limit, $filters = []) {
+    public function getList($debut = null, $limit = null, $filters = []) {
 
         $sql = 'SELECT * FROM ' . $this->table . ' ORDER BY id DESC';
 

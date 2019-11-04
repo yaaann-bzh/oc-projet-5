@@ -2,62 +2,56 @@
 namespace yannsjobs\modules\posts;
 
 use framework\HTTPrequest;
-use framework\Application;
 use framework\Controller;
-use framework\Manager;
-use framework\Page;
 use entity\Post;
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Pagerfanta;
 
 class PostsController extends Controller
 {
     public function executeIndex(HTTPRequest $request)
     {
-        $nbPosts = $this->app->config()->get('display', 'nb_posts');
-        $nbPages = (int)ceil($this->postManager->count() / $nbPosts);
-        $this->page->addVars('nbPages', $nbPages);
+        $posts = $this->postManager->getList();
+        $currentPage = (int)$request->getData('index');
 
-        $exerptLength = $this->app->config()->get('display', 'nb_chars');
+        $adapter = new ArrayAdapter($posts);
+        $pagerfanta = new Pagerfanta($adapter);
 
-        $index = (int)$request->getData('index');
-    
-        if ($index === null OR $index === 0) {
-            $index = 1;
-        }
+        $pagerfanta->setMaxPerPage($this->app->config()->get('display', 'nb_posts'));
 
-        if ($index === 1) {
-            $prevIndex = '#';
-            $nextIndex = 'index-' . ($index + 1);
-            $begin = 0;
-        } else {
-            if ($index === $nbPages) {
-                $prevIndex = 'index-' . ($index - 1);
-                $nextIndex = '#';
-            } else {
-                $prevIndex = 'index-' . ($index - 1);
-                $nextIndex = 'index-' . ($index + 1);
+        $pagination = array(
+            'hasTo' => false,
+            'current' => 1,
+            'previous' => '#',
+            'next' => '#',
+            'total' => $pagerfanta->getNbPages()
+        );
+
+        if ($pagerfanta->haveToPaginate()) {
+            $pagination['hasTo'] = true;
+
+            if ($currentPage !== 0) {
+                try {
+                    $pagerfanta->setCurrentPage($currentPage);
+                    $pagination['current'] = $pagerfanta->getCurrentPage();
+                } catch (\Exception $e) {
+                    $message = $e->getMessage();
+                    $this->page->addVars('error', $message);
+                }
             }
-            $begin = ($index - 1) * $nbPosts;
+
+            if ($pagerfanta->hasPreviousPage()) {
+                $pagination['previous'] = 'index-'. $pagerfanta->getPreviousPage();
+            }
+            if ($pagerfanta->hasNextPage()) {
+                $pagination['next'] = 'index-'. $pagerfanta->getNextPage();
+            }
         }
 
-        $this->page->addVars('index', $index);  
-        $this->page->addVars('prevIndex', $prevIndex);
-        $this->page->addVars('nextIndex', $nextIndex);
+        $this->page->addVars('pagination', $pagination);
 
-        $postsList = $this->postManager->getList($begin, $nbPosts);
-        if ($request->getData('index') !== null AND empty($postsList)) {
-            return $this->app->httpResponse()->redirect404();
-        }
+        $postsList = $pagerfanta->getCurrentPageResults();
         $this->page->addVars('postsList', $postsList);
-
-        $nbComments = [];
-        $exerpts = [];
-        foreach ($postsList as $post) {
-            $filters['postId'] = '=' . $post->id();
-            $nbComments[$post->id()] = $this->commentManager->count($filters);
-            $exerpts[$post->id()] = $post->getExerpt($exerptLength);
-        }
-        $this->page->addVars('nbComments', $nbComments);
-        $this->page->addVars('exerpts', $exerpts);
 
         $this->page->setTabTitle('Accueil');
         $this->page->setActiveNav('home');

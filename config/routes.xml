@@ -2,29 +2,5 @@
 <routes>    
     <route url="/" module="posts" action="index" ></route>
     <route url="/index-([0-9]+)" module="posts" action="index" vars="index"></route>
-    <route url="/post-([0-9]+)-?(updated)?" module="posts" action="show" vars="id,updated"></route>
-
-    <route url="/comments-index-([0-9]+)" module="comments" action="index" vars="index"></route>
-    <route url="/member-([0-9]+)-([0-9]+)" module="comments" action="indexByMember" vars="member,index"></route>
-
-    <route url="/user" module="connexion" action="index" ></route>
-    <route url="/deconnection" module="connexion" action="disconnect" ></route>
-
-    <route url="/inscription" module="members" action="inscription"></route>
-
-    <route url="/user/insert-comment-([0-9]+)" module="comments" action="insert" vars="post"></route>
-    <route url="/user/comment-([0-9]+)-?(updated)?" module="comments" action="show" vars="comment,updated"></route>
-    <route url="/user/comment-report-([0-9]+)" module="reports" action="report" vars="comment"></route>
-    <route url="/user/profile-([0-9]+)-?(updated)?" module="members" action="show" vars="member,updated"></route>
-    <route url="/user/password-update-([0-9]+)" module="members" action="passwordUpdate" vars="member"></route>
-    <route url="/user/update-([0-9]+)" module="members" action="update" vars="member"></route>
-    <route url="/user/delete-([0-9]+)" module="members" action="delete" vars="member"></route>
-
-    <route url="/admin/" module="posts" action="index" ></route>
-    <route url="/admin/redaction" module="posts" action="redaction"></route>
-    <route url="/admin/post-([0-9]+)" module="posts" action="update" vars="post"></route>
-    <route url="/admin/reports-index-([0-9]+)" module="reports" action="index" vars="index"></route>   
-    <route url="/admin/reports-([0-9]+)" module="reports" action="show" vars="comment"></route>   
-
 
 </routes>

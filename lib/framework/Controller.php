@@ -1,11 +1,6 @@
 <?php
 namespace framework;
-   
-use framework\HTTPrequest;
-use framework\Application;
-use framework\Manager;
-use framework\PDOFactory;
-use framework\Page;
+
 use model\PostManager;
 use model\CommentManager;
 use model\MemberManager;
