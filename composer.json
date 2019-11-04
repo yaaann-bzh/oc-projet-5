@@ -3,12 +3,20 @@
     "description": "Fifth and last project of my web developer training with OpenClassrooms.",
     "type": "project",
     "require": {
-
+        "pagerfanta/pagerfanta": "^2.1"
     },
     "authors": [
         {
             "name": "Yaaann",
             "email": "yann.tachier@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "framework\\" : "lib/framework",
+            "model\\" : "lib/model",
+            "entity\\" : "lib/entity",
+            "yannsjobs\\" : "yannsjobs"
+        }
+    }
 }
