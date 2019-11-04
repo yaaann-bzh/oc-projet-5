@@ -2,20 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c26251d8-c6c1-4f63-af23-68b7c3e95da5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/oc-projet-5.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/display.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/pdo.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/routes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/tables.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/entity/Comment.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/entity/Member.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/entity/Post.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/entity/Report.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/Application.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/ApplicationComponent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/Config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/Controller.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/HTTPRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/HTTPResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/Manager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/PDOFactory.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/Page.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/Route.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/Router.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/SplClassLoader.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/framework/User.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/model/CommentManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/model/MemberManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/model/PostManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/model/ReportManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/bootstrap.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yannsjobs/Frontend.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yannsjobs/modules/posts/PostsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yannsjobs/modules/posts/view/_commentForm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yannsjobs/modules/posts/view/index.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yannsjobs/modules/posts/view/redaction.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yannsjobs/modules/posts/view/single.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yannsjobs/templates/_comment_admin.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yannsjobs/templates/default.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/autoload.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/ClassLoader.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_namespaces.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_real.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +76,11 @@
         <option value="Yaaann &lt;yann-tachier@hotmail.fr&gt;" />
       </list>
     </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
@@ -68,8 +96,14 @@
   <component name="PropertiesComponent">
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\tests\oc-projet-5" />
+      <recent name="C:\wamp64\www\tests\oc-projet-5\forteroche" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
