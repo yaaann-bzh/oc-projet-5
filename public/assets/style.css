@@ -1,0 +1,13 @@
+#top-page{
+    min-height: 80vh;
+}
+
+#navbarsConnect{
+    right: 0;
+    top: 48px;
+    width: 200px;
+}
+
+#navbarsConnect a{
+    border-radius: 0;
+}

@@ -53,9 +53,8 @@ class PostsController extends Controller
         $postsList = $pagerfanta->getCurrentPageResults();
         $this->page->addVars('postsList', $postsList);
 
-        $this->page->setTabTitle('Accueil');
-        $this->page->setActiveNav('home');
-        
+        $this->page->setTabTitle('Accueil | YannsJobs');
+
         $this->page->setContent(__DIR__.'/view/index.php');
         $this->page->generate();
     }

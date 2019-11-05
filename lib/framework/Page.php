@@ -17,7 +17,6 @@ class Page extends ApplicationComponent
     public function setTabTitle(string $title)
     {
         $this->tabTitle = $title;
-        $this->tabTitle .= ' | Blog de jean Forteroche';
         $this->addVars('tabTitle', $this->tabTitle);
     }
 

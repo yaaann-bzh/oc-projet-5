@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="icon" href="/assets/quill-ink.png" sizes="32x32">
+        <link rel="icon" href="#" sizes="32x32">
 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" 
                 integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" 
@@ -20,20 +20,17 @@
     </head>
     <body>
         <header class="site-header sticky-top">
-            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-md navbar-dark bg-success">
                 <div class="container">
-                    <!--<a class="navbar-brand" href="/">J. Forteroche</a>-->
+                    <a class="navbar-brand" href="/">YannsJobs</a>
                     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarsExample07" style="">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item <?php if ($activeNav === 'home') { echo ' active'; } ?>">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
                                 <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
-                            </li>
-                            <li class="nav-item <?php if ($activeNav === 'comments') { echo ' active'; } ?>">
-                                <a class="nav-link" href="/comments-index-1"><i class="far fa-comment-dots"></i> Derniers commentaires</a>
                             </li>
                         <?php if ($user->isAdmin()) { ?>
                             <li class="nav-item <?php if ($activeNav === 'reports') { echo ' active'; } ?>">
@@ -44,15 +41,22 @@
                             </li>
                         <?php } ?>
                         </ul>
-                        <ul class="navbar-nav" id="member">
+                        <ul class="navbar-nav ml-auto" id="member">
                             <?php if ($user->isAuthenticated()) { ?>
                             <li class="nav-item active d-flex">
                                 <a class="nav-link" href="/user/profile-<?= $user->getAttribute('id'); ?>" title="Mon profil"><i class="fas fa-member-alt"></i> <?= $user->getAttribute('pseudo'); ?></a>
                                 <a class="nav-link ml-3" href="/deconnection" title="Se deconnecter"><i class="fas fa-power-off"></i></a>
                             </li>
                             <?php } else { ?>
-                                <li class="nav-item <?php if ($activeNav === 'connect') { echo ' active'; } ?>">
-                                    <a class="nav-link" href="/user"><i class="fas fa-member-alt"></i> Se connecter</a>
+                                <li class="nav-item active position-relative">
+                                    <a href="#" class="collapsed nav-link" data-toggle="collapse" data-target="#navbarsConnect" aria-controls="navbarsConnect" aria-expanded="false" aria-label="Toggle navigation">
+                                        Se connecter
+                                    </a>
+                                    <div class="collapse position-absolute list-group" id="navbarsConnect" style="">
+                                        <a class="list-group-item list-group-item-action" href="/candidate"><i class="fas fa-user-alt text-primary mr-3"></i> Candidats</a>
+                                        <a class="list-group-item list-group-item-action" href="/recruiters"><i class="fas fa-user-alt text-danger mr-3"></i> Recruteurs</a>
+                                        <a class="list-group-item list-group-item-action" href="/admin"><i class="fas fa-user-alt text-black mr-3"></i> Administrateur</a>
+                                    </div>
                                 </li>
                             <?php } ?>
 
@@ -63,14 +67,15 @@
             </nav>
         </header>
 
-        <div id="top-page">
+        <div id="top-page" class="bg-light">
             <?= $content; ?>
-            <hr class="featurette-divider">
         </div>
 
-        <footer class="container">
-            <p class="float-right"><a href="#top-page">Haut de page</a></p>
-            <p> 2019 - Yaaann · <a href="https://www.yaaann.ovh">Mes autres projets</a> · <a href="https://openclassrooms.com/fr/">OpenClassrooms</a></p>
+        <footer class="bg-dark text-light">
+            <div class="container p-4">
+                <p class="float-right m-0"><a href="#top-page" class="text-light">Haut de page</a></p>
+                <p class="m-0 text-secondary"> 2019 - Yaaann · <a href="https://www.yaaann.ovh" class="text-light">Mes autres projets</a> · <a href="https://openclassrooms.com/fr/" class="text-light">OpenClassrooms</a></p>
+            </div>
         </footer>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
