@@ -4,11 +4,11 @@ namespace entity;
 class Post 
 {
     protected $id;
-    protected $authorId;
+    protected $recruiterId;
+    protected $location;
     protected $title;
     protected $content;
     protected $addDate;
-    protected $updateDate;
 
     //Mother
     public function __construct(array $donnees = [])
@@ -72,14 +72,24 @@ class Post
         $this->id = $id;
     }
 
-    public function setAuthorId($authorId)
+    public function setRecruiterId($recruiterId)
     {
-        if (!is_int($authorId) || empty($authorId))
+        if (!is_int($recruiterId) || empty($recruiterId))
         {
             throw new \Exception('Identifiant auteur invalide');
         }
 
-        $this->authorId = $authorId;
+        $this->recruiterId = $recruiterId;
+    }
+
+    public function setLocation($location)
+    {
+        if (!is_string($location) || empty($location))
+        {
+            throw new \Exception('Titre du post invalide');
+        }
+
+        $this->location = $location;
     }
 
     public function setTitle($title)
@@ -107,20 +117,21 @@ class Post
         $this->addDate = $addDate;
     }
 
-    public function setUpdateDate(\DateTime $updateDate)
-    {
-        $this->updateDate = $updateDate;
-    }
-
     // GETTERS //
 
     public function id()
     {
         return $this->id;
     }
-    public function authorId()
+
+    public function recruiterId()
     {
-        return $this->authorId;
+        return $this->recruiterId;
+    }
+
+    public function location()
+    {
+        return $this->location;
     }
 
     public function title()
@@ -136,11 +147,6 @@ class Post
     public function addDate()
     {
         return $this->addDate;
-    }
-
-    public function updateDate()
-    {
-        return $this->updateDate;
     }
 
 }

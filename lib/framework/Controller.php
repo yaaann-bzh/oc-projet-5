@@ -15,9 +15,6 @@ class Controller extends ApplicationComponent
     protected $page = null;
     protected $view = '';
     protected $postManager = null;
-    protected $commentManager = null;
-    protected $memberManager = null;
-    protected $reportManager = null;
     protected $loader;
     protected $twig;
 
@@ -26,17 +23,16 @@ class Controller extends ApplicationComponent
         parent::__construct($app);
 
         $this->postManager = new PostManager(PDOFactory::getMysqlConnexion($dbConnexion));
-        $this->commentManager = new CommentManager(PDOFactory::getMysqlConnexion($dbConnexion));
-        $this->memberManager = new MemberManager(PDOFactory::getMysqlConnexion($dbConnexion));
-        $this->reportManager = new ReportManager(PDOFactory::getMysqlConnexion($dbConnexion));
         $this->page = new Page($app);
         $this->module = $module;
         $this->action = $action;
         $this->view = $action;
         $this->loader = new FilesystemLoader('../templates');
         $this->twig = new Environment($this->loader, [
-            'cache' => false //'/tmp',
+            'debug' => true,
+            'cache' => false //'/tmp'
         ]);
+        $this->twig->addExtension(new Extension());
     }
 
     public function page()

@@ -9,7 +9,7 @@ class PostManager extends \framework\Manager
 
     public function getList($debut = null, $limit = null, $filters = []) {
 
-        $sql = 'SELECT * FROM ' . $this->table . ' ORDER BY id DESC';
+        $sql = 'SELECT * FROM ' . $this->table . ' ORDER BY addDate DESC';
 
         if (isset($debut) && isset($limit)) {
             $sql .= ' LIMIT ' .(int) $limit.' OFFSET '.(int) $debut; 
@@ -22,9 +22,6 @@ class PostManager extends \framework\Manager
         foreach ($posts as $post)
         {
             $post->setAddDate(new \DateTime($post->addDate()));
-            if ($post->updateDate() != null) {
-                $post->setUpdateDate(new \DateTime($post->updateDate()));
-            }
         }
         
         $req->closeCursor();
