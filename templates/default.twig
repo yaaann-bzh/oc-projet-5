@@ -72,6 +72,17 @@
         </header>
 
         <div id="top-page" class="bg-light">
+            <section id="errors" class="container pt-5">
+                <div class="row">
+                    {% if (errors) %}
+                        <div class="col-12 bg-light p-3 m-3 text-danger border rounded border-danger">
+                            {% for error in errors %}
+                                <p class="m-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
             {% block content %} {% endblock %}
         </div>
 

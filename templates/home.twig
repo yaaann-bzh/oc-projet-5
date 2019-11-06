@@ -1,0 +1,39 @@
+{% extends 'default.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block errors %}
+    {% for error in errors %}
+            <p class="m-0">{{ error }}</p>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <section class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                {% include('pagination.twig') %}
+
+                {% if postsList is empty %}
+                    <p class="text-muted text-center">Il n'y a pas d'offres correspondant à votre recherche</p>
+                {% else %}
+                    <div class="list-group mt-3 mb-3">
+                        {% for post in postsList %}
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <h3 class="mb-1">{{ post.title }}</h3>
+                                <p class="m-0">{{ post.recruiterId }}</p>
+                                <p class="m-0">{{ post.location }}</p>
+                                <small>{{ post.addDate | showAge }}</small>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% include('pagination.twig') %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

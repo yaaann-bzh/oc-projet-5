@@ -19,24 +19,20 @@ class PostsController extends Controller
 
         $pagerfanta->setMaxPerPage($this->app->config()->get('display', 'nb_posts'));
 
-        $pagination = array(
-            'hasTo' => false,
-            'current' => 1,
-            'previous' => '#',
-            'next' => '#',
-            'total' => $pagerfanta->getNbPages()
-        );
-
         if ($pagerfanta->haveToPaginate()) {
-            $pagination['hasTo'] = true;
+            $pagination = array(
+                'current' => 1,
+                'previous' => '#',
+                'next' => '#',
+                'total' => $pagerfanta->getNbPages()
+            );
 
             if ($currentPage !== 0) {
                 try {
                     $pagerfanta->setCurrentPage($currentPage);
                     $pagination['current'] = $pagerfanta->getCurrentPage();
                 } catch (\Exception $e) {
-                    $message = $e->getMessage();
-                    $this->page->addVars('error', $message);
+                    $errors[] = $e->getMessage();
                 }
             }
 
@@ -46,16 +42,20 @@ class PostsController extends Controller
             if ($pagerfanta->hasNextPage()) {
                 $pagination['next'] = 'index-'. $pagerfanta->getNextPage();
             }
+            $this->page->addVars('pagination', $pagination);
         }
 
-        $this->page->addVars('pagination', $pagination);
         $this->page->addVars('user', $this->app->user());
 
         $postsList = $pagerfanta->getCurrentPageResults();
         $this->page->addVars('postsList', $postsList);
         $this->page->addVars('title', 'Accueil | YannsJobs');
 
-        $this->page->setTemplate('index.twig');
+        if (!empty($errors)){
+            $this->page->addVars('errors', $errors);
+        }
+
+        $this->page->setTemplate('home.twig');
         $this->page->setContent($this->twig->render($this->page->template(), $this->page->vars()));
 
     }
