@@ -5,6 +5,8 @@ use model\PostManager;
 use model\CommentManager;
 use model\MemberManager;
 use model\ReportManager;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 class Controller extends ApplicationComponent
 {
@@ -16,6 +18,8 @@ class Controller extends ApplicationComponent
     protected $commentManager = null;
     protected $memberManager = null;
     protected $reportManager = null;
+    protected $loader;
+    protected $twig;
 
     public function __construct(Application $app, $module, $action, array $dbConnexion)
     {
@@ -29,6 +33,10 @@ class Controller extends ApplicationComponent
         $this->module = $module;
         $this->action = $action;
         $this->view = $action;
+        $this->loader = new FilesystemLoader('../templates');
+        $this->twig = new Environment($this->loader, [
+            'cache' => false //'/tmp',
+        ]);
     }
 
     public function page()

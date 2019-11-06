@@ -3,7 +3,8 @@
     "description": "Fifth and last project of my web developer training with OpenClassrooms.",
     "type": "project",
     "require": {
-        "pagerfanta/pagerfanta": "^2.1"
+        "pagerfanta/pagerfanta": "^2.1",
+        "twig/twig": "^2.12"
     },
     "authors": [
         {

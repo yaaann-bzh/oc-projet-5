@@ -49,14 +49,15 @@ class PostsController extends Controller
         }
 
         $this->page->addVars('pagination', $pagination);
+        $this->page->addVars('user', $this->app->user());
 
         $postsList = $pagerfanta->getCurrentPageResults();
         $this->page->addVars('postsList', $postsList);
+        $this->page->addVars('title', 'Accueil | YannsJobs');
 
-        $this->page->setTabTitle('Accueil | YannsJobs');
+        $this->page->setTemplate('index.twig');
+        $this->page->setContent($this->twig->render($this->page->template(), $this->page->vars()));
 
-        $this->page->setContent(__DIR__.'/view/index.php');
-        $this->page->generate();
     }
 
     public function executeShow(HTTPRequest $request)

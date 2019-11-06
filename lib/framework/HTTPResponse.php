@@ -54,7 +54,7 @@ class HTTPResponse extends ApplicationComponent
     // Envoyer la réponse en générant la page :
     public function send()
     {
-        exit($this->page->generate());
+        exit($this->page->getGenerated());
     }
 
     // Ajouter un cookie :

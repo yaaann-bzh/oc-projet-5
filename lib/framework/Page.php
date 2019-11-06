@@ -1,13 +1,16 @@
 <?php
 namespace framework;
 
+
 class Page extends ApplicationComponent
 {
     protected $tabTitle;
     protected $activeNav;
+    protected $template;
     protected $content;
+
     protected $vars = [];
-    
+
     public function setActiveNav(string $nav)
     {
         $this->activeNav = $nav;
@@ -25,33 +28,39 @@ class Page extends ApplicationComponent
         return $this->tabTitle;
     }
 
-    public function setContent($content)
+    public function vars()
     {
-        $this->content = $content;
+        return $this->vars;
     }
 
-    public function generate()
+    public function template()
     {
-        if ($this->activeNav === null) {
-            $this->setActiveNav('');
+        return $this->template;
+    }
+
+    public function setTemplate($template)
+    {
+        if (!is_string($template))
+        {
+            throw new \InvalidArgumentException('La vue spécifiée est invalide');
         }
 
-        if (!file_exists($this->content))
+        if (empty($template))
         {
             throw new \RuntimeException('La vue spécifiée n\'existe pas');
         }
 
-        $user = $this->app->user();
+        $this->template = $template;
+    }
 
-        extract($this->vars);
+    public function getGenerated()
+    {
+        echo $this->content;
+    }
 
-        ob_start();
-        require $this->content;
-        $content = ob_get_clean();
-
-        ob_start();
-        require __DIR__ . '/../../yannsjobs/templates/default.php';
-        return ob_get_clean();
+    public function setContent($content)
+    {
+        $this->content = $content;
     }
 
     public function addVars($var, $value)
