@@ -4,8 +4,7 @@ namespace yannsjobs\modules\posts;
 use framework\HTTPrequest;
 use framework\Controller;
 use entity\Post;
-use Pagerfanta\Adapter\ArrayAdapter;
-use Pagerfanta\Pagerfanta;
+use framework\Pager;
 
 class PostsController extends Controller
 {
@@ -13,46 +12,19 @@ class PostsController extends Controller
     {
         $posts = $this->postManager->getList();
         $currentPage = (int)$request->getData('index');
+        $maxPerPage = $this->app->config()->get('display', 'nb_posts');
 
-        $adapter = new ArrayAdapter($posts);
-        $pagerfanta = new Pagerfanta($adapter);
+        $pager = new Pager($this->app(), $posts);
+        $pager->setPagination($currentPage, $maxPerPage);
+        $pager->setList();
 
-        $pagerfanta->setMaxPerPage($this->app->config()->get('display', 'nb_posts'));
-
-        if ($pagerfanta->haveToPaginate()) {
-            $pagination = array(
-                'current' => 1,
-                'previous' => '#',
-                'next' => '#',
-                'total' => $pagerfanta->getNbPages()
-            );
-
-            if ($currentPage !== 0) {
-                try {
-                    $pagerfanta->setCurrentPage($currentPage);
-                    $pagination['current'] = $pagerfanta->getCurrentPage();
-                } catch (\Exception $e) {
-                    $errors[] = $e->getMessage();
-                }
-            }
-
-            if ($pagerfanta->hasPreviousPage()) {
-                $pagination['previous'] = 'index-'. $pagerfanta->getPreviousPage();
-            }
-            if ($pagerfanta->hasNextPage()) {
-                $pagination['next'] = 'index-'. $pagerfanta->getNextPage();
-            }
-            $this->page->addVars('pagination', $pagination);
-        }
-
+        $this->page->addVars('pagination', $pager->pagination());
         $this->page->addVars('user', $this->app->user());
-
-        $postsList = $pagerfanta->getCurrentPageResults();
-        $this->page->addVars('postsList', $postsList);
+        $this->page->addVars('postsList', $pager->list());
         $this->page->addVars('title', 'Accueil | YannsJobs');
 
-        if (!empty($errors)){
-            $this->page->addVars('errors', $errors);
+        if (!empty($pager->errors())){
+            $this->page->addVars('errors', $pager->errors());
         }
 
         $this->page->setTemplate('home.twig');
