@@ -11,3 +11,19 @@
 #navbarsConnect a{
     border-radius: 0;
 }
+
+/* Penser a :
+    Modifier la hauteur de ces éléments pour ne pas qu'ils cachent le footer
+    */
+.post-view{
+    display: none;
+}
+
+.post-view .post-content{
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+#post-container{
+    position: fixed;
+}

@@ -4,6 +4,7 @@ namespace framework;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Michelf\Markdown;
 
 class Extension extends AbstractExtension
 {
@@ -16,7 +17,7 @@ class Extension extends AbstractExtension
     }
 
     public function markdownParse($value) {
-        return;
+        return Markdown::defaultTransform($value);
     }
 
     public function setAge(\DateTime $dateTime)

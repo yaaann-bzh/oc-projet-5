@@ -4,7 +4,8 @@
     "type": "project",
     "require": {
         "pagerfanta/pagerfanta": "^2.1",
-        "twig/twig": "^2.12"
+        "twig/twig": "^2.12",
+        "michelf/php-markdown": "^1.8"
     },
     "authors": [
         {
