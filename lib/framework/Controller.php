@@ -2,9 +2,7 @@
 namespace framework;
 
 use model\PostManager;
-use model\CommentManager;
-use model\MemberManager;
-use model\ReportManager;
+use model\RecruiterManager;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
@@ -15,6 +13,7 @@ class Controller extends ApplicationComponent
     protected $page = null;
     protected $view = '';
     protected $postManager = null;
+    protected $recruiterManager = null;
     protected $loader;
     protected $twig;
 
@@ -23,6 +22,7 @@ class Controller extends ApplicationComponent
         parent::__construct($app);
 
         $this->postManager = new PostManager(PDOFactory::getMysqlConnexion($dbConnexion));
+        $this->recruiterManager = new RecruiterManager(PDOFactory::getMysqlConnexion($dbConnexion));
         $this->page = new Page($app);
         $this->module = $module;
         $this->action = $action;

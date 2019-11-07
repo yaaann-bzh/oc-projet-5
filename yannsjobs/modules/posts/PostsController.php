@@ -18,18 +18,17 @@ class PostsController extends Controller
         $pager->setPagination($currentPage, $maxPerPage);
         $pager->setList();
 
-        $this->page->addVars('pagination', $pager->pagination());
-        $this->page->addVars('user', $this->app->user());
-        $this->page->addVars('postsList', $pager->list());
-        $this->page->addVars('title', 'Accueil | YannsJobs');
-
-        if (!empty($pager->errors())){
-            $this->page->addVars('errors', $pager->errors());
+        foreach ($pager->list() as $post) {
+            $post->setRecruiterName($this->recruiterManager->getSingle($post->recruiterId())->firm());
         }
 
-        $this->page->setTemplate('home.twig');
-        $this->page->setContent($this->twig->render($this->page->template(), $this->page->vars()));
-
+        $this->page->setContent($this->twig->render('home.twig', array(
+                'pagination' => $pager->pagination(),
+                'user' => $this->app->user(),
+                'postsList' => $pager->list(),
+                'title' => 'Accueil | YannsJobs',
+                'errors' => $pager->errors()
+        )));
     }
 
     public function executeShow(HTTPRequest $request)

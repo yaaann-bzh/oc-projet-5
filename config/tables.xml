@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <definitions>
 	<define var="posts" value="jobs_posts" ></define>
-	<define var="members" value="jobs_candidates" ></define>
-	<define var="members" value="jobs_recruiters" ></define>
+	<define var="candidates" value="jobs_candidates" ></define>
+	<define var="recruiters" value="jobs_recruiters" ></define>
 
 </definitions>

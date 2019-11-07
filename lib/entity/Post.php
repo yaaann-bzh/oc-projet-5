@@ -5,6 +5,7 @@ class Post
 {
     protected $id;
     protected $recruiterId;
+    protected $recruiterName;
     protected $location;
     protected $title;
     protected $content;
@@ -82,11 +83,22 @@ class Post
         $this->recruiterId = $recruiterId;
     }
 
+    public function setRecruiterName($recruiterName)
+    {
+        if (!is_string($recruiterName))
+        {
+            throw new \Exception('Nom du recruteur invalide');
+        }
+        if (!empty($recruiterName)) {
+            $this->recruiterName = $recruiterName;
+        }
+    }
+
     public function setLocation($location)
     {
         if (!is_string($location) || empty($location))
         {
-            throw new \Exception('Titre du post invalide');
+            throw new \Exception('Localisation invalide');
         }
 
         $this->location = $location;
@@ -127,6 +139,11 @@ class Post
     public function recruiterId()
     {
         return $this->recruiterId;
+    }
+
+    public function recruiterName()
+    {
+        return $this->recruiterName;
     }
 
     public function location()
