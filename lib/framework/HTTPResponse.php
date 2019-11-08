@@ -19,32 +19,24 @@ class HTTPResponse extends ApplicationComponent
         exit;
     }
 
-    // redirection 404 :
     public function redirect404()
     {
-        // créer une instance de la classe Page que l'on stocke dans l'attribut correspondant.
         $this->page = new Page($this->app);
 
-        // On assigne ensuite à la page le fichier qui fait office de vue à générer. 
-        // Ce fichier contient le message d'erreur formaté. Vous pouvez placer tous ces fichiers dans le dossier /Errors par exemple, sous le nom code.html.
-        // Le chemin menant au fichier contenant l'erreur 404 sera donc /Errors/404.html.
-        $this->page->setContent(__DIR__.'/../../Errors/404.html');
-        $this->page->setTabTitle('Erreur 404');
+        $this->page->setTemplate('error_404.twig');
+        $this->page->addVars(array('title' => 'Erreur 404 | YannsJobs'));
 
-        // On ajoute un header disant que le document est non trouvé (HTTP/1.0 404 Not Found).
         $this->addHeader('HTTP/1.0 404 Not Found');
         
-        // On envoie la réponse.
         $this->send();
     }
 
-    // redirection 403 :
     public function redirect403()
     {
         $this->page = new Page($this->app);
 
-        $this->page->setContent(__DIR__.'/../../Errors/403.html');
-        $this->page->setTabTitle('Erreur 403');
+        $this->page->setTemplate('error_403.twig');
+        $this->page->addVars(array('title' => 'Erreur 403 | YannsJobs'));
 
         $this->addHeader('HTTP/1.0 403 Forbidden');
         

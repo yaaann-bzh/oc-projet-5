@@ -1,31 +1,34 @@
 <?php
+
 namespace framework;
 
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 class Page extends ApplicationComponent
 {
-    protected $tabTitle;
-    protected $activeNav;
     protected $template;
     protected $content;
-
+    protected $loader;
+    protected $twig;
     protected $vars = [];
+
+    public function __construct(Application $app)
+    {
+        parent::__construct($app);
+
+        $this->loader = new FilesystemLoader('../templates');
+        $this->twig = new Environment($this->loader, [
+            'debug' => true,
+            'cache' => false //'/tmp'
+        ]);
+        $this->twig->addExtension(new Extension());
+    }
 
     public function setActiveNav(string $nav)
     {
         $this->activeNav = $nav;
-        $this->addVars('activeNav', $this->activeNav);
-    }
-
-    public function setTabTitle(string $title)
-    {
-        $this->tabTitle = $title;
-        $this->addVars('tabTitle', $this->tabTitle);
-    }
-
-    public function getTabTitle()
-    {
-        return $this->tabTitle;
+        $this->addVars(array('activeNav' => $this->activeNav));
     }
 
     public function vars()
@@ -40,22 +43,12 @@ class Page extends ApplicationComponent
 
     public function setTemplate($template)
     {
-        if (!is_string($template))
-        {
-            throw new \InvalidArgumentException('La vue spécifiée est invalide');
-        }
-
-        if (empty($template))
-        {
-            throw new \RuntimeException('La vue spécifiée n\'existe pas');
-        }
-
         $this->template = $template;
     }
 
     public function getGenerated()
     {
-        echo $this->content;
+        echo $this->twig->render($this->template, $this->vars);
     }
 
     public function setContent($content)

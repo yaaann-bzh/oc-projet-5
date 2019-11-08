@@ -22,13 +22,16 @@ class PostsController extends Controller
             $post->setRecruiterName($this->recruiterManager->getSingle($post->recruiterId())->firm());
         }
 
-        $this->page->setContent($this->twig->render('home.twig', array(
-                'pagination' => $pager->pagination(),
-                'user' => $this->app->user(),
-                'postsList' => $pager->list(),
-                'title' => 'Accueil | YannsJobs',
-                'errors' => $pager->errors()
-        )));
+        $this->page->setTemplate('home.twig');
+
+        $this->page->addVars(array(
+            'pagination' => $pager->pagination(),
+            'user' => $this->app->user(),
+            'postsList' => $pager->list(),
+            'title' => 'Accueil | YannsJobs',
+            'errors' => $pager->errors()
+        ));
+
     }
 
     public function executeShow(HTTPRequest $request)

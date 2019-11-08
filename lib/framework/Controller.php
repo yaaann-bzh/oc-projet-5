@@ -3,8 +3,6 @@ namespace framework;
 
 use model\PostManager;
 use model\RecruiterManager;
-use Twig\Loader\FilesystemLoader;
-use Twig\Environment;
 
 class Controller extends ApplicationComponent
 {
@@ -14,8 +12,6 @@ class Controller extends ApplicationComponent
     protected $view = '';
     protected $postManager = null;
     protected $recruiterManager = null;
-    protected $loader;
-    protected $twig;
 
     public function __construct(Application $app, $module, $action, array $dbConnexion)
     {
@@ -27,12 +23,6 @@ class Controller extends ApplicationComponent
         $this->module = $module;
         $this->action = $action;
         $this->view = $action;
-        $this->loader = new FilesystemLoader('../templates');
-        $this->twig = new Environment($this->loader, [
-            'debug' => true,
-            'cache' => false //'/tmp'
-        ]);
-        $this->twig->addExtension(new Extension());
     }
 
     public function page()
