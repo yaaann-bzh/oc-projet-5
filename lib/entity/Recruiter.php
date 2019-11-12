@@ -4,7 +4,7 @@ namespace entity;
 class Recruiter
 {
     protected $id;
-    protected $firm;
+    protected $username;
     protected $email;
     protected $pass;
     protected $inscriptionDate;
@@ -34,14 +34,14 @@ class Recruiter
     }
 
     // SETTERS //
-    public function setFirm($firm)
+    public function setUsername($username)
     {
-        if (!is_string($firm) || empty($firm))
+        if (!is_string($username) || empty($username))
         {
             throw new \Exception('Pseudo non valide');
         }
 
-        $this->firm = $firm;
+        $this->username = $username;
     }
 
     public function setEmail($email)
@@ -85,9 +85,9 @@ class Recruiter
         return $this->id;
     }
 
-    public function firm()
+    public function username()
     {
-        return $this->firm;
+        return $this->username;
     }
 
     public function pass()

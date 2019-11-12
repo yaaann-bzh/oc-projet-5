@@ -3,4 +3,6 @@
     <route url="/" module="posts" action="index" ></route>
     <route url="/index-([0-9]+)" module="posts" action="index" vars="index"></route>
 
+    <route url="/deconnection" module="connexion" action="disconnect" ></route>
+
 </routes>

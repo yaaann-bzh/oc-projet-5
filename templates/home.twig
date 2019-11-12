@@ -14,7 +14,7 @@
     <section class="container">
         <div class="row">
             <div class="col-12 col-md-6">
-                {% include('pagination.twig') %}
+                {% include('_pagination.twig') %}
 
                 {% if postsList is empty %}
                     <p class="text-muted text-center">Il n'y a pas d'offres correspondant à votre recherche</p>
@@ -31,7 +31,7 @@
                     </div>
                 {% endif %}
 
-                {% include('pagination.twig') %}
+                {% include('_pagination.twig') %}
             </div>
 
             <div id="post-container" class="container">

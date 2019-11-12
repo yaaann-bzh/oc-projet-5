@@ -10,7 +10,7 @@ class PostsController extends Controller
 {
     public function executeIndex(HTTPRequest $request)
     {
-        $posts = $this->postManager->getList();
+        $posts = $this->managers->getManagerOf('Post')->getList();
         $currentPage = (int)$request->getData('index');
         $maxPerPage = $this->app->config()->get('display', 'nb_posts');
 
@@ -19,7 +19,7 @@ class PostsController extends Controller
         $pager->setList();
 
         foreach ($pager->list() as $post) {
-            $post->setRecruiterName($this->recruiterManager->getSingle($post->recruiterId())->firm());
+            $post->setRecruiterName($this->managers->getManagerOf('Recruiter')->getSingle($post->recruiterId())->username());
         }
 
         $this->page->setTemplate('home.twig');
@@ -31,7 +31,6 @@ class PostsController extends Controller
             'title' => 'Accueil | YannsJobs',
             'errors' => $pager->errors()
         ));
-
     }
 
     public function executeShow(HTTPRequest $request)

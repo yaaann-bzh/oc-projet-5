@@ -43,18 +43,17 @@ class HTTPResponse extends ApplicationComponent
         $this->send();
     }
 
-    // Envoyer la réponse en générant la page :
     public function send()
     {
         exit($this->page->getGenerated());
     }
 
-    // Ajouter un cookie :
-    /** La valeur par défaut du dernier paramètre de la méthode setCookie() est à true, 
+    /** La valeur par défaut du dernier paramètre de la méthode setCookie() est à true,
      * alors qu'elle est à false sur la fonction setcookie() de la bibliothèque standard de PHP.
      * Il s'agit d'une sécurité qu'il est toujours préférable d'activer. */
     public function setCookie($name, $value = '', $expire = 0, $path = null, $domain= null, $secure = false, $httpOnly = true)
     {
+        //var_dump('setCookie : ' . $name);
         setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
     }
     

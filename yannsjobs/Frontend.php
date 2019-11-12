@@ -9,6 +9,8 @@ class Frontend extends Application
 
     public function run()
     {
+        $this->userConnect();
+
         $controller = $this->getController();
         $controller->execute();
       

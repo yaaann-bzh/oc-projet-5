@@ -1,12 +1,6 @@
 <?php
 namespace framework;
 
-use framework\HTTPRequest;
-use framework\HTTPResponse;
-use framework\Router;
-use framework\Route;
-use framework\User;
-use framework\Config;
 
 abstract class Application
 {
@@ -20,7 +14,7 @@ abstract class Application
     {
         $this->httpRequest = new HTTPRequest($this);
         $this->httpResponse = new HTTPResponse($this);
-        $this->user = new User();
+        $this->user = new User($this);
         $this->config = new Config($this);
     }
     
@@ -67,6 +61,11 @@ abstract class Application
         $controllerClass = 'yannsjobs\\modules\\'.$module.'\\'.ucfirst($module).'Controller';
         return new $controllerClass($this, $module, $action, $this->getDBConnexion());
     }
+
+    public function name()
+    {
+        return $this->name;
+    }
     
     public function user()
     {
@@ -96,5 +95,36 @@ abstract class Application
     public function httpResponse()
     {
         return $this->httpResponse;
+    }
+
+    public function userConnect()
+    {
+        if (empty($_SESSION)) {
+            $this->tryToReconnect();
+        }
+
+        //var_dump('is auth : ' . $this->user->isAuthenticated());
+
+        if ($this->user->isAuthenticated()) {
+            $this->user->setAuthenticated();
+        } elseif ($this->httpRequest->cookieExists($this->user->ticketName())) {
+            $this->user->disconnect();
+        }
+    }
+
+    public function tryToReconnect() {
+        $auth = $this->httpRequest()->cookieData('auth');
+        var_dump('trytoreconnect');
+        if ($auth !== null) {
+            $member = $this->memberManager->checkConnexionId($auth);
+            if ($member !== null) {
+                if ($member->deleteDate() === null) {
+                    $this->user->setAuthenticated(true);
+                    $this->user->setAttribute('id', $member->id());
+                    $this->user->setAttribute('pseudo', $member->pseudo());
+                    $this->user->setAttribute('privilege', $member->privilege());
+                }
+            }
+        }
     }
 }

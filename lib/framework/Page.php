@@ -22,6 +22,7 @@ class Page extends ApplicationComponent
             'debug' => true,
             'cache' => false //'/tmp'
         ]);
+        $this->twig->addGlobal('session', $_SESSION);
         $this->twig->addExtension(new Extension());
     }
 

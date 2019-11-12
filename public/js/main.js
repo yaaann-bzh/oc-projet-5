@@ -15,7 +15,7 @@ let postViews = setElts(postViewsCollection);
 function showPost(id) {
     postViews.forEach(postView =>{
         postView.style.display = 'none';
-    })
+    });
     let activePost = document.getElementById('post-view-' + id);
     console.log(activePost);
     activePost.style.display = 'block';
@@ -24,7 +24,7 @@ function showPost(id) {
 function activeItem(e) {
     postItems.forEach(postItem => {
         postItem.classList.remove('active');
-    })
+    });
     let item = e.currentTarget;
     item.classList.add('active');
     let postId = item.id.replace('post-item-', '');
@@ -34,6 +34,6 @@ function activeItem(e) {
 
 postItems.forEach(postItem => {
     postItem.addEventListener('click', activeItem);
-})
+});
 
 

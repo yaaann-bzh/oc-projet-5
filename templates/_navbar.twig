@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-success">
+    <div class="container">
+        <a class="navbar-brand" href="/">Yann's Jobs</a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+<!--
+        <div class="collapse navbar-collapse" id="navbarsExample07" style="">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
+                </li>
+                
+                <?php if ($user->isAdmin()) { ?>
+                <li class="nav-item <?php if ($activeNav === 'reports') { echo ' active'; } ?>">
+                    <a class="nav-link" href="/admin/reports-index-1"><i class="fas fa-exclamation"></i> Signalements</a>
+                </li>
+                <li class="nav-item <?php if ($activeNav === 'redaction') { echo ' active'; } ?>">
+                    <a class="nav-link" href="/admin/redaction"><i class="fas fa-feather-alt"></i> Redaction</a>
+                </li>
+                <?php } ?>
+
+            </ul> 
+-->
+            <ul class="navbar-nav ml-auto" id="member">
+                {% if session.auth is defined and session.username is defined and session.role is defined %}
+                    <li class="nav-item active position-relative">
+                        <a href="#" class="collapsed nav-link" data-toggle="collapse" data-target="#navbarsConnect" aria-controls="navbarsConnect" aria-expanded="false" aria-label="Toggle navigation">
+                            {{ session.username }}
+                        </a>
+                        <div class="collapse position-absolute list-group" id="navbarsConnect" style="">
+                            <a class="list-group-item list-group-item-action" href="/{{ session.role }}/home"><i class="fas fa-user-alt text-black mr-3"></i> Profil</a>
+                            <a class="list-group-item list-group-item-action" href="/deconnection"><i class="fas fa-power-off text-black mr-3"></i> Se deconnecter</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item active position-relative">
+                        <a href="#" class="collapsed nav-link" data-toggle="collapse" data-target="#navbarsConnect" aria-controls="navbarsConnect" aria-expanded="false" aria-label="Toggle navigation">
+                            Se connecter
+                        </a>
+                        <div class="collapse position-absolute list-group" id="navbarsConnect" style="">
+                            <a class="list-group-item list-group-item-action" href="/candidate"><i class="fas fa-user-alt text-primary mr-3"></i> Candidats</a>
+                            <a class="list-group-item list-group-item-action" href="/recruiter"><i class="fas fa-user-alt text-danger mr-3"></i> Recruteurs</a>
+                            <a class="list-group-item list-group-item-action" href="/admin"><i class="fas fa-user-alt text-black mr-3"></i> Administrateur</a>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
