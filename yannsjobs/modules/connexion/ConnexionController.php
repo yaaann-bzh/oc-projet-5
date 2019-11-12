@@ -24,14 +24,13 @@ class ConnexionController extends Controller
                             'role' => $this->app->name()
                             ));
 
-                    /*
+                    
                     if ($request->postData('remember') !== null) {
                         $connexionId = uniqid('', true);
-                        $this->app->httpResponse()->setCookie('rmt', $connexionId, time() + 31*24*3600);
-                        $member->setConnexionId($connexionId);
+                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'remember_me'), $connexionId, time() + 31*24*3600);
+                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'user_role'), $this->app->name(), time() + 31*24*3600);
                         $memberManager->saveConnexionId($member->id(), $connexionId);
                     }
-                    */
 
                     $location = '/' . strtolower($this->app->name()). '/home';
                     return $this->app->httpResponse()->redirect($location);

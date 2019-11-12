@@ -25,6 +25,10 @@ class Controller extends ApplicationComponent
     {
         return $this->page;
     }
+    
+    public function managers() {
+        return $this->managers;
+    }
 
     public function errorPage($intro, $message)
     {       

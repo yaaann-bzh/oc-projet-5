@@ -57,7 +57,7 @@ class RecruiterManager extends \framework\Manager
         $req->bindValue(':connexionId', $connexionId);
         $req->execute();
         
-        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'forteroche\vendor\entity\Member');
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'entity\Recruiter');
         
         if ($member = $req->fetch())
         {

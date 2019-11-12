@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<definitions>
+	<define var="ticket_name" value="a_ya" ></define>
+	<define var="remember_me" value="rmt_" ></define>
+	<define var="user_role" value="usr_role" ></define>
+	
+</definitions>
