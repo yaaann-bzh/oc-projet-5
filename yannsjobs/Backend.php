@@ -14,8 +14,8 @@ class Backend extends Application{
     {
         if ($this->user->isAuthenticated())
         {
-            $this->userConnect();
             $controller = $this->getController();
+            $this->userConnect($controller);
         }
         else
         {

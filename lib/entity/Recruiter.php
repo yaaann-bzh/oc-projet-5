@@ -8,6 +8,7 @@ class Recruiter
     protected $email;
     protected $pass;
     protected $inscriptionDate;
+    protected $deleteDate;
     protected $connexionId;
 
     //Mother
@@ -68,6 +69,10 @@ class Recruiter
     {
         $this->inscriptionDate = $inscriptionDate;
     }
+    
+    public function setDeleteDate(\DateTime $deleteDate) {
+        $this->deleteDate = $deleteDate;
+    }
 
     public function setConnexionId($connexionId)
     {
@@ -98,6 +103,11 @@ class Recruiter
     public function inscriptionDate()
     {
         return $this->inscriptionDate;
+    }
+    
+    public function deleteDate()
+    {
+        return $this->deleteDate;
     }
     
     public function connexionId()

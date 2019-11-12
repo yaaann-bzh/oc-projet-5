@@ -14,8 +14,8 @@ abstract class Application
     {
         $this->httpRequest = new HTTPRequest($this);
         $this->httpResponse = new HTTPResponse($this);
-        $this->user = new User($this);
         $this->config = new Config($this);
+        $this->user = new User($this);
     }
     
     public function getController()
@@ -97,10 +97,10 @@ abstract class Application
         return $this->httpResponse;
     }
 
-    public function userConnect()
+    public function userConnect(Controller $controller)
     {
         if (empty($_SESSION)) {
-            $this->tryToReconnect();
+            $this->user->tryToReconnect($controller);
         }
 
         //var_dump('is auth : ' . $this->user->isAuthenticated());
@@ -109,22 +109,6 @@ abstract class Application
             $this->user->setAuthenticated();
         } elseif ($this->httpRequest->cookieExists($this->user->ticketName())) {
             $this->user->disconnect();
-        }
-    }
-
-    public function tryToReconnect() {
-        $auth = $this->httpRequest()->cookieData('auth');
-        var_dump('trytoreconnect');
-        if ($auth !== null) {
-            $member = $this->memberManager->checkConnexionId($auth);
-            if ($member !== null) {
-                if ($member->deleteDate() === null) {
-                    $this->user->setAuthenticated(true);
-                    $this->user->setAttribute('id', $member->id());
-                    $this->user->setAttribute('pseudo', $member->pseudo());
-                    $this->user->setAttribute('privilege', $member->privilege());
-                }
-            }
         }
     }
 }
