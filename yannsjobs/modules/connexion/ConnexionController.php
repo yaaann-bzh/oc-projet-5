@@ -20,15 +20,16 @@ class ConnexionController extends Controller
                 if (password_verify($password, $member->pass())) {
                     $this->app->user()->setAuthenticated();
                     $this->app->user()->setAttribute(array(
-                            'username' => $member->username(),
-                            'role' => $this->app->name()
-                            ));
+                        'username' => $member->username(),
+                        'role' => strtolower($this->app->name()),
+                        'userId' => $member->id()
+                        ));
 
                     
                     if ($request->postData('remember') !== null) {
                         $connexionId = uniqid('', true);
-                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'remember_me'), $connexionId, time() + 31*24*3600);
-                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'user_role'), $this->app->name(), time() + 31*24*3600);
+                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'remember_me'), $connexionId, time() + 31*24*3600, '/');
+                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'user_role'), strtolower($this->app->name()), time() + 31*24*3600, '/');
                         $memberManager->saveConnexionId($member->id(), $connexionId);
                     }
 

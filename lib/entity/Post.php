@@ -10,6 +10,7 @@ class Post
     protected $title;
     protected $content;
     protected $addDate;
+    protected $expirationDate;
 
     //Mother
     public function __construct(array $donnees = [])
@@ -128,6 +129,11 @@ class Post
     {
         $this->addDate = $addDate;
     }
+    
+    public function setExpirationDate(\DateTime $expirationDate)
+    {
+        $this->expirationDate = $expirationDate;
+    }
 
     // GETTERS //
 
@@ -164,6 +170,11 @@ class Post
     public function addDate()
     {
         return $this->addDate;
+    }
+    
+    public function expirationDate()
+    {
+        return $this->expirationDate;
     }
 
 }

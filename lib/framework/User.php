@@ -29,6 +29,8 @@ class User extends ApplicationComponent
 
     public function isAuthenticated() : bool
     {
+        //var_dump($this->app->httpRequest()->cookieData($this->ticketName));
+        //var_dump($this->getAttribute('auth'));
         if ($this->hasAttribute('auth')) {
             return $this->app->httpRequest()->cookieData($this->ticketName) === $this->getAttribute('auth');
         }
@@ -45,7 +47,7 @@ class User extends ApplicationComponent
         $ticket = session_id().microtime().rand(0,9999999999);
         $ticket = hash('sha512', $ticket);
 
-        $this->app->httpResponse()->setCookie($this->ticketName, $ticket, time() + 60*15); // Expire au bout de 15 min
+        $this->app->httpResponse()->setCookie($this->ticketName, $ticket, time() + 60*15, '/'); // Expire au bout de 15 min
         $this->setAttribute(array('auth' => $ticket));
 
         //var_dump($this->app->httpRequest()->cookieData($this->ticketName));
@@ -81,9 +83,10 @@ class User extends ApplicationComponent
                 if ($member->deleteDate() === null) {
                     $this->setAuthenticated();
                     $this->setAttribute(array(
-                            'username' => $member->username(),
-                            'role' => $this->app->name()
-                            ));
+                        'username' => $member->username(),
+                        'role' => $this->app->httpRequest()->cookieData($this->roleCookieName),
+                        'userId' => $member->id()
+                        ));
                 }
                 $this->app->httpResponse()->redirect('/');
             }

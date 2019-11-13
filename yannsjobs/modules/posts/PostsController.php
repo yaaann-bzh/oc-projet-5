@@ -1,10 +1,11 @@
 <?php
 namespace yannsjobs\modules\posts;
 
-use framework\HTTPrequest;
 use framework\Controller;
 use entity\Post;
 use framework\Pager;
+use framework\HTTPRequest;
+
 
 class PostsController extends Controller
 {

@@ -38,18 +38,18 @@
                 <div class="row position-relative">
                     {% for post in postsList %}
                         <div id="post-view-{{ post.id }}" class="col-12 col-md-6 offset-md-6 post-view position-absolute <!--d-none-->">
-                        <div class="border-bottom border-success p-3 bg-white">
-                            <p class="mb-0"><strong>{{ post.recruiterName }}</strong> - {{ post.location }}</p>
-                            <h3 class="m-0">{{ post.title }}</h3>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="">{{ post.addDate | showAge }}</small>
-                                <button class="btn-success text-white rounded-pill col-8 col-lg-4 p-2 mt-2">Postuler</button>
+                            <div class="border-bottom border-success p-3 bg-white">
+                                <p class="mb-0"><strong>{{ post.recruiterName }}</strong> - {{ post.location }}</p>
+                                <h3 class="m-0">{{ post.title }}</h3>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="">{{ post.addDate | showAge }}</small>
+                                    <button class="btn-success text-white rounded-pill col-8 col-lg-4 p-2 mt-2">Postuler</button>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-white post-content">
+                                {{ post.content | markdown }}
                             </div>
                         </div>
-                        <div class="p-4 bg-white post-content">
-                            {{ post.content | markdown }}
-                        </div>
-                    </div>
                     {% endfor %}
                 </div>
             </div>

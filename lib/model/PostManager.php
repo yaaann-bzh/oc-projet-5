@@ -9,7 +9,17 @@ class PostManager extends \framework\Manager
 
     public function getList($debut = null, $limit = null, $filters = []) {
 
-        $sql = 'SELECT * FROM ' . $this->table . ' ORDER BY addDate DESC';
+        $sql = 'SELECT * FROM ' . $this->table;
+        
+        if (!empty($filters)) {
+            $sql .= ' WHERE ';
+            foreach ($filters as $key => $filter) {
+                $sql .= $key . $filter . ' AND ';
+            }
+            $sql = substr($sql, 0, -5);
+        }
+        
+        $sql .= ' ORDER BY addDate DESC';
 
         if (isset($debut) && isset($limit)) {
             $sql .= ' LIMIT ' .(int) $limit.' OFFSET '.(int) $debut; 
@@ -22,6 +32,7 @@ class PostManager extends \framework\Manager
         foreach ($posts as $post)
         {
             $post->setAddDate(new \DateTime($post->addDate()));
+            $post->setExpirationDate(new \DateTime($post->expirationDate()));
         }
         
         $req->closeCursor();
