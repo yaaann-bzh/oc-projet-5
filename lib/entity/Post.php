@@ -11,6 +11,7 @@ class Post
     protected $content;
     protected $addDate;
     protected $expirationDate;
+    protected $duration;
 
     //Mother
     public function __construct(array $donnees = [])
@@ -78,7 +79,7 @@ class Post
     {
         if (!is_int($recruiterId) || empty($recruiterId))
         {
-            throw new \Exception('Identifiant auteur invalide');
+            throw new \Exception('Identifiant recruteur invalide');
         }
 
         $this->recruiterId = $recruiterId;
@@ -109,7 +110,7 @@ class Post
     {
         if (!is_string($title) || empty($title))
         {
-            throw new \Exception('Titre du post invalide');
+            throw new \Exception('Titre de l\'annonce invalide');
         }
 
         $this->title = $title;
@@ -119,7 +120,7 @@ class Post
     {
         if (!is_string($content) || empty($content))
         {
-            throw new \Exception('Contenu du post invalide');
+            throw new \Exception('Contenu de l\'annonce invalide');
         }
 
         $this->content = $content;
@@ -133,6 +134,16 @@ class Post
     public function setExpirationDate(\DateTime $expirationDate)
     {
         $this->expirationDate = $expirationDate;
+    }
+    
+    public function setDuration($duration)
+    {
+        if ((int)$duration === 0 || empty($duration))
+        {
+            throw new \Exception('La durée précisée est invalide');
+        }
+
+        $this->duration = (int)$duration;
     }
 
     // GETTERS //
@@ -177,4 +188,8 @@ class Post
         return $this->expirationDate;
     }
 
+    public function duration()
+    {
+        return $this->duration;
+    }
 }
