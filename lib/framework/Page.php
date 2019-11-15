@@ -4,6 +4,7 @@ namespace framework;
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
+use Twig\Extra\Intl\IntlExtension;
 
 class Page extends ApplicationComponent
 {
@@ -24,6 +25,7 @@ class Page extends ApplicationComponent
         ]);
         $this->twig->addGlobal('session', $_SESSION);
         $this->twig->addExtension(new Extension());
+        $this->twig->addExtension(new IntlExtension());
     }
 
     public function setActiveNav(string $nav)

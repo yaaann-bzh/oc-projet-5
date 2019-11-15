@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<definitions>
+	<define input="title" required="true" type="text" max="50" min="5"></define>
+    	<define input="location" required="true" type="text" max="50" min="5"></define>    
+        <define input="duration" required="true" type="int" max="3" min="1"></define>
+        <define input="content" required="true" type="text" max="5000" min="50"></define>
+	
+</definitions>

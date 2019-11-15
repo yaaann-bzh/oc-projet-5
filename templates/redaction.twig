@@ -1,0 +1,68 @@
+{% extends 'default.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block errors %}
+    {% for error in errors %}
+            <p class="m-0">{{ error }}</p>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <section class="container">
+        <div class="row">
+            <div class="col-12 offset-md-1 col-md-10">
+                <h1 class="h2">Nouvelle annonce</h1>
+                
+                <form method="post" action="" class="mb-3">
+                    <div class="form-group">
+                        <label for="title">Intitulé du poste :</label>
+                        <input class="form-control col-12 col-md-10 col-lg-8" type="text" name="title" id="title" autofocus required value="{{ values.title }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Localisation du poste :</label>
+                        <input class="form-control col-12 col-md-10 col-lg-8" type="text" name="location" id="location" required value="{{ values.location }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Durée de visibilité</label>
+                        <select class="custom-select d-block col-md-5 col-lg-3" name="duration" id="duration" required="false">
+                            <option value="0">Choisir</option>
+                            <option value="1">1 mois</option>
+                            <option value="2">2 mois</option>
+                            <option value="3">3 mois</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="content">Contenu de l'annonce :</label>
+                        <textarea name="content" id="content" cols="30" rows="20">{{ values.content }}</textarea>
+                    </div>
+                    {% if post is defined %}
+                        <input type="submit" class="btn btn-success mr-3" name="action" value="Modifier">
+                        <input type="submit" class="btn btn-danger" name="action" value="Supprimer">
+                    {% else %}
+                        <input type="submit" class="btn btn-primary" name="submit" value="Publier">
+                    {% endif %}
+                </form>
+
+                <script src="https://cdn.tiny.cloud/1/yyqsfdko2tg7akueyctfkasll6yienujy96w06tbyhvuuzlq/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+                <script>
+                    tinymce.init({
+                        selector:'#content',
+                        plugins: "link, lists",
+                        invalid_elements:'script, img',
+                        invalid_styles: 'color font-size',
+                        menubar: false,
+                        toolbar: 'selectall undo redo | copy cut paste | bold italic underline subscript superscript | numlist bullist | link | outdent indent',
+                        max_chars: 5000 // max. allowed chars
+                    });
+                </script>
+
+            </div>
+        </div>    
+
+    </section>
+{% endblock %}

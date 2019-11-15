@@ -19,32 +19,36 @@
         <title>{% block title %} {% endblock %}</title>
     </head>
     <body>
-        <header class="site-header sticky-top">
-            {% include('_navbar.twig') %}
-        </header>
+        <div id="page-content">
+            
+            <header class="site-header sticky-top">
+                {% include('_navbar.twig') %}
+            </header>
 
-        <div id="top-page" class="bg-light">
-            <section id="errors" class="container pt-5">
-                <div class="row">
-                    {% if (errors) %}
-                        <div class="col-12 bg-light p-3 m-3 text-danger border rounded border-danger">
-                            {% for error in errors %}
-                                <p class="m-0">{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
+            <div id="top-page" class="bg-light">
+                <div id="errors" class="container pt-5">
+                    <div class="row">
+                        {% if (errors) %}
+                            <div class="col-12 bg-light p-3 m-3 text-danger border rounded border-danger">
+                                {% for error in errors %}
+                                    <p class="m-0">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-            </section>
-            {% block content %} {% endblock %}
-        </div>
-
-        <footer class="bg-dark text-light">
-            <div class="container p-4">
-                <p class="float-right m-0"><a href="#top-page" class="text-light">Haut de page</a></p>
-                <p class="m-0 text-secondary"> 2019 - Yaaann · <a href="https://www.yaaann.ovh" class="text-light">Mes autres projets</a> · <a href="https://openclassrooms.com/fr/" class="text-light">OpenClassrooms</a></p>
+                {% block content %} {% endblock %}
             </div>
-        </footer>
 
+            <footer class="bg-dark text-light">
+                <div class="container p-4">
+                    <p class="float-right m-0"><a href="#top-page" class="text-light">Haut de page</a></p>
+                    <p class="m-0 text-secondary"> 2019 - Yaaann · <a href="https://www.yaaann.ovh" class="text-light">Mes autres projets</a> · <a href="https://openclassrooms.com/fr/" class="text-light">OpenClassrooms</a></p>
+                </div>
+            </footer>
+
+        </div>
+            
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
                 crossorigin="anonymous"></script>
