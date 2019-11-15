@@ -113,4 +113,14 @@ abstract class Application
             $this->user->disconnect();
         }
     }
+    
+    public function checkUserRole() {
+        $userAccess = $this->config->get('user_roles', $this->user->getAttribute('role'));
+
+        $pattern = '#' . $this->name . '#i';
+
+        if (!preg_match($pattern, $userAccess)) {
+            $this->httpResponse->redirect403();
+        }
+    }
 }

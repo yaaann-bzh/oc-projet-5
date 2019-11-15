@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<definitions>
+	<define var="admin" value="admin, recruiter, candidate" ></define>
+	<define var="recruiter" value="recruiter" ></define>
+	<define var="candidate" value="candidate" ></define>
+	
+</definitions>
