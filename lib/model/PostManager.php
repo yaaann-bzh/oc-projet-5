@@ -9,7 +9,17 @@ class PostManager extends \framework\Manager
 
     public function getList($debut = null, $limit = null, $filters = []) {
 
-        $sql = 'SELECT * FROM ' . $this->table . ' ORDER BY addDate DESC';
+        $sql = 'SELECT * FROM ' . $this->table;
+        
+        if (!empty($filters)) {
+            $sql .= ' WHERE ';
+            foreach ($filters as $key => $filter) {
+                $sql .= $key . $filter . ' AND ';
+            }
+            $sql = substr($sql, 0, -5);
+        }
+        
+        $sql .= ' ORDER BY addDate DESC';
 
         if (isset($debut) && isset($limit)) {
             $sql .= ' LIMIT ' .(int) $limit.' OFFSET '.(int) $debut; 
@@ -22,6 +32,7 @@ class PostManager extends \framework\Manager
         foreach ($posts as $post)
         {
             $post->setAddDate(new \DateTime($post->addDate()));
+            $post->setExpirationDate(new \DateTime($post->expirationDate()));
         }
         
         $req->closeCursor();
@@ -53,13 +64,15 @@ class PostManager extends \framework\Manager
 
     public function add(Post $post)
     {
-        $sql = 'INSERT INTO ' . $this->table . ' SET authorId = :authorId, title = :title, content = :content, addDate = NOW()';
-
+        $sql = 'INSERT INTO ' . $this->table . ' SET recruiterId = :recruiterId, location = :location, title = :title, content = :content, addDate = NOW(), expirationDate = DATE_ADD(NOW(), INTERVAL :duration MONTH)';
+        
         $req = $this->dao->prepare($sql);
         
-        $req->bindValue(':authorId', $post->authorId(), \PDO::PARAM_INT);
+        $req->bindValue(':recruiterId', $post->recruiterId(), \PDO::PARAM_INT);
+        $req->bindValue(':location', $post->location());
         $req->bindValue(':title', $post->title());
         $req->bindValue(':content', $post->content());
+        $req->bindValue(':duration', $post->duration());
         
         $req->execute();
 

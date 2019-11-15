@@ -1,10 +1,12 @@
 <?php
 namespace yannsjobs\modules\posts;
 
-use framework\HTTPrequest;
 use framework\Controller;
 use entity\Post;
 use framework\Pager;
+use framework\HTTPRequest;
+use framework\Form;
+
 
 class PostsController extends Controller
 {
@@ -19,7 +21,7 @@ class PostsController extends Controller
         $pager->setList();
 
         foreach ($pager->list() as $post) {
-            $post->setRecruiterName($this->managers->getManagerOf('Recruiter')->getSingle($post->recruiterId())->username());
+            $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
         }
 
         $this->page->setTemplate('home.twig');
@@ -30,6 +32,41 @@ class PostsController extends Controller
             'postsList' => $pager->list(),
             'title' => 'Accueil | YannsJobs',
             'errors' => $pager->errors()
+        ));
+    }
+    
+    public function executePublication(HTTPRequest $request)
+    {
+        $inputs = $this->app->config()->getFormConfig('inputs', ['title', 'location', 'duration', 'content']);
+        $errors = [];
+        $values = [];
+        
+        $form = new Form($inputs);
+
+        if ($request->postExists('submit') AND $form->isValid($request)) {
+            $values = $form->values();
+            $values['recruiterId'] = (int)$this->app->user()->getAttribute('userId');
+            
+            try {
+                $post = new Post($values);
+                $this->managers->getManagerOf('Post')->add($post);
+
+                return $this->app->httpResponse()->redirect('/recruiter/post-' . $post->id());
+                
+            } catch (\Exception $e) {
+                $errors[] = $e->getMessage();
+            }
+        } else {
+            $errors = $form->errors();
+        }
+
+        $this->page->setTemplate('redaction.twig');
+
+        $this->page->addVars(array(
+            'user' => $this->app->user(),
+            'title' => 'Nouvelle offre | YannsJobs',
+            'values' => $form->values(),
+            'errors' => $errors
         ));
     }
 
@@ -92,37 +129,6 @@ class PostsController extends Controller
 
         $this->page->setContent(__DIR__.'/view/single.php');
         $this->page->generate();
-    }
-
-    public function executeRedaction(HTTPRequest $request)
-    {
-        if ($request->postExists('title') AND $request->postExists('content')) {
-            $authorId = (int)$this->app->user()->getAttribute('id');
-            $title = $request->postData('title');
-            $content = $request->postData('content');
-
-            try {
-                $post = new Post([
-                    'authorId' => $authorId,
-                    'title' => $title,
-                    'content' => $content
-                ]);
-
-                $this->postManager->add($post);
-                return $this->app->httpResponse()->redirect('/post-' . $post->id());
-                
-            } catch (\Exception $e) {
-                $message = $e->getMessage();
-                $this->page->addVars('message', $message);
-            }
-        }
-
-        $this->page->setTabTitle('Redaction');
-        $this->page->setActiveNav('redaction');
-
-        $this->page->setContent(__DIR__.'/view/redaction.php');
-        $this->page->generate();
-        
     }
 
     public function executeUpdate(HTTPRequest $request)

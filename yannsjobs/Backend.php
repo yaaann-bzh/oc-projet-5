@@ -12,6 +12,7 @@ class Backend extends Application{
 
     public function run()
     {
+        //var_dump($this->user->isAuthenticated());
         if ($this->user->isAuthenticated())
         {
             $controller = $this->getController();

@@ -1,0 +1,56 @@
+{% extends 'default.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block errors %}
+    {% for error in errors %}
+            <p class="m-0">{{ error }}</p>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+        <section class="container mt-3">
+            <div class="row">
+                <div class="col-12 col-md-6 p-4">
+                    <div class="row bg-white p-3 border rounded" id="id_card">
+                        <div class="col-4">
+                            <img alt="profile_picture" src="/assets/profile_pic/default.png" id="profile_pic">
+                        </div>
+                        <div class="col-8">
+                            <h2>{{ recruiter.username }}</h2>
+                            <p>{{ recruiter.email }}</p>
+                            <p>Inscrit depuis le : <strong class="ml-2">{{ recruiter.inscriptionDate | format_datetime('medium', 'none', locale='fr')}}</strong></p>
+                            <p>Offres publiés : <strong class="ml-2">{{ nbPosts.total }}</strong></p>
+                            <p>Offres actives : <strong class="ml-2">{{ nbPosts.active }}</strong></p>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-around mt-3">
+                        <a class="col-5 btn btn-outline-dark" href="/recruiter/edit-profile" role="button">Modifier mes informations</a>
+                        <a class="col-5 btn btn-outline-dark" href="/recruiter/edit-password" role="button">Modifier mon mot de passe</a>
+                    </div>
+                    <div class="row">
+                        <a class="col-12 btn btn-lg btn-outline-dark mt-3" href="/recruiter/publication" role="button">Publier une offre</a>
+                        <a class="col-12 btn btn-lg btn-outline-dark mt-3" href="/recruiter/candidacies-{{ recruiter.id }}-1" role="button">Candidatures reçues <span class="badge badge-pill badge-info">00</span></a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 list-group p-4">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <h4>Dernières offres</h4>
+                        <a class="btn btn-info" href="/recruiter/postslist-{{ recruiter.id }}-1" role="button">Voir toutes</a>
+                    </div>
+                    {% for post in posts %}
+                        <a href="/recruiter/post-{{ post.id }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="m-0">{{ post.title }}</p>
+                                <small class="m-0">{{ post.location }}</small>
+                            </div>
+                            <small>{{ post.addDate | showAge }}</small>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+{% endblock %}
