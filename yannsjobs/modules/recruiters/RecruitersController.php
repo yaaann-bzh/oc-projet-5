@@ -11,7 +11,8 @@ class RecruitersController extends Controller
         $errors = [];
         $posts = [];
         $nbPosts = [];
-        $recruiter = $this->managers->getManagerOf('Recruiter')->getSingle($this->app->user()->getAttribute('userId'));
+        $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        //erreur 403
         $nbLastPosts = $this->app->config()->get('display', 'last_posts');
         
         if ($recruiter !== null) {
@@ -35,7 +36,6 @@ class RecruitersController extends Controller
             'title' => $recruiter->userName() . ' | YannsJobs',
             'errors' => $errors
         )); 
-        //var_dump($this->page->vars());
     }
     
 }

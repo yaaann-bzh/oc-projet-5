@@ -1,11 +1,11 @@
 <?php
 namespace model;
 
-use entity\Recruiter;
+use entity\Member;
 
-class RecruiterManager extends \framework\Manager
+class MemberManager extends \framework\Manager
 {
-    protected $entities = 'recruiters';
+    protected $entities = 'members';
 
     public function getSingle($id)
     {
@@ -15,13 +15,13 @@ class RecruiterManager extends \framework\Manager
         $req->bindValue(':id', (int) $id, \PDO::PARAM_INT);
         $req->execute();
         
-        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'entity\Recruiter');
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'entity\Member');
         
-        if ($recruiter = $req->fetch())
+        if ($member = $req->fetch())
         {
-            $recruiter->setInscriptionDate(new \DateTime($recruiter->inscriptionDate()));
+            $member->setInscriptionDate(new \DateTime($member->inscriptionDate()));
 
-            return $recruiter;
+            return $member;
         }
         
         return null; 
@@ -57,7 +57,7 @@ class RecruiterManager extends \framework\Manager
         $req->bindValue(':connexionId', $connexionId);
         $req->execute();
         
-        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'entity\Recruiter');
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'entity\Member');
         
         if ($member = $req->fetch())
         {
@@ -68,7 +68,7 @@ class RecruiterManager extends \framework\Manager
         return null; 
     }
 
-    public function add(Recruiter $recruiter)
+    public function add(Member $recruiter)
     {
         $sql = 'INSERT INTO ' . $this->table . ' SET pseudo = :pseudo, email = :email, pass = :pass, lastname = :lastname, firstname = :firstname, inscriptionDate = NOW()';
 

@@ -1,14 +1,14 @@
 <?php
 namespace yannsjobs\modules\connexion;
 
-use framework\HTTPrequest;
+use framework\HTTPRequest;
 use framework\Controller;
 
 class ConnexionController extends Controller
 {
     public function executeIndex(HTTPRequest $request)
     {
-        $memberManager = $this->managers->getManagerOf($this->app->name());
+        $memberManager = $this->managers->getManagerOf('Member');
         $connectFailures = [];
 
         if ($request->postExists('login') AND $request->postExists('password')) {
@@ -21,15 +21,14 @@ class ConnexionController extends Controller
                     $this->app->user()->setAuthenticated();
                     $this->app->user()->setAttribute(array(
                         'username' => $member->username(),
-                        'role' => strtolower($this->app->name()),
+                        'role' => $member->role(),
                         'userId' => $member->id()
                         ));
 
-                    
                     if ($request->postData('remember') !== null) {
                         $connexionId = uniqid('', true);
                         $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'remember_me'), $connexionId, time() + 31*24*3600, '/');
-                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'user_role'), strtolower($this->app->name()), time() + 31*24*3600, '/');
+                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'user_role'), $member->role(), time() + 31*24*3600, '/');
                         $memberManager->saveConnexionId($member->id(), $connexionId);
                     }
 

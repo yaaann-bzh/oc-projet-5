@@ -1,10 +1,13 @@
 <?php
 namespace entity;
 
-class Recruiter
+class Member
 {
     protected $id;
     protected $username;
+    protected $role;
+    protected $lastname;
+    protected $firstname;
     protected $email;
     protected $pass;
     protected $inscriptionDate;
@@ -45,6 +48,36 @@ class Recruiter
         $this->username = $username;
     }
 
+    public function setRole($role)
+    {
+        if (!is_string($role) || empty($role))
+        {
+            throw new \Exception('Role non valide');
+        }
+
+        $this->role = $role;
+    }
+    
+    public function setLastname($lastname)
+    {
+        if (!is_string($lastname) || empty($lastname))
+        {
+            throw new \Exception('Nom non valide');
+        }
+
+        $this->lastname = $lastname;
+    }
+    
+    public function setFirstname($firstname)
+    {
+        if (!is_string($firstname) || empty($firstname))
+        {
+            throw new \Exception('Prénom non valide');
+        }
+
+        $this->firstname = $firstname;
+    }
+    
     public function setEmail($email)
     {
         if (!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $_POST['email']))
@@ -95,6 +128,21 @@ class Recruiter
         return $this->username;
     }
 
+    public function role()
+    {
+        return $this->role;
+    }
+    
+    public function lastname()
+    {
+        return $this->lastname;
+    }
+    
+    public function firstname()
+    {
+        return $this->firstname;
+    }
+    
     public function pass()
     {
         return $this->pass;

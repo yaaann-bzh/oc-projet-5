@@ -72,11 +72,9 @@ class User extends ApplicationComponent
         $member = null;
 
         if ($this->app->httpRequest()->cookieExists($this->idCookieName) AND $this->app->httpRequest()->cookieExists($this->roleCookieName)) {
-            $memberManager = $controller->managers()->getManagerOf($this->app->httpRequest()->cookieData($this->roleCookieName));
-            if ($memberManager !== null){
-                var_dump($memberManager);
-                $member = $memberManager->checkConnexionId($this->app->httpRequest()->cookieData($this->idCookieName));
-            }
+            $memberManager = $controller->managers()->getManagerOf('Member');
+            var_dump($memberManager);
+            $member = $memberManager->checkConnexionId($this->app->httpRequest()->cookieData($this->idCookieName));
             
             if ($member !== null) {
                 var_dump($member);
@@ -84,7 +82,7 @@ class User extends ApplicationComponent
                     $this->setAuthenticated();
                     $this->setAttribute(array(
                         'username' => $member->username(),
-                        'role' => $this->app->httpRequest()->cookieData($this->roleCookieName),
+                        'role' => $member->role(),
                         'userId' => $member->id()
                         ));
                 }
@@ -101,14 +99,10 @@ class User extends ApplicationComponent
         $_SESSION = [];
         session_destroy();
 
-        $cookies = array (
-            $this->ticketName => '',
-            $this->idCookieName => '',
-            $this->roleCookieName => ''
-        );
+        $cookies = [$this->ticketName, $this->idCookieName, $this->roleCookieName];
         
-        foreach ($cookies as $key => $value) {
-            $this->app->httpResponse()->setCookie($key, $value);
+        foreach ($cookies as $value) {
+            $this->app->httpResponse()->setCookie($value, '');
         }
     }
 
