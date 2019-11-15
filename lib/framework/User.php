@@ -1,6 +1,8 @@
 <?php
 namespace framework;
 
+use entity\Member;
+
 session_start();
 
 class User extends ApplicationComponent
@@ -26,20 +28,22 @@ class User extends ApplicationComponent
     {
         return isset($_SESSION[$attr]) ? $_SESSION[$attr] : null;
     }
+    
+    public function connect(Member $member) {
+        $this->setAuthenticated();
+        $this->setAttribute(array(
+            'username' => $member->username(),
+            'role' => $member->role(),
+            'userId' => $member->id()
+            ));
+    }
 
     public function isAuthenticated() : bool
     {
-        //var_dump($this->app->httpRequest()->cookieData($this->ticketName));
-        //var_dump($this->getAttribute('auth'));
         if ($this->hasAttribute('auth')) {
             return $this->app->httpRequest()->cookieData($this->ticketName) === $this->getAttribute('auth');
         }
         return false;
-    }
-
-    public function isAdmin() : bool
-    {
-
     }
     
     public function setAuthenticated() :void
@@ -47,12 +51,9 @@ class User extends ApplicationComponent
         $ticket = session_id().microtime().rand(0,9999999999);
         $ticket = hash('sha512', $ticket);
 
-
         $this->app->httpResponse()->setCookie($this->ticketName, $ticket, time() + 60*15, '/'); // Expire au bout de 15 min
         $this->setAttribute(array('auth' => $ticket));
 
-        //var_dump($this->app->httpRequest()->cookieData($this->ticketName));
-        //var_dump($this->getAttribute('auth'));
     }
 
     public function setAttribute(array $values) :void
@@ -62,31 +63,34 @@ class User extends ApplicationComponent
             {
                 throw new \InvalidArgumentException('Le nom de l\'attribut doit être une chaine de caractères non nulle');
             }
-            //var_dump('setAttribute : ' . $attr);
+
             $_SESSION[$attr] = $value;
         }
     }
     
-    public function tryToReconnect(Controller $controller) {
-        var_dump('trytoreconnect');
+    public function rememberMeToken(HTTPRequest $request, $memberRole) {
+        if ($request->postData('remember') !== null) {
+            $connexionId = uniqid('', true);
+            $this->app->httpResponse()->setCookie($this->idCookieName, $connexionId, time() + 31*24*3600, '/');
+            $this->app->httpResponse()->setCookie($this->roleCookieName, $memberRole, time() + 31*24*3600, '/');
+            return $connexionId;
+        }
+        return null;
+    }
+    
+    public function tryToReconnect(string $entity, Controller $controller) {
 
         $member = null;
 
         if ($this->app->httpRequest()->cookieExists($this->idCookieName) AND $this->app->httpRequest()->cookieExists($this->roleCookieName)) {
 
-            $memberManager = $controller->managers()->getManagerOf('Member');
-            var_dump($memberManager);
-            $member = $memberManager->checkConnexionId($this->app->httpRequest()->cookieData($this->idCookieName));
+            $manager = $controller->managers()->getManagerOf($entity);
+
+            $member = $manager->checkConnexionId($this->app->httpRequest()->cookieData($this->idCookieName));
             
             if ($member !== null) {
-                var_dump($member);
                 if ($member->deleteDate() === null) {
-                    $this->setAuthenticated();
-                    $this->setAttribute(array(
-                        'username' => $member->username(),
-                        'role' => $member->role(),
-                        'userId' => $member->id()
-                        ));
+                    $this->connect($member);
                 }
                 $this->app->httpResponse()->redirect('/');
             }
@@ -97,7 +101,6 @@ class User extends ApplicationComponent
 
     public function disconnect()
     {
-        var_dump('disconnect');
         $_SESSION = [];
         session_destroy();
 

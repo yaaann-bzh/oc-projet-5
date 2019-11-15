@@ -14,18 +14,18 @@
             </div>
 
             <div class="text-center mb-4" id="connectincorrect">
-                    {% for connectFailure in connectFailures %}
-                        <p class="m-0">{{ connectFailure }}</p>
+                    {% for connectError in connectErrors %}
+                        <p class="m-0">{{ connectError }}</p>
                     {% endfor %}
             </div>
 
             <div class="form-label-group">
-                <input type="text" name="login" id="inputLogin" class="form-control" placeholder="Adresse Email" required="" autofocus="">
+                <input type="text" name="email" id="inputLogin" class="form-control" placeholder="Adresse Email" required="" autofocus="">
                 <label for="inputLogin">Adresse Email</label>
             </div>
 
             <div class="form-label-group">
-                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required="">
+                <input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Mot de passe" required="">
                 <label for="inputPassword">Mot de passe</label>
             </div>
 
@@ -34,7 +34,7 @@
                 <input type="checkbox" name="remember" value="remember-me"> Se souvenir de moi
                 </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
+            <input type="submit" class="btn btn-lg btn-primary btn-block" name="submit" value="Se connecter">
             <div class="form-label-group">
                 <p class="m-4 text-center">Nouveau sur le site ? <a href="/inscription">S'inscrire</a></p>
             </div>

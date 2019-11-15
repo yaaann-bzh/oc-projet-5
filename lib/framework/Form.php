@@ -26,7 +26,7 @@ class Form{
             }
             
             if (is_callable([$this, $methode])) {
-                $this->$methode($key, $input, $value);
+                $this->$methode($key, $input, $value);            
             } else {
                 $this->errors[] = 'Methode de contrôle inconnue pour le champ ' . $key . '.';
             }
@@ -57,6 +57,38 @@ class Form{
         } else {
             $this->values[$key] = $value;
         }
+    }
+    
+    public function loginCheck($key, array $input, string $value) {
+        if (strlen($value) < $input['min'] OR strlen($value) > $input['max']) {
+            $this->errors[] = "Identifiant ou mot de passe incorrect";
+        } else {
+            $this->values[$key] = $value;
+        }
+    }
+    
+    public function checkPassword(Manager $manager) {
+
+        $member = null;
+        
+        if (isset($this->values['email']) AND isset($this->values['pass'])){
+            $email = $this->values['email'];
+            $pass = $this->values['pass'];
+            $member = $manager->getSingle($manager->getId('email', $email));            
+        }
+        
+        if ($member !== null) {
+            if ($member->deleteDate() !== null) {
+                $this->errors[] = 'Ce compte utilisateur a été supprimé';
+                return null;
+            }
+            if (password_verify($pass, $member->pass())) {
+                return $member;
+            }
+        } 
+
+        $this->errors[] = 'Identifiant ou mot de passe incorrect';
+        return null;
     }
     
     public function inputs() {

@@ -3,52 +3,40 @@ namespace yannsjobs\modules\connexion;
 
 use framework\HTTPRequest;
 use framework\Controller;
+use framework\Form;
 
 class ConnexionController extends Controller
 {
     public function executeIndex(HTTPRequest $request)
     {
-        $memberManager = $this->managers->getManagerOf('Member');
-        $connectFailures = [];
+        $inputs = $this->app->config()->getFormConfig('inputs', ['email', 'pass']);
+        
+        $form = new Form($inputs);
 
-        if ($request->postExists('login') AND $request->postExists('password')) {
-            $login = $request->postData('login');
-            $password = $request->postData('password');
-            $member = $memberManager->getSingle($memberManager->getId($login));
+        if ($request->postExists('submit') AND $form->isValid($request)) {
+
+            $memberManager = $this->managers->getManagerOf('Member');
+            $member = $form->checkPassword($memberManager);
 
             if ($member !== null) {
-                if (password_verify($password, $member->pass())) {
-                    $this->app->user()->setAuthenticated();
-                    $this->app->user()->setAttribute(array(
-                        'username' => $member->username(),
-                        'role' => $member->role(),
-                        'userId' => $member->id()
-                        ));
+                $this->app->user()->connect($member);
 
-                    if ($request->postData('remember') !== null) {
-                        $connexionId = uniqid('', true);
-                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'remember_me'), $connexionId, time() + 31*24*3600, '/');
-                        $this->app->httpResponse()->setCookie($this->app->config()->get('cookies_names', 'user_role'), $member->role(), time() + 31*24*3600, '/');
-                        $memberManager->saveConnexionId($member->id(), $connexionId);
-                    }
+                $rememberMeTokenId = $this->app->user()->rememberMeToken($request, $member->role());
+                $memberManager->saveConnexionId($member->id(), $rememberMeTokenId);
 
-                    $location = '/' . strtolower($this->app->name()). '/home';
-                    return $this->app->httpResponse()->redirect($location);
-
-                } else {
-                    $connectFailures[] = 'Identifiant ou mot de passe incorrect';
-                }
-            } else {
-                $connectFailures[] = 'Identifiant ou mot de passe incorrect';
-            }
+                $location = '/' . $member->role(). '/home';
+                return $this->app->httpResponse()->redirect($location);
+            } 
         }
+        
+        $connectErrors = $form->errors();
 
         $this->page->setTemplate('connexion.twig');
 
         $this->page->addVars(array(
             'user' => $this->app->user(),
             'title' => 'Connection | YannsJobs',
-            'connectFailures' => $connectFailures
+            'connectErrors' => $connectErrors
         ));
     }
 

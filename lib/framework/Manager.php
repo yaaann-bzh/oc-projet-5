@@ -49,20 +49,12 @@ abstract class Manager
         }
         return (int)$this->dao->query($sql)->fetchColumn();
     }
+   
     
-    public function exists($id)
+    public function getId($key, $var)
     {
-        $className = get_class($this);
-        $lastNsPos = strripos($className, '\\') + 1;
-        $sql = 'SELECT COUNT(*) FROM ' . $this->table;
-
-        if ($this->dao->query($sql)->fetchColumn() > 0) {
-            return true ;
-        }
-        else {
-            return false ;
-        }
-
+        $sql = 'SELECT id FROM ' . $this->table . ' WHERE ' . $key . '="' . $var . '"';
+        return $this->dao->query($sql)->fetchColumn();
     }
 
 }

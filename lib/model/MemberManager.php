@@ -30,23 +30,24 @@ class MemberManager extends \framework\Manager
     public function getList($debut, $limit, $id = null) {
         # code...
     }
+    
+    public function checkPassword(string $login, string $password) {
 
-    public function getId($var)
-    {
-        $sql = 'SELECT id FROM ' . $this->table . ' WHERE email="' . $var . '"';
-        return $this->dao->query($sql)->fetchColumn();
+        
     }
 
     public function saveConnexionId($id, $connexionId)
     {
-        $sql = 'UPDATE ' . $this->table . ' SET connexionId = :connexionId WHERE id = :id';
+        if ($connexionId !== null) {
+            $sql = 'UPDATE ' . $this->table . ' SET connexionId = :connexionId WHERE id = :id';
 
-        $q = $this->dao->prepare($sql);
-        
-        $q->bindValue(':connexionId', $connexionId);
-        $q->bindValue(':id', $id, \PDO::PARAM_INT);
+            $q = $this->dao->prepare($sql);
 
-        $q->execute();
+            $q->bindValue(':connexionId', $connexionId);
+            $q->bindValue(':id', $id, \PDO::PARAM_INT);
+
+            $q->execute();
+        }
     }
 
     public function checkConnexionId($connexionId)

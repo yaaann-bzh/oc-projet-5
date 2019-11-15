@@ -97,10 +97,10 @@ abstract class Application
         return $this->httpResponse;
     }
 
-    public function userConnect(Controller $controller)
+    public function userConnect(string $entity, Controller $controller)
     {
         if (empty($_SESSION)) {
-            $this->user->tryToReconnect($controller);
+            $this->user->tryToReconnect($entity, $controller);
         }
 
         //var_dump('is auth : ' . $this->user->isAuthenticated());
