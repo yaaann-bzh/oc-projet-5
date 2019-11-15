@@ -5,8 +5,6 @@ use framework\Application;
 
 class Frontend extends Application
 {
-    protected $name = 'Frontend';
-
     public function run()
     {
         $controller = $this->getController();

@@ -8,8 +8,6 @@ use framework\Application;
 
 class Backend extends Application{
     
-    protected $name = 'Backend';
-
     public function run()
     {
         //var_dump($this->user->isAuthenticated());

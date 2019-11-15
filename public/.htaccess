@@ -4,9 +4,9 @@ RewriteEngine On
 # Alors on ne réécrit pas l'URL.
 
 # Toutes les url qui commence par un role redirigées vers espace reserve
-RewriteRule ^recruiter bootstrap.php?app=RecruiterApplication [QSA,L]
-RewriteRule ^candidate bootstrap.php?app=CandidateApplication [QSA,L]
-RewriteRule ^admin bootstrap.php?app=AdminApplication [QSA,L]
+RewriteRule ^recruiter bootstrap.php?app=Backend&name=Recruiter [QSA,L]
+RewriteRule ^candidate bootstrap.php?app=Backend&name=Candidate [QSA,L]
+RewriteRule ^admin bootstrap.php?app=Backend&name=Admin [QSA,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ bootstrap.php?app=Frontend [QSA,L]
