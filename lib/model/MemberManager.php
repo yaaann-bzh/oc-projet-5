@@ -27,7 +27,7 @@ class MemberManager extends \framework\Manager
         return null; 
     }
 
-    public function getList($debut, $limit, $id = null) {
+    public function getList($filters = [], $debut = null, $limit = null) {
         # code...
     }
     

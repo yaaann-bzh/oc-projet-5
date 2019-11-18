@@ -17,7 +17,7 @@ class PostsController extends Controller
         $maxPerPage = $this->app->config()->get('display', 'nb_posts');
 
         $pager = new Pager($this->app(), $posts);
-        $pager->setPagination($currentPage, $maxPerPage);
+        $pager->setListPagination($currentPage, $maxPerPage);
         $pager->setList();
 
         foreach ($pager->list() as $post) {
@@ -70,107 +70,58 @@ class PostsController extends Controller
         ));
     }
 
+    public function executeList(HTTPRequest $request) {
+        
+        $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        $filters['recruiterId'] = '=' . $recruiter->id();
+        
+        $posts = $this->managers->getManagerOf('Post')->getList($filters);
+        $currentPage = (int)$request->getData('index');
+        $maxPerPage = $this->app->config()->get('display', 'nb_posts');
+
+        $pager = new Pager($this->app(), $posts);
+        $pager->setListPagination($currentPage, $maxPerPage);
+        $pager->setList();
+
+        $this->page->setTemplate('posts_list.twig');
+
+        $this->page->addVars(array(
+            'pagination' => $pager->pagination(),
+            'user' => $this->app->user(),
+            'postsList' => $pager->list(),
+            'title' => 'Offres publiees | YannsJobs',
+            'errors' => $pager->errors()
+        ));
+    }
+    
     public function executeShow(HTTPRequest $request)
     {
-        $id = (int)$request->getData('id');
-        $post = $this->postManager->getSingle($id);
+        $postId = (int)$request->getData('post');
 
-        if (empty($post)) {
-            return $this->app->httpResponse()->redirect404();
-        }
+        $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
 
-        $author = $this->memberManager->getSingle($post->authorId());
-
-        $filters['postId'] = '=' . $id;
-        $comments = $this->commentManager->getList(null, null, $filters);
+        $post = $this->managers->getManagerOf('Post')->getSingle($postId);
         
-        $members = [];
-        foreach ($comments as $comment ) {
-            $members[$comment->id()] = $this->memberManager->getSingle($comment->memberId());
-        }
+        $this->app->checkContentAccess($post, 'recruiter', $recruiter);
         
-        $pagination = [];
-        $pagination['total'] = $this->postManager->count();
-        $postsIdList = $this->postManager->getIdList();
+        $posts = $this->managers->getManagerOf('Post')->getList(array('recruiterId' => '=' . $recruiter->id()));
+        $pager = new Pager($this->app(), $posts);
+        $pager->setSinglePagination('post', $postId);
 
-        $rank = array_search((int)$post->id(), $postsIdList) + 1;
-        
-            switch ($rank) {
-                case 1:
-                    $pagination['nextLink'] = 'post-' . $postsIdList[$rank];
-                    $pagination['current'] = $rank;
-                    $pagination['prevLink'] = '#';
-                break;
+        $this->page->setTemplate('post.twig');
 
-                case count($postsIdList):
-                    $pagination['nextLink'] = '#';
-                    $pagination['current'] = $rank;
-                    $pagination['prevLink'] = 'post-' . $postsIdList[$rank - 2];
-                break;
-                
-                default:
-                    $pagination['nextLink'] = 'post-' . $postsIdList[$rank];
-                    $pagination['current'] = $rank;
-                    $pagination['prevLink'] = 'post-' . $postsIdList[$rank - 2];
-                break;
-            }
-               
-        $this->page->addVars('pagination', $pagination);
-
-        $updated = $request->getData('updated');
-        $this->page->addvars('updated', $updated);
-
-        $this->page->addVars('post', $post);
-        $this->page->addVars('author', $author);
-        $this->page->addVars('comments', $comments);
-        $this->page->addVars('members', $members);
-
-        $this->page->setTabTitle($post->title());
-
-        $this->page->setContent(__DIR__.'/view/single.php');
-        $this->page->generate();
+        $this->page->addVars(array(
+            'pagination' => $pager->pagination(),
+            'user' => $this->app->user(),
+            'interface' => 'recruiter',
+            'post' => $post,
+            'title' => $post->title() . ' | YannsJobs',
+            'errors' => $pager->errors()
+        ));
     }
 
     public function executeUpdate(HTTPRequest $request)
     {
-        $postId = (int)$request->getData('post');
-        $post = $this->postManager->getSingle($postId);
-
-        if (empty($post)) {
-            return $this->app->httpResponse()->redirect404();
-        }
-
-        if ($request->postExists('action')) {
-            try {
-                switch ($request->postData('action')) { 
-                    case 'Modifier': 
-                        $title = $request->postData('title');
-                        $content = $request->postData('content');
-                        $this->postManager->update($post->id(), $title, $content);
-                        return $this->app->httpResponse()->redirect('/post-' . $postId . '-updated');
-                    break;
-
-                    case 'Supprimer': 
-                        $this->postManager->delete($post->id());
-                        $this->commentManager->deleteFromPost($post->id());
-                        return $this->app->httpResponse()->redirect('/');
-                    break;
-                }
-
-            } catch (\Exception $e) {
-                $intro = 'Erreur lors de la modification de la publication';
-                $message = $e->getMessage();
-            }
-
-            $this->errorPage($intro, $message);
-        }
-
-        $this->page->addVars('post', $post);
-
-        $this->page->setTabTitle('Edition');
-        $this->page->setActiveNav('redaction');
-
-        $this->page->setContent(__DIR__.'/view/redaction.php');
-        $this->page->generate();
+        
     }
 }

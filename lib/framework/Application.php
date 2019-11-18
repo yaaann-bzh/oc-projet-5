@@ -105,8 +105,6 @@ abstract class Application
             $this->user->tryToReconnect($entity, $controller);
         }
 
-        //var_dump('is auth : ' . $this->user->isAuthenticated());
-
         if ($this->user->isAuthenticated()) {
             $this->user->setAuthenticated();
         } elseif ($this->httpRequest->cookieExists($this->user->ticketName())) {
@@ -120,6 +118,19 @@ abstract class Application
         $pattern = '#' . $this->name . '#i';
 
         if (!preg_match($pattern, $userAccess)) {
+            $this->httpResponse->redirect403();
+        }
+    }
+    
+    public function checkContentAccess($content, string $memberType, $member) {
+        
+        if ($content === null) {
+            $this->httpResponse->redirect404();
+        }
+        
+        $method = $memberType . 'Id';
+        
+        if ((int)$member->id() !== (int)$content->$method()) {
             $this->httpResponse->redirect403();
         }
     }

@@ -1,0 +1,18 @@
+<h3 class="m-0">{{ post.title }}</h3>
+<p class="mb-0 lead">{{ post.location }}</p>
+
+<p class="mb-0">Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} </p> 
+<p class="
+    {% if post.expirationDate < date() %} 
+        badge badge-danger"> Terminée depuis le 
+    {% else %}
+        ">Cette offre est visible jusqu'au  
+    {% endif %}
+    {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}</p>
+
+<div class="d-flex justify-content-between align-items-center flex-wrap">
+    <a class="btn btn-outline-primary m-1 flex-fill " href="/recruiter/post-{{ post.id }}/edit" role="button">Modifier</a>
+    <a class="btn btn-outline-success m-1 flex-fill " href="/recruiter/post-{{ post.id }}/copy" role="button">Copier</a>
+    <a class="btn btn-outline-secondary m-1 flex-fill " href="/recruiter/post-{{ post.id }}/hide" role="button">Masquer</a>
+    <a class="btn btn-outline-danger m-1 flex-fill " href="/recruiter/post-{{ post.id }}/delete" role="button">Supprimer</a>
+</div>

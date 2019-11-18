@@ -1,0 +1,32 @@
+{% extends 'default.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block errors %}
+    {% for error in errors %}
+            <p class="m-0">{{ error }}</p>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <section class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 offset-lg-2">
+                {% include('_page_nav.twig') %}
+
+                    <div class="border-bottom border-success p-3 bg-white">
+                        {% include ('_' ~ interface ~ '_interface.twig') %}
+                    </div>
+
+                    <div class="p-4 bg-white post-content">
+                        {{ post.content | markdown }}
+                    </div>
+                            
+                {% include('_page_nav.twig') %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

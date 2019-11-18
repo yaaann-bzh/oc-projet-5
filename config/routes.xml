@@ -9,8 +9,8 @@
     <route url="/recruiter/edit-profile" module="recruiters" action="edit"></route>
     <route url="/recruiter/edit-password" module="recruiters" action="password"></route>
     <route url="/recruiter/publication" module="posts" action="publication"></route>
-    <route url="/recruiter/candidacies-([0-9]+)-([0-9]+)" module="candidacies" action="index" vars="recruiter,page"></route>
-    <route url="/recruiter/postslist-([0-9]+)-([0-9]+)" module="posts" action="recruiterlist" vars="recruiter,page"></route>
+    <route url="/recruiter/candidacies-([0-9]+)" module="candidacies" action="list" vars="page"></route>
+    <route url="/recruiter/postslist-([0-9]+)" module="posts" action="list" vars="page"></route>
     <route url="/recruiter/post-([0-9]+)" module="posts" action="show" vars="post"></route>
     
 </routes>

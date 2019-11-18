@@ -21,7 +21,7 @@ class Pager extends ApplicationComponent
         $this->pagerfanta = new Pagerfanta($this->adapter);
     }
 
-    public function setPagination($currentPage, $maxPerPage)
+    public function setListPagination($currentPage, $maxPerPage)
     {
         $this->pagerfanta->setMaxPerPage($maxPerPage);
         if ($this->pagerfanta->haveToPaginate()) {
@@ -46,6 +46,38 @@ class Pager extends ApplicationComponent
             }
             if ($this->pagerfanta->hasNextPage()) {
                 $this->pagination['next'] = 'index-'. $this->pagerfanta->getNextPage();
+            }
+        }
+    }
+    
+    public function setSinglePagination(string $entity, $id, $maxPerPage = 1) {
+
+        $this->pagerfanta->setMaxPerPage($maxPerPage);
+        if ($this->pagerfanta->haveToPaginate()) {
+            $this->pagination = array(
+                'previous' => '#',
+                'next' => '#',
+                'total' => $this->pagerfanta->getNbPages()
+            );
+
+            if ((int)$id !== 0) {
+                try {
+                    foreach ($this->adapter->getArray() as $key => $object) {
+                        if ((int)$object->id() === $id) {
+                            $this->pagerfanta->setCurrentPage($key + 1);
+                        }
+                    }
+                    $this->pagination['current'] = $this->pagerfanta->getCurrentPage();
+                } catch (\Exception $e) {
+                    $this->errors[] = $e->getMessage();
+                }
+            }
+
+            if ($this->pagerfanta->hasPreviousPage()) {
+                $this->pagination['previous'] = $entity . '-' . $this->adapter->getArray()[$this->pagerfanta->getCurrentPage() - 2]->id();
+            }
+            if ($this->pagerfanta->hasNextPage()) {
+                $this->pagination['next'] = $entity . '-' . $this->adapter->getArray()[$this->pagerfanta->getCurrentPage()]->id();
             }
         }
     }

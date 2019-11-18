@@ -34,7 +34,7 @@ abstract class Manager
         return null;
     }
 
-    public abstract function getList($debut, $limit, $filters = []);
+    public abstract function getList($filters = [], $debut = null, $limit = null);
 
     public function count($filters=[])
     {

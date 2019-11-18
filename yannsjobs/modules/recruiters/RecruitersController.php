@@ -12,14 +12,14 @@ class RecruitersController extends Controller
         $posts = [];
         $nbPosts = [];
         $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
-        //erreur 403
+        
         $nbLastPosts = $this->app->config()->get('display', 'last_posts');
         
         if ($recruiter !== null) {
             $filters['recruiterId'] = '=' .$recruiter->id();
             $nbPosts['total'] = $this->managers->getManagerOf('Post')->count($filters);
             $filters['expirationDate'] = '>NOW()';
-            $posts = $this->managers->getManagerOf('Post')->getList(0, $nbLastPosts, $filters);
+            $posts = $this->managers->getManagerOf('Post')->getList($filters, 0, $nbLastPosts);
             $nbPosts['active'] = $this->managers->getManagerOf('Post')->count($filters);
         } else {
             $errors[] = 'Impossible de trouver le profil de recruteur demandé,';

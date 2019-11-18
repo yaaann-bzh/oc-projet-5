@@ -7,7 +7,7 @@ class PostManager extends \framework\Manager
 {
     protected $entities = 'posts';
 
-    public function getList($debut = null, $limit = null, $filters = []) {
+    public function getList($filters = [], $debut = null, $limit = null) {
 
         $sql = 'SELECT * FROM ' . $this->table;
         
@@ -21,10 +21,10 @@ class PostManager extends \framework\Manager
         
         $sql .= ' ORDER BY addDate DESC';
 
-        if (isset($debut) && isset($limit)) {
+        if ($debut !== null && $limit !== null) {
             $sql .= ' LIMIT ' .(int) $limit.' OFFSET '.(int) $debut; 
         }
-
+        
         $req = $this->dao->query($sql);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'entity\Post');
         $posts = $req->fetchAll();
@@ -53,12 +53,9 @@ class PostManager extends \framework\Manager
         if ($post = $req->fetch())
         {
             $post->setAddDate(new \DateTime($post->addDate()));
-            if ($post->updateDate() != null) {
-                $post->setUpdateDate(new \DateTime($post->updateDate()));
-            }
+            $post->setExpirationDate(new \DateTime($post->expirationDate()));
             return $post;
         }
-        
         return null;  
     }
 

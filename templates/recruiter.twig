@@ -32,13 +32,13 @@
                     </div>
                     <div class="row">
                         <a class="col-12 btn btn-lg btn-outline-dark mt-3" href="/recruiter/publication" role="button">Publier une offre</a>
-                        <a class="col-12 btn btn-lg btn-outline-dark mt-3" href="/recruiter/candidacies-{{ recruiter.id }}-1" role="button">Candidatures reçues <span class="badge badge-pill badge-info">00</span></a>
+                        <a class="col-12 btn btn-lg btn-outline-dark mt-3" href="/recruiter/candidacies-1" role="button">Candidatures reçues <span class="badge badge-pill badge-info">00</span></a>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 list-group p-4">
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <h4>Dernières offres</h4>
-                        <a class="btn btn-info" href="/recruiter/postslist-{{ recruiter.id }}-1" role="button">Voir toutes</a>
+                        <a class="btn btn-info" href="/recruiter/postslist-1" role="button">Voir toutes</a>
                     </div>
                     {% for post in posts %}
                         <a href="/recruiter/post-{{ post.id }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
