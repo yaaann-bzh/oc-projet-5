@@ -4,6 +4,7 @@ namespace framework;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Michelf\Markdown;
 
 class Extension extends AbstractExtension
@@ -13,6 +14,12 @@ class Extension extends AbstractExtension
         return [
             new TwigFilter('markdown', [$this, 'markdownParse'], ['is_safe' => ['html']]),
             new TwigFilter('showAge', [$this, 'setAge'])
+        ];
+    }
+    
+    public function getFunctions() {
+        return [
+            new TwigFunction('profile_pic_exists', [$this, 'profilePicExists'])
         ];
     }
 
@@ -36,6 +43,14 @@ class Extension extends AbstractExtension
         else {
             return 'A l\'instant.';
         }
+    }
+    
+    public function profilePicExists($id) {
+        $fileName = '../public/assets/profile_pic/profile_' . $id . '.png';
 
+        if (file_exists($fileName)) {
+            return true;
+        }
+        return false;
     }
 }

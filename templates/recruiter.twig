@@ -16,7 +16,11 @@
                 <div class="col-12 col-md-6 p-4">
                     <div class="row bg-white p-3 border rounded" id="id_card">
                         <div class="col-4">
-                            <img alt="profile_picture" src="/assets/profile_pic/default.png" id="profile_pic">
+                            {% if profile_pic_exists(recruiter.id) %}
+                                <img alt="profile_picture" src="/assets/profile_pic/profile_{{ recruiter.id }}.png" id="profile_pic">
+                            {% else %}
+                                <img alt="profile_picture" src="/assets/profile_pic/default.png" id="profile_pic">
+                            {% endif %}
                         </div>
                         <div class="col-8">
                             <h2>{{ recruiter.username }}</h2>

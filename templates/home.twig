@@ -22,8 +22,15 @@
                     <div class="list-group mt-3 mb-3">
                         {% for post in postsList %}
                             <a href="#" id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action">
-                                <h3 class="mb-0">{{ post.title }}</h3>
-                                <p class="m-0">{{ post.recruiterName }}</p>
+                                <div class="d-flex mb-0">
+                                    <div class="m-0 flex-fill">
+                                        <h3 class="mb-0">{{ post.title }}</h3>
+                                        <p class="m-0 lead">{{ post.recruiterName }}</p>
+                                    </div>
+                                    {% if profile_pic_exists(post.recruiterId) %}
+                                        <img alt="profile_picture" class="thumbnail mr-3 mt-2" src="/assets/profile_pic/profile_{{ post.recruiterId }}.png">
+                                    {% endif %}
+                                </div>
                                 <p class="m-0">{{ post.location }}</p>
                                 <small>{{ post.addDate | showAge }}</small>
                             </a>
@@ -39,8 +46,15 @@
                     {% for post in postsList %}
                         <div id="post-view-{{ post.id }}" class="col-12 col-md-6 offset-md-6 post-view position-absolute <!--d-none-->">
                             <div class="border-bottom border-success p-3 bg-white">
-                                <p class="mb-0"><strong>{{ post.recruiterName }}</strong> - {{ post.location }}</p>
-                                <h3 class="m-0">{{ post.title }}</h3>
+                                <div class="d-flex mb-0">
+                                    {% if profile_pic_exists(post.recruiterId) %}
+                                        <img alt="profile_picture" class="thumbnail mr-3 mt-2" src="/assets/profile_pic/profile_{{ post.recruiterId }}.png">
+                                    {% endif %}                                    
+                                    <div class="m-0 flex-fill">
+                                        <p class="mb-0"><strong>{{ post.recruiterName }}</strong> - {{ post.location }}</p>
+                                        <h3 class="m-0">{{ post.title }}</h3>
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="">{{ post.addDate | showAge }}</small>
                                     <button class="btn-success text-white rounded-pill col-8 col-lg-4 p-2 mt-2">Postuler</button>
