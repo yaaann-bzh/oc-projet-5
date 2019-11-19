@@ -7,7 +7,7 @@ use framework\HTTPRequest;
 
 class CandidatesController extends Controller
 {
-    public function executeHome(HTTPRequest $httpRequest) {
+    public function executeProfile(HTTPRequest $httpRequest) {
         $nbCandidacies = null;
         $savedPosts = [];
         $errors = [];

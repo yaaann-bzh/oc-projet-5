@@ -19,7 +19,14 @@ class PostsController extends Controller
         $pager = new Pager($this->app(), $posts);
         $pager->setListPagination($currentPage, $maxPerPage);
         $pager->setList();
-
+        
+        if ($this->app->user()->getAttribute('role') === 'candidate') {
+            $candidate = $this->managers->getManagerOf('member')->getSingle($this->app->user()->getAttribute('userId'));
+            foreach ($pager->list() as $post) {
+                $post->setSaved(in_array($post->id(), $candidate->savedPosts()));
+            }
+        }
+        
         foreach ($pager->list() as $post) {
             $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
         }

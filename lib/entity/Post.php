@@ -12,6 +12,7 @@ class Post
     protected $addDate;
     protected $expirationDate;
     protected $duration;
+    protected $saved;
 
     //Mother
     public function __construct(array $donnees = [])
@@ -145,6 +146,10 @@ class Post
 
         $this->duration = (int)$duration;
     }
+    
+    public function setSaved(bool $saved) {
+        $this->saved = $saved;
+    }
 
     // GETTERS //
 
@@ -191,5 +196,9 @@ class Post
     public function duration()
     {
         return $this->duration;
+    }
+    
+    public function saved() {
+        return $this->saved;
     }
 }

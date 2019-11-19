@@ -7,7 +7,7 @@ use framework\HTTPRequest;
 
 class RecruitersController extends Controller
 {
-    public function executeHome(HTTPRequest $httpRequest) {
+    public function executeProfile(HTTPRequest $httpRequest) {
         $errors = [];
         $posts = [];
         $nbPosts = [];

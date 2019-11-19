@@ -24,7 +24,7 @@ class ConnexionController extends Controller
                 $rememberMeTokenId = $this->app->user()->rememberMeToken($request, $member->role());
                 $memberManager->saveConnexionId($member->id(), $rememberMeTokenId);
 
-                $location = '/' . $member->role(). '/home';
+                $location = '/' . $member->role(). '/profile';
                 return $this->app->httpResponse()->redirect($location);
             } 
         }

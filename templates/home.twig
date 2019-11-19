@@ -21,7 +21,7 @@
                 {% else %}
                     <div class="list-group mt-3 mb-3">
                         {% for post in postsList %}
-                            <a href="#" id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action">
+                            <div id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action cursor">
                                 <div class="d-flex mb-0">
                                     <div class="m-0 flex-fill">
                                         <h3 class="mb-0">{{ post.title }}</h3>
@@ -32,8 +32,15 @@
                                     {% endif %}
                                 </div>
                                 <p class="m-0">{{ post.location }}</p>
-                                <small>{{ post.addDate | showAge }}</small>
-                            </a>
+                                <small>
+                                    {{ post.addDate | showAge }} | 
+                                    {% if post.saved %}
+                                        Sauvegardée dans "Mes offres"
+                                    {% else %}
+                                        <a href="/candidate/save-{{ post.id }}/home-{{ pagination.current }}">Sauvegarder</a>
+                                    {% endif %}
+                                </small>
+                            </div>
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -55,9 +62,21 @@
                                         <h3 class="m-0">{{ post.title }}</h3>
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="">{{ post.addDate | showAge }}</small>
-                                    <button class="btn-success text-white rounded-pill col-8 col-lg-4 p-2 mt-2">Postuler</button>
+                                <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap">
+                                    <small class="flex-fill mb-2">{{ post.addDate | showAge }}
+                                    {% if post.saved %}
+                                        <br/>
+                                        Sauvegardée dans "Mes offres"</small>
+                                        <a href="/candidate/remove-{{ post.id }}/home-{{ pagination.current }}" title="Enlever de ma liste" class="mr-3 ml-3 btn btn-outline-danger border-0" role="button">
+                                            <i class="far fa-trash-alt fa-2x"></i>
+                                        </a>  
+                                    {% else %}
+                                        </small>
+                                        <a href="/candidate/save-{{ post.id }}/home-{{ pagination.current }}" title="Ajouter à ma liste" class="mr-3 ml-3 btn btn-outline-secondary border-0" role="button">
+                                            <i class="far fa-bookmark fa-2x"></i>
+                                        </a>
+                                    {% endif %}
+                                    <button class="btn-success text-white rounded-pill col-8 col-sm-6 col-lg-4 p-2">Postuler</button>
                                 </div>
                             </div>
                             <div class="p-4 bg-white post-content">

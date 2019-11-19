@@ -5,7 +5,7 @@
 
     <route url="/deconnection" module="connexion" action="disconnect" ></route>
     
-    <route url="/recruiter/home" module="recruiters" action="home"></route>
+    <route url="/recruiter/profile" module="recruiters" action="profile"></route>
     <route url="/recruiter/edit-profile" module="recruiters" action="edit"></route>
     <route url="/recruiter/edit-password" module="recruiters" action="password"></route>
     <route url="/recruiter/publication" module="posts" action="publication"></route>
@@ -13,7 +13,7 @@
     <route url="/recruiter/postslist-([0-9]+)" module="posts" action="list" vars="page"></route>
     <route url="/recruiter/post-([0-9]+)" module="posts" action="show" vars="post"></route>
     
-    <route url="/candidate/home" module="candidates" action="home"></route>
+    <route url="/candidate/profile" module="candidates" action="profile"></route>
     <route url="/candidate/edit-profile" module="candidates" action="edit"></route>
     <route url="/candidate/edit-password" module="candidates" action="password"></route>
     <route url="/candidate/savedposts-([0-9]+)" module="posts" action="savedlist" vars="page"></route>
