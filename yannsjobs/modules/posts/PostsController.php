@@ -43,6 +43,43 @@ class PostsController extends Controller
         ));
     }
     
+    public function executeShowList(HTTPRequest $request)
+    {
+        $posts = [];
+        $errors = [];
+        $candidate = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+                
+        if ($candidate !== null) {
+            foreach ($candidate->savedPosts() as $post) {
+                $posts[] = $this->managers->getManagerOf('Post')->getSingle($post);
+            }
+        } else {
+            $errors[] = 'Impossible de trouver le profil de candidat demandé,';
+            $errors[] = 'Contactez l\'administrateur.';
+        }
+
+        $currentPage = (int)$request->getData('index');
+        $maxPerPage = $this->app->config()->get('display', 'nb_posts');
+
+        $pager = new Pager($this->app(), $posts);
+        $pager->setListPagination($currentPage, $maxPerPage);
+        $pager->setList();
+
+        foreach ($pager->list() as $post) {
+            $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
+        }
+
+        $this->page->setTemplate('posts/posts_list.twig');
+
+        $this->page->addVars(array(
+            'pagination' => $pager->pagination(),
+            'user' => $this->app->user(),
+            'postsList' => $pager->list(),
+            'title' => 'Offres sauvegardées | YannsJobs',
+            'errors' => $pager->errors()
+        ));
+    }
+    
     public function executePublication(HTTPRequest $request)
     {
         $inputs = $this->app->config()->getFormConfig('inputs', ['title', 'location', 'duration', 'content']);
@@ -68,7 +105,7 @@ class PostsController extends Controller
             $errors = $form->errors();
         }
 
-        $this->page->setTemplate('redaction.twig');
+        $this->page->setTemplate('posts/redaction.twig');
 
         $this->page->addVars(array(
             'user' => $this->app->user(),
@@ -91,7 +128,7 @@ class PostsController extends Controller
         $pager->setListPagination($currentPage, $maxPerPage);
         $pager->setList();
 
-        $this->page->setTemplate('posts_list.twig');
+        $this->page->setTemplate('posts/posts_list.twig');
 
         $this->page->addVars(array(
             'pagination' => $pager->pagination(),
@@ -116,7 +153,7 @@ class PostsController extends Controller
         $pager = new Pager($this->app(), $posts);
         $pager->setSinglePagination('post', $postId);
 
-        $this->page->setTemplate('post.twig');
+        $this->page->setTemplate('posts/post.twig');
 
         $this->page->addVars(array(
             'pagination' => $pager->pagination(),

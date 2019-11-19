@@ -22,7 +22,7 @@ class CandidatesController extends Controller
             $errors[] = 'Contactez l\'administrateur.';
         }
 
-        $this->page->setTemplate('candidate.twig');
+        $this->page->setTemplate('profile/candidate.twig');
 
         $this->page->addVars(array(
             'user' => $this->app->user(),

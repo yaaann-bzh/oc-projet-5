@@ -26,7 +26,7 @@ class RecruitersController extends Controller
             $errors[] = 'Contactez l\'administrateur.';
         }
 
-        $this->page->setTemplate('recruiter.twig');
+        $this->page->setTemplate('profile/recruiter.twig');
 
         $this->page->addVars(array(
             'user' => $this->app->user(),

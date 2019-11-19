@@ -23,7 +23,7 @@ class HTTPResponse extends ApplicationComponent
     {
         $this->page = new Page($this->app);
 
-        $this->page->setTemplate('error_404.twig');
+        $this->page->setTemplate('errors/error_404.twig');
         $this->page->addVars(array('title' => 'Erreur 404 | YannsJobs'));
 
         $this->addHeader('HTTP/1.0 404 Not Found');
@@ -35,7 +35,7 @@ class HTTPResponse extends ApplicationComponent
     {
         $this->page = new Page($this->app);
 
-        $this->page->setTemplate('error_403.twig');
+        $this->page->setTemplate('errors/error_403.twig');
         $this->page->addVars(array('title' => 'Erreur 403 | YannsJobs'));
 
         $this->addHeader('HTTP/1.0 403 Forbidden');
