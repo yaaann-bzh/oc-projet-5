@@ -21,7 +21,7 @@
                 {% else %}
                     <div class="list-group mt-3 mb-3">
                         {% for post in postsList %}
-                            <div id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action cursor">
+                            <div id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action cursor {% if post.id is same as(activePost) %}{{ 'active' }}{% endif %}">
                                 <div class="d-flex mb-0">
                                     <div class="m-0 flex-fill">
                                         <h3 class="mb-0">{{ post.title }}</h3>
@@ -37,7 +37,7 @@
                                     {% if post.saved %}
                                         Sauvegardée dans "Mes offres"
                                     {% else %}
-                                        <a href="/candidate/save-{{ post.id }}/home-{{ pagination.current }}">Sauvegarder</a>
+                                        <a href="/candidate/save-{{ post.id }}/index-{{ pagination.current }}">Sauvegarder</a>
                                     {% endif %}
                                 </small>
                             </div>
@@ -51,7 +51,7 @@
             <div id="post-container" class="container">
                 <div class="row position-relative">
                     {% for post in postsList %}
-                        <div id="post-view-{{ post.id }}" class="col-12 col-md-6 offset-md-6 post-view position-absolute <!--d-none-->">
+                        <div id="post-view-{{ post.id }}" class="col-12 col-md-6 offset-md-6 post-view position-absolute" {% if post.id is same as(activePost) %}{{ 'style="display:block;"' }}{% endif %}>
                             <div class="border-bottom border-success p-3 bg-white">
                                 <div class="d-flex mb-0">
                                     {% if profile_pic_exists(post.recruiterId) %}
@@ -67,12 +67,12 @@
                                     {% if post.saved %}
                                         <br/>
                                         Sauvegardée dans "Mes offres"</small>
-                                        <a href="/candidate/remove-{{ post.id }}/home-{{ pagination.current }}" title="Enlever de ma liste" class="mr-3 ml-3 btn btn-outline-danger border-0" role="button">
+                                        <a href="/candidate/remove-{{ post.id }}/index-{{ pagination.current }}" title="Enlever de ma liste" class="mr-3 ml-3 btn btn-outline-danger border-0" role="button">
                                             <i class="far fa-trash-alt fa-2x"></i>
                                         </a>  
                                     {% else %}
                                         </small>
-                                        <a href="/candidate/save-{{ post.id }}/home-{{ pagination.current }}" title="Ajouter à ma liste" class="mr-3 ml-3 btn btn-outline-secondary border-0" role="button">
+                                        <a href="/candidate/save-{{ post.id }}/index-{{ pagination.current }}" title="Ajouter à ma liste" class="mr-3 ml-3 btn btn-outline-secondary border-0" role="button">
                                             <i class="far fa-bookmark fa-2x"></i>
                                         </a>
                                     {% endif %}

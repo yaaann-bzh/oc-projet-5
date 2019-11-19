@@ -37,6 +37,7 @@ class PostsController extends Controller
             'pagination' => $pager->pagination(),
             'user' => $this->app->user(),
             'postsList' => $pager->list(),
+            'activePost' => $request->getData('post'),
             'title' => 'Accueil | YannsJobs',
             'errors' => $pager->errors()
         ));

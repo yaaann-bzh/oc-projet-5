@@ -7,7 +7,7 @@ use framework\HTTPRequest;
 
 class CandidatesController extends Controller
 {
-    public function executeProfile(HTTPRequest $httpRequest) {
+    public function executeProfile(HTTPRequest $request) {
         $nbCandidacies = null;
         $savedPosts = [];
         $errors = [];
@@ -34,4 +34,21 @@ class CandidatesController extends Controller
         )); 
     }
     
+    public function executeUpdateSavedPosts(HTTPRequest $request) {
+        $action = $request->getData('action') . 'Post';
+        $post = $this->managers->getManagerOf('Post')->getSingle($request->getData('post'));
+        $page = $request->getData('page');
+        $index = $request->getData('index');
+        
+        if ($post !== null) {
+            $this->managers->getManagerOf('Member')->$action($this->app->user()->getAttribute('userId'), $post->id());
+            if ($page === null || $index === null){
+                return $this->app->httpResponse()->redirect('/');
+            } 
+            $location = '/' . $page . '-' . $index . '/active-' . $post->id();
+            return $this->app->httpResponse()->redirect($location);
+        }
+        
+        $this->app->httpResponse()->redirect404();
+    }    
 }

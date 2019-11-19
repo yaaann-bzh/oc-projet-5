@@ -29,7 +29,6 @@ function activeItem(e) {
     item.classList.add('active');
     let postId = item.id.replace('post-item-', '');
     showPost(postId);
-    e.preventDefault();
 }
 
 postItems.forEach(postItem => {

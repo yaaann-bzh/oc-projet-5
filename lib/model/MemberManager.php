@@ -117,4 +117,31 @@ class MemberManager extends \framework\Manager
         $sql = 'DELETE FROM ' . $this->table . ' WHERE id = '.(int) $id;
         $this->dao->exec($sql);
     }
+    
+    public function savePost(int $id, int $postId) {
+        
+        $select = 'SELECT savedPosts FROM ' . $this->table . ' WHERE id = ' . $id;
+
+        $savedPosts = explode(',', $this->dao->query($select)->fetchColumn());
+
+        if (!in_array($postId, $savedPosts)){
+            $savedPosts[] = $postId;
+            $saved = implode(',', $savedPosts);
+            $this->update($id, array('savedPosts' => $saved));
+        }        
+    }
+    
+    public function removePost(int $id, int $postId) {
+        
+        $select = 'SELECT savedPosts FROM ' . $this->table . ' WHERE id = ' . $id;
+
+        $savedPosts = explode(',', $this->dao->query($select)->fetchColumn());
+
+        if (in_array($postId, $savedPosts)){
+            $key = array_search($postId, $savedPosts);
+            unset($savedPosts[$key]);
+            $saved = implode(',', $savedPosts);
+            $this->update($id, array('savedPosts' => $saved));
+        } 
+    }
 }

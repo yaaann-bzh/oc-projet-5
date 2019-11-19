@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <routes>    
-    <route url="/" module="posts" action="index" ></route>
-    <route url="/index-([0-9]+)" module="posts" action="index" vars="index"></route>
+    <route url="/(active-)?([0-9]+)?" module="posts" action="index" vars="active,post"></route>
+    <route url="/index-([0-9]+)(/active-)?([0-9]+)?" module="posts" action="index" vars="index,active,post"></route>
 
     <route url="/deconnection" module="connexion" action="disconnect" ></route>
     
@@ -18,5 +18,7 @@
     <route url="/candidate/edit-password" module="candidates" action="password"></route>
     <route url="/candidate/savedposts-([0-9]+)" module="posts" action="savedlist" vars="page"></route>
     <route url="/candidate/candidacies-([0-9]+)" module="candidacies" action="list" vars="page"></route>
+    <route url="/candidate/([a-z]+)-([0-9]+)/?([a-z]+)?-?([0-9]+)?" module="candidates" action="updateSavedPosts" vars="action,post,page,index"></route>
+
 
 </routes>
