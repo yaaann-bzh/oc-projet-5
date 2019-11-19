@@ -26,7 +26,7 @@ class PostsController extends Controller
                 $post->setSaved(in_array($post->id(), $candidate->savedPosts()));
             }
         }
-        
+
         foreach ($pager->list() as $post) {
             $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
         }

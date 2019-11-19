@@ -20,8 +20,9 @@ class MemberManager extends \framework\Manager
         if ($member = $req->fetch())
         {
             $member->setInscriptionDate(new \DateTime($member->inscriptionDate()));
-
-            if (!empty($member->savedPosts())) {
+            if ($member->savedPosts() === null) {
+                $member->setSavedPosts([]);
+            } else {
                 $member->setSavedPosts(explode(',', $member->savedPosts()));
             }
 
@@ -124,7 +125,9 @@ class MemberManager extends \framework\Manager
 
         $savedPosts = explode(',', $this->dao->query($select)->fetchColumn());
 
-        if (!in_array($postId, $savedPosts)){
+        if (empty($savedPosts) OR $savedPosts[0] === ''){
+            $this->update($id, array('savedPosts' => $postId));
+        } elseif (!in_array($postId, $savedPosts)){
             $savedPosts[] = $postId;
             $saved = implode(',', $savedPosts);
             $this->update($id, array('savedPosts' => $saved));
@@ -140,7 +143,11 @@ class MemberManager extends \framework\Manager
         if (in_array($postId, $savedPosts)){
             $key = array_search($postId, $savedPosts);
             unset($savedPosts[$key]);
-            $saved = implode(',', $savedPosts);
+            if (!empty($savedPosts)){
+                $saved = implode(',', $savedPosts);
+            } else {
+                $saved = NULL;
+            }
             $this->update($id, array('savedPosts' => $saved));
         } 
     }

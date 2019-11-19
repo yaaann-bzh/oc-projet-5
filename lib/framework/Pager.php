@@ -32,7 +32,7 @@ class Pager extends ApplicationComponent
                 'total' => $this->pagerfanta->getNbPages()
             );
 
-            if ($currentPage !== 0) {
+            if ((int)$currentPage !== 0) {
                 try {
                     $this->pagerfanta->setCurrentPage($currentPage);
                     $this->pagination['current'] = $this->pagerfanta->getCurrentPage();
@@ -42,10 +42,10 @@ class Pager extends ApplicationComponent
             }
 
             if ($this->pagerfanta->hasPreviousPage()) {
-                $this->pagination['previous'] = 'index-'. $this->pagerfanta->getPreviousPage();
+                $this->pagination['previous'] = '/index-'. $this->pagerfanta->getPreviousPage();
             }
             if ($this->pagerfanta->hasNextPage()) {
-                $this->pagination['next'] = 'index-'. $this->pagerfanta->getNextPage();
+                $this->pagination['next'] = '/index-'. $this->pagerfanta->getNextPage();
             }
         }
     }

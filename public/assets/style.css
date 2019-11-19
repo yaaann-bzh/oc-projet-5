@@ -25,11 +25,11 @@ footer{
     cursor: pointer;
 }
 
-.active a{
+.active .sublink{
     color: white;
 }
 
-.active a:hover{
+.active .sublink:hover{
     text-decoration: underline;
 }
 
