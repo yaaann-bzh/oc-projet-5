@@ -1,0 +1,44 @@
+{% extends 'default.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block errors %}
+    {% for error in errors %}
+            <p class="m-0">{{ error }}</p>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+        <section class="container mt-1">
+            <div class="row">
+                <div class="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2 p-4">
+                    <div class="row bg-white p-3 border rounded" id="id_card">
+                        <div class="col-8">
+                            <h2>{{ candidate.username }}</h2>
+                            <p class="mb-0">Nom : {{ candidate.lastname }}</p>
+                            <p class="mb-0">Prénom : {{ candidate.firstname }}</p>
+                            <p>{{ candidate.email }}</p>
+                            <p>Inscrit depuis le : <strong class="ml-2">{{ candidate.inscriptionDate | format_datetime('medium', 'none', locale='fr')}}</strong></p>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-around mt-3">
+                        <a class="col-5 btn btn-outline-dark" href="/candidate/edit-profile" role="button">Modifier mes informations</a>
+                        <a class="col-5 btn btn-outline-dark" href="/candidate/edit-password" role="button">Modifier mon mot de passe</a>
+                    </div>
+                    <div class="row">
+                        <a class="col-12 col-lg-8 offset-lg-2 btn btn-lg btn-outline-dark mt-3" href="/candidate/savedposts-1" role="button">
+                            Vos offres sauvegardées
+                            <span class="badge badge-pill badge-info">{{ savedPosts | length }}</span>
+                        </a>
+                        <a class="col-12 col-lg-8 offset-lg-2 btn btn-lg btn-outline-dark mt-3" href="/candidate/candidacies-1" role="button">
+                            Vos candidatures 
+                            <span class="badge badge-pill badge-info">00</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+{% endblock %}

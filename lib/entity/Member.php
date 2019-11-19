@@ -13,6 +13,7 @@ class Member
     protected $inscriptionDate;
     protected $deleteDate;
     protected $connexionId;
+    protected $savedPosts;
 
     //Mother
     public function __construct(array $donnees = [])
@@ -117,6 +118,11 @@ class Member
         $this->connexionId = $connexionId;
     }
 
+    public function setSavedPosts(array $savedPosts)
+    {
+        $this->savedPosts = $savedPosts;
+    }
+    
     // GETTERS //
     public function id()
     {
@@ -143,6 +149,11 @@ class Member
         return $this->firstname;
     }
     
+    public function email()
+    {
+        return $this->email;
+    }
+    
     public function pass()
     {
         return $this->pass;
@@ -161,5 +172,9 @@ class Member
     public function connexionId()
     {
         return $this->connexionId;
+    }
+    
+    public function savedPosts() {
+        return $this->savedPosts;
     }
 }

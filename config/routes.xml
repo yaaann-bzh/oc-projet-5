@@ -13,4 +13,10 @@
     <route url="/recruiter/postslist-([0-9]+)" module="posts" action="list" vars="page"></route>
     <route url="/recruiter/post-([0-9]+)" module="posts" action="show" vars="post"></route>
     
+    <route url="/candidate/home" module="candidates" action="home"></route>
+    <route url="/candidate/edit-profile" module="candidates" action="edit"></route>
+    <route url="/candidate/edit-password" module="candidates" action="password"></route>
+    <route url="/candidate/savedposts-([0-9]+)" module="posts" action="savedlist" vars="page"></route>
+    <route url="/candidate/candidacies-([0-9]+)" module="candidacies" action="list" vars="page"></route>
+
 </routes>

@@ -1,0 +1,37 @@
+<?php
+
+namespace yannsjobs\modules\candidates;
+
+use framework\Controller;
+use framework\HTTPRequest;
+
+class CandidatesController extends Controller
+{
+    public function executeHome(HTTPRequest $httpRequest) {
+        $nbCandidacies = null;
+        $savedPosts = [];
+        $errors = [];
+        $candidate = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+                
+        if ($candidate !== null) {
+            $filters['candidateId'] = '=' . $candidate->id();
+            //$nbCandidacies = $this->managers->getManagerOf('Candidacies')->count($filters);
+            $savedPosts = $candidate->savedPosts();
+        } else {
+            $errors[] = 'Impossible de trouver le profil de candidat demandé,';
+            $errors[] = 'Contactez l\'administrateur.';
+        }
+
+        $this->page->setTemplate('candidate.twig');
+
+        $this->page->addVars(array(
+            'user' => $this->app->user(),
+            'candidate' => $candidate,
+            'savedPosts' => $savedPosts,
+            'nbCandidacies' => $nbCandidacies,
+            'title' => $candidate->userName() . ' | YannsJobs',
+            'errors' => $errors
+        )); 
+    }
+    
+}

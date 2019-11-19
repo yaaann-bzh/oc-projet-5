@@ -21,6 +21,10 @@ class MemberManager extends \framework\Manager
         {
             $member->setInscriptionDate(new \DateTime($member->inscriptionDate()));
 
+            if (!empty($member->savedPosts())) {
+                $member->setSavedPosts(explode(',', $member->savedPosts()));
+            }
+
             return $member;
         }
         
