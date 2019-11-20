@@ -2,6 +2,8 @@
 <routes>    
     <route url="/(active-)?([0-9]+)?" module="posts" action="index" vars="active,post"></route>
     <route url="/index-([0-9]+)(/active-)?([0-9]+)?" module="posts" action="index" vars="index,active,post"></route>
+    <route url="/post-([0-9]+)" module="posts" action="show" vars="post"></route>
+
 
     <route url="/deconnection" module="connexion" action="disconnect" ></route>
     
@@ -11,14 +13,13 @@
     <route url="/recruiter/publication" module="posts" action="publication"></route>
     <route url="/recruiter/candidacies-([0-9]+)" module="candidacies" action="list" vars="page"></route>
     <route url="/recruiter/postslist-([0-9]+)" module="posts" action="list" vars="page"></route>
-    <route url="/recruiter/post-([0-9]+)" module="posts" action="show" vars="post"></route>
     
     <route url="/candidate/profile" module="candidates" action="profile"></route>
     <route url="/candidate/edit-profile" module="candidates" action="edit"></route>
     <route url="/candidate/edit-password" module="candidates" action="password"></route>
-    <route url="/candidate/savedposts-([0-9]+)" module="posts" action="showList" vars="page"></route>
+    <route url="/candidate/postslist-([0-9]+)" module="posts" action="savedList" vars="page"></route>
     <route url="/candidate/candidacies-([0-9]+)" module="candidacies" action="list" vars="page"></route>
-    <route url="/candidate/([a-z]+)-([0-9]+)/?([a-z]+)?-?([0-9]+)?" module="candidates" action="updateSavedPosts" vars="action,post,page,index"></route>
+    <route url="/candidate/([a-z]+)-([0-9]+)/([a-z/]+)-?([0-9]+)?/?([a-z/]+)?" module="candidates" action="updateSavedPosts" vars="action,post,page,index,ext"></route>
 
 
 </routes>

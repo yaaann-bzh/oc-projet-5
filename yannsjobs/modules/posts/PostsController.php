@@ -12,13 +12,11 @@ class PostsController extends Controller
 {
     public function executeIndex(HTTPRequest $request)
     {
-        $posts = $this->managers->getManagerOf('Post')->getList();
-        $currentPage = (int)$request->getData('index');
-        $maxPerPage = $this->app->config()->get('display', 'nb_posts');
+        $filters['expirationDate'] = '>NOW()';
+        $posts = $this->managers->getManagerOf('Post')->getList($filters);
 
         $pager = new Pager($this->app(), $posts);
-        $pager->setListPagination($currentPage, $maxPerPage);
-        $pager->setList();
+        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
         
         if ($this->app->user()->getAttribute('role') === 'candidate') {
             $candidate = $this->managers->getManagerOf('member')->getSingle($this->app->user()->getAttribute('userId'));
@@ -43,28 +41,24 @@ class PostsController extends Controller
         ));
     }
     
-    public function executeShowList(HTTPRequest $request)
+    public function executeSavedList(HTTPRequest $request)
     {
         $posts = [];
         $errors = [];
         $candidate = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
-                
+
         if ($candidate !== null) {
-            foreach ($candidate->savedPosts() as $post) {
-                $posts[] = $this->managers->getManagerOf('Post')->getSingle($post);
+            foreach ($candidate->savedPosts() as $postId) {
+                $posts[] = $this->managers->getManagerOf('Post')->getSingle($postId);
             }
         } else {
             $errors[] = 'Impossible de trouver le profil de candidat demandé,';
             $errors[] = 'Contactez l\'administrateur.';
         }
-
-        $currentPage = (int)$request->getData('index');
-        $maxPerPage = $this->app->config()->get('display', 'nb_posts');
-
+        
         $pager = new Pager($this->app(), $posts);
-        $pager->setListPagination($currentPage, $maxPerPage);
-        $pager->setList();
-
+        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
+       
         foreach ($pager->list() as $post) {
             $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
         }
@@ -121,12 +115,9 @@ class PostsController extends Controller
         $filters['recruiterId'] = '=' . $recruiter->id();
         
         $posts = $this->managers->getManagerOf('Post')->getList($filters);
-        $currentPage = (int)$request->getData('index');
-        $maxPerPage = $this->app->config()->get('display', 'nb_posts');
 
         $pager = new Pager($this->app(), $posts);
-        $pager->setListPagination($currentPage, $maxPerPage);
-        $pager->setList();
+        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
 
         $this->page->setTemplate('posts/posts_list.twig');
 
@@ -143,28 +134,22 @@ class PostsController extends Controller
     {
         $postId = (int)$request->getData('post');
 
-        $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        $member = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
 
         $post = $this->managers->getManagerOf('Post')->getSingle($postId);
         
-        $this->app->checkContentAccess($post, 'recruiter', $recruiter);
+        $interface = $this->app->checkContentAccess($post, $member);
         
-        $posts = $this->managers->getManagerOf('Post')->getList(array('recruiterId' => '=' . $recruiter->id()));
-        $pager = new Pager($this->app(), $posts);
-        $pager->setSinglePagination('post', $postId);
-
         $this->page->setTemplate('posts/post.twig');
 
         $this->page->addVars(array(
-            'pagination' => $pager->pagination(),
             'user' => $this->app->user(),
-            'interface' => 'recruiter',
+            'interface' => $interface,
             'post' => $post,
-            'title' => $post->title() . ' | YannsJobs',
-            'errors' => $pager->errors()
+            'title' => $post->title() . ' | YannsJobs'
         ));
     }
-
+    
     public function executeUpdate(HTTPRequest $request)
     {
         

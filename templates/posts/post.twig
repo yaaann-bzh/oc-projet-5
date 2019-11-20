@@ -14,17 +14,15 @@
     <section class="container">
         <div class="row">
             <div class="col-12 col-lg-8 offset-lg-2">
-                {% include('pagination/_page_nav.twig') %}
 
-                    <div class="border-bottom border-success p-3 bg-white">
-                        {% include ('posts/_' ~ interface ~ '_interface.twig') %}
-                    </div>
+                <div class="border-bottom border-success p-3 bg-white">
+                    {% include ('posts/_interface_' ~ interface ~ '.twig') %}
+                </div>
 
-                    <div class="p-4 bg-white post-content">
-                        {{ post.content | markdown }}
-                    </div>
+                <div class="p-4 bg-white post-content">
+                    {{ post.content | markdown }}
+                </div>
                             
-                {% include('pagination/_page_nav.twig') %}
             </div>
         </div>
     </section>

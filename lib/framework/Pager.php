@@ -48,6 +48,8 @@ class Pager extends ApplicationComponent
                 $this->pagination['next'] = '/index-'. $this->pagerfanta->getNextPage();
             }
         }
+        
+        $this->setList();
     }
     
     public function setSinglePagination(string $entity, $id, $maxPerPage = 1) {

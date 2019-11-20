@@ -151,4 +151,31 @@ class MemberManager extends \framework\Manager
             $this->update($id, array('savedPosts' => $saved));
         } 
     }
+    
+    public function actualizeSavedPosts(string $tableName, Member $member) {
+        
+        $sql = 'SELECT id FROM ' . $tableName . ' ORDER BY id';
+    
+        $req = $this->dao->query($sql);
+        $posts = $req->fetchAll(\PDO::FETCH_COLUMN, 0);
+        
+        $savedPosts = $member->savedPosts();
+       
+        foreach ($savedPosts as $key => $id) {
+            if(!in_array($id, $posts)) {
+                var_dump($key);
+                unset($savedPosts[$key]);
+            }
+        }   
+
+        if ($savedPosts !== $member->savedPosts()) {
+            $member->setSavedPosts($savedPosts);
+            if (!empty($savedPosts)){
+                $saved = implode(',', $savedPosts);
+            } else {
+                $saved = NULL;
+            }
+            $this->update($member->id(), array('savedPosts' => $saved));
+        }
+    } 
 }

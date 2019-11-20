@@ -39,13 +39,25 @@ class CandidatesController extends Controller
         $post = $this->managers->getManagerOf('Post')->getSingle($request->getData('post'));
         $page = $request->getData('page');
         $index = $request->getData('index');
-        
+        $ext = $request->getData('ext');
+
         if ($post !== null) {
             $this->managers->getManagerOf('Member')->$action($this->app->user()->getAttribute('userId'), $post->id());
-            if ($page === null || $index === null){
+            if ($page === null){
                 return $this->app->httpResponse()->redirect('/');
             } 
-            $location = '/' . $page . '-' . $index . '/active-' . $post->id();
+            
+            $location = '/' . $page . '-';
+            
+            $num = is_null($index) ? '1' : $index;
+
+            $location .= $num;
+            
+            if ($ext !== null) {
+                $location .= '/' . $ext . '-' . $post->id();
+
+            }
+
             return $this->app->httpResponse()->redirect($location);
         }
         

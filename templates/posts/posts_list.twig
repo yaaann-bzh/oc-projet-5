@@ -14,25 +14,17 @@
     <section class="container">
         <div class="row">
             <div class="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
-                <h2 class="h3">Vos offres publiées </h2>
+                <h2 class="h3">Vos offres : </h2>
                 {% include('pagination/_pagination.twig') %}
-
+                
                 {% if postsList is empty %}
-                    <p class="text-muted text-center">Vous n'avez pas publié d'offres</p>
+                    <p class="text-muted text-center">Pas d'offres à afficher ici !</p>
                 {% else %}
                     <div class="list-group mt-3 mb-3">
-                        {% for post in postsList %}
-                            <div id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action {% if post.expirationDate < date() %} bg-light {% endif %}">
-                                <div class="d-flex align-items-end flex-wrap">
-                                    <h3 class="mb-0 mr-3 h4"><a href="/{{ session.role }}/post-{{ post.id }}" class="stretched-link {% if post.expirationDate < date() %} text-muted {% endif %}" >{{ post.title }}</a></h3>
-                                    <p class="m-0">{{ post.location }}</p>
-                                </div>
-                                <small>Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} - Fin le {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}</small>
-                            </div>
-                        {% endfor %}
+                        {% include('posts/_postslist_item_' ~ session.role ~ '.twig') %}
                     </div>
                 {% endif %}
-
+                
                 {% include('pagination/_pagination.twig') %}
             </div>
         </div>

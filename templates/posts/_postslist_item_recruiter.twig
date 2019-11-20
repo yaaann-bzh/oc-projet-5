@@ -1,0 +1,11 @@
+
+{% for post in postsList %}
+    <div id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action {% if post.expirationDate < date() %} bg-light {% endif %}">
+        <div class="d-flex align-items-end flex-wrap">
+            <h3 class="mb-0 mr-3 h4"><a href="/post-{{ post.id }}" class="stretched-link {% if post.expirationDate < date() %} text-muted {% endif %}" >{{ post.title }}</a></h3>
+            <p class="m-0">{{ post.location }}</p>
+        </div>
+        <small>Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} - Fin le {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}</small>
+    </div>
+{% endfor %}
+

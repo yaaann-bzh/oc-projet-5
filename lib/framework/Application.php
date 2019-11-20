@@ -122,16 +122,24 @@ abstract class Application
         }
     }
     
-    public function checkContentAccess($content, string $memberType, $member) {
+    public function checkContentAccess($content, $member) {
         
         if ($content === null) {
-            $this->httpResponse->redirect404();
+            return $this->httpResponse->redirect404();
         }
         
-        $method = $memberType . 'Id';
-        
-        if ((int)$member->id() !== (int)$content->$method()) {
-            $this->httpResponse->redirect403();
+        if ($member !== null){
+            if ($member->role() === 'admin' OR (int)$member->id() === (int)$content->recruiterId())
+            {
+                return 'recruiter';
+            }
         }
-    }
+            
+        if ($content->expirationDate() > new \DateTime()) {
+            return 'candidate';
+        }      
+        
+        return $this->httpResponse->redirect403();
+
+    }    
 }

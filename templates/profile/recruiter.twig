@@ -45,7 +45,7 @@
                         <a class="btn btn-info" href="/recruiter/postslist-1" role="button">Voir toutes</a>
                     </div>
                     {% for post in posts %}
-                        <a href="/recruiter/post-{{ post.id }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="/post-{{ post.id }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="m-0">{{ post.title }}</p>
                                 <small class="m-0">{{ post.location }}</small>
