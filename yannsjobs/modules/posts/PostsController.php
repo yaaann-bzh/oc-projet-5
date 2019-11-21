@@ -76,7 +76,7 @@ class PostsController extends Controller
     
     public function executePublication(HTTPRequest $request)
     {
-        $inputs = $this->app->config()->getFormConfig('inputs', ['title', 'location', 'duration', 'content']);
+        $inputs = $this->app->config()->getFormConfigJSON('inputs', ['title', 'location', 'duration', 'content']);
         $errors = [];
         $values = [];
         

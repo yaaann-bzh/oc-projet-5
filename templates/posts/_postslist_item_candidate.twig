@@ -24,7 +24,7 @@
         </div>
         <div class="m-3">
             {% if post.expirationDate > date() %}
-                <a href="#" class="btn btn-success text-white rounded-pill p-2 pr-3 pl-3 text-center" role="button">Postuler</a>
+                <a href="/candidate/apply-{{ post.id }}" class="btn btn-success text-white rounded-pill p-2 pr-3 pl-3 text-center" role="button">Postuler</a>
             {% endif %}
             <a href="/candidate/remove-{{ post.id }}/candidate/postslist-{{ pagination.current }}" title="Enlever de ma liste" class="m-3 btn btn-outline-danger" role="button">
                 <i class="far fa-trash-alt"></i>

@@ -1,22 +1,14 @@
 {% extends 'default/default.twig' %}
 
-{% block title %}
-    {{ title }}
-{% endblock %}
-
-{% block errors %}
-    {% for error in errors %}
-            <p class="m-0">{{ error }}</p>
-    {% endfor %}
-{% endblock %}
-
 {% block content %}
     <section class="container">
         <div class="row">
             <div class="col-12 col-lg-8 offset-lg-2">
 
                 <div class="border-bottom border-success p-3 bg-white">
-                    {% include ('posts/_interface_' ~ interface ~ '.twig') %}
+                    {% if interface is defined %}
+                        {% include ('posts/_interface_' ~ interface ~ '.twig') %}
+                    {% endif %}
                 </div>
 
                 <div class="p-4 bg-white post-content">

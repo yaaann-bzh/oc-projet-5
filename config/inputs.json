@@ -1,0 +1,57 @@
+{
+    "email": {
+        "required": true,
+        "type": "login",
+        "max": 25,
+        "min": 1
+    },
+    "pass": {
+        "required": true,
+        "type": "login",
+         "max": 50,
+         "min": 1
+    },
+    "title": {
+        "required": true,
+        "type": "text",
+         "max": 50,
+         "min": 5
+    },
+    "location": {
+        "required": true,
+         "type": "text",
+         "max": 50,
+         "min": 5
+    },    
+    "duration": {
+        "required": true,
+         "type": "int",
+         "max": 3,
+         "min": 1
+    },
+    "content": {
+        "required": true,
+         "type": "text",
+         "max": 5000,
+         "min": 50
+    },
+    "cover": {
+        "required": true,
+         "type": "text",
+         "max": 500,
+         "min": 20
+    },
+    "resume": {
+        "required": false,
+         "type": "file",
+         "max": 800,
+         "min": 1,
+        "ext" : ["pdf", "doc", "docx", "odt"]
+    },
+    "phone": {
+        "required": false,
+         "type": "phone",
+         "max": 20,
+         "min": 10
+    }
+}	

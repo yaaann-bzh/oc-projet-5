@@ -46,6 +46,18 @@ class HTTPRequest extends ApplicationComponent
         return isset($_POST[$key]);
     }
 
+    // Obtenir les données FILE
+    public function fileData($key)
+    {
+        return isset($_FILES[$key]) ? $_FILES[$key] : null;
+    }
+
+    //vérifier l'existence des données FILE
+    public function fileExists($key)
+    {
+        return isset($_FILES[$key]);
+    }
+    
     // Obtenir l'url de la requête
     public function requestURI()
     {

@@ -4,3 +4,5 @@
 /.vscode/
 /composer.phar
 /nbproject/private/
+/public/assets/profile_pic/profile_pict*
+/yannsjobs/modules/candidacies/resume/resume_*

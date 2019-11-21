@@ -9,8 +9,7 @@ class ConnexionController extends Controller
 {
     public function executeIndex(HTTPRequest $request)
     {
-        $inputs = $this->app->config()->getFormConfig('inputs', ['email', 'pass']);
-        
+        $inputs = $this->app->config()->getFormConfigJSON('inputs', ['email', 'pass']);
         $form = new Form($inputs);
 
         if ($request->postExists('submit') AND $form->isValid($request)) {

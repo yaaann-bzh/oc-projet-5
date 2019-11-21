@@ -9,6 +9,7 @@ class Member
     protected $lastname;
     protected $firstname;
     protected $email;
+    protected $phone;
     protected $pass;
     protected $inscriptionDate;
     protected $deleteDate;
@@ -81,7 +82,7 @@ class Member
     
     public function setEmail($email)
     {
-        if (!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $_POST['email']))
+        if (!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
         {
             throw new\ Exception('Adresse email non valide');
         }
@@ -89,6 +90,16 @@ class Member
         $this->email = $email;
     }
 
+    public function setPhone($phone)
+    {
+        if (!preg_match("#^\+?[0-9]{1,3}([-. ]?[0-9]{2}){4}#", $phone))
+        {
+            throw new \Exception('Numéro de téléphone invalide');
+        }
+
+        $this->phone = $phone;
+    }
+    
     public function setPass($pass)
     {
         if (!is_string($pass) || empty($pass))
@@ -152,6 +163,11 @@ class Member
     public function email()
     {
         return $this->email;
+    }
+    
+    public function phone()
+    {
+        return $this->phone;
     }
     
     public function pass()

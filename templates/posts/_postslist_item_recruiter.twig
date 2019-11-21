@@ -5,7 +5,12 @@
             <h3 class="mb-0 mr-3 h4"><a href="/post-{{ post.id }}" class="stretched-link {% if post.expirationDate < date() %} text-muted {% endif %}" >{{ post.title }}</a></h3>
             <p class="m-0">{{ post.location }}</p>
         </div>
-        <small>Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} - Fin le {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}</small>
+        <small>
+            Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} - Fin le {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}
+            {% if post.expirationDate < date() %}
+                <span class="badge badge-warning p-1">Expirée</span>
+            {% endif %}
+        </small>
     </div>
 {% endfor %}
 

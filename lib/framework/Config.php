@@ -28,7 +28,34 @@ class Config extends ApplicationComponent
         return null;
     }
     
-    public function getFormConfig($fileName, array $inputs) {
+    public function getFormConfigJSON($fileName, array $inputs) {
+        
+        foreach ($inputs as $input) {
+            if (!isset($this->vars[$input]))
+            {
+                $jsonFile = file_get_contents(__DIR__.'/../../config/' . $fileName . '.json');
+
+                $json = json_decode($jsonFile, true);
+                
+                foreach ($json as $key => $value) {
+                    $this->vars[$key] = $value;
+                }
+            }
+            
+            if (isset($this->vars[$input]))
+            {
+                $config[$input] = $this->vars[$input];
+            }
+        }
+
+        if (isset($config)) {
+            return $config;
+        }
+
+        return null;
+    }
+    
+    public function getFormConfigXML($fileName, array $inputs) {
         
         foreach ($inputs as $input) {
             if (!isset($this->vars[$input]))

@@ -7,6 +7,7 @@ class Form{
     protected $inputs;
     protected $values = [];
     protected $errors = [];
+    protected $files = [];
 
 
     public function __construct(array $inputs) {
@@ -19,12 +20,15 @@ class Form{
             if($request->postExists($key)) {  
                 $methode = $input['type'] . 'Check';
                 $value = $request->postData($key);
+            } elseif($request->fileExists($key)){
+                $methode = $input['type'] . 'Check';
+                $value = $request->fileData($key)['size'] !== 0? $request->fileData($key): [];
             }
-            
+
             if ($input['required'] AND empty($value)){
                 $this->errors[] = 'Le champ "' . $key . '" est requis pour ce formulaire.';
             }
-            
+
             if (is_callable([$this, $methode])) {
                 $this->$methode($key, $input, $value);            
             } else {
@@ -67,6 +71,28 @@ class Form{
         }
     }
     
+    public function fileCheck($key, array $input, array $file) {
+        if (!empty($file)) {  
+            if ($file['error'] !== 0) {
+                $this->errors[] = 'Erreur upload : ' . $file['error'];
+            } 
+
+            if ($file['size'] > $input['max'] * 1024) {
+                $this->errors[] = 'La taille pour le fichier "'. $key . '" doit être inférieur ou égal à ' . $input['max'] . ' ko';
+            } elseif ($file['size'] < $input['min'] * 1024) {
+                $this->errors[] = 'La taille pour le fichier "'. $key . '" semble faible (<' . $input['max'] . ' ko), vérifier qu\'il n\'y a pas d\'erreur';
+            } 
+
+            if (!in_array(substr($file['name'], strrpos($file['name'], '.')+1), $input['ext'])){
+                $this->errors[] = 'L\'extension du fichier n\'est pas valide';
+            }   
+        }
+        
+        if(empty($this->errors)) {
+            $this->files[$key] = new Upload($file);
+        }  
+    }
+    
     public function checkPassword(Manager $manager) {
 
         $member = null;
@@ -97,6 +123,14 @@ class Form{
     
     public function values() {
         return $this->values;
+    }
+    
+    public function files() {
+        return $this->files;
+    }
+    
+    public function file(string $key) {
+        return $this->files[$key];
     }
     
     public function errors() {

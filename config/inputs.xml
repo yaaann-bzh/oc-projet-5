@@ -7,5 +7,10 @@
     	<define input="location" required="true" type="text" max="50" min="5"></define>    
         <define input="duration" required="true" type="int" max="3" min="1"></define>
         <define input="content" required="true" type="text" max="5000" min="50"></define>
-	
+        
+        <define input="cover" required="true" type="text" max="500" min="20"></define>
+        <define input="resume" required="false" type="file" max="800" min="1"></define>
+
+        <define input="phone" required="false" type="phone" max="20" min="10"></define>
+        
 </definitions>

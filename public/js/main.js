@@ -1,3 +1,5 @@
+//Règles affichage liste et posts sur la page d'accueil - DEBUT ---------------------------------------------------------------------
+
 let postItemsCollection = document.getElementsByClassName('post-items');
 let postViewsCollection = document.getElementsByClassName('post-view');
 
@@ -34,5 +36,7 @@ function activeItem(e) {
 postItems.forEach(postItem => {
     postItem.addEventListener('click', activeItem);
 });
+
+//Règles affichage liste et posts sur la page d'accueil - FIN --------------------------------------------------------------------
 
 
