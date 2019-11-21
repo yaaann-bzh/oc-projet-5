@@ -3,5 +3,6 @@
 	<define var="posts" value="jobs_posts" ></define>
 	<define var="members" value="jobs_members" ></define>
 	<define var="candidacies" value="jobs_candidacies" ></define>        
-
+        <define var="saved" value="jobs_saved" ></define>
+        
 </definitions>

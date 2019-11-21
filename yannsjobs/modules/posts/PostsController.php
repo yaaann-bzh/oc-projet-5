@@ -19,9 +19,10 @@ class PostsController extends Controller
         $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
         
         if ($this->app->user()->getAttribute('role') === 'candidate') {
-            $candidate = $this->managers->getManagerOf('member')->getSingle($this->app->user()->getAttribute('userId'));
+            
+            $savedPosts = $this->managers->getManagerOf('SavedPost')->getPostIdList($this->app->user()->getAttribute('userId'));
             foreach ($pager->list() as $post) {
-                $post->setSaved(in_array($post->id(), $candidate->savedPosts()));
+                $post->setSaved(in_array($post->id(), $savedPosts));
             }
         }
 
@@ -48,8 +49,9 @@ class PostsController extends Controller
         $candidate = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
 
         if ($candidate !== null) {
-            foreach ($candidate->savedPosts() as $postId) {
-                $posts[] = $this->managers->getManagerOf('Post')->getSingle($postId);
+            $savedPosts = $this->managers->getManagerOf('SavedPost')->getList(array('candidateId' => '=' . $candidate->id()));
+            foreach ($savedPosts as $savedPost) {
+                $posts[] = $this->managers->getManagerOf('Post')->getSingle($savedPost->postId());
             }
         } else {
             $errors[] = 'Impossible de trouver le profil de candidat demandé,';
