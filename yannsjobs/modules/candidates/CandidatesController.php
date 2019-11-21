@@ -16,7 +16,7 @@ class CandidatesController extends Controller
         if ($candidate !== null) {
             $filters['candidateId'] = '=' . $candidate->id();
             //$nbCandidacies = $this->managers->getManagerOf('Candidacies')->count($filters);
-            $savedPosts = $candidate->savedPosts();
+            $nbSavedPosts = $this->managers->getManagerOf('SavedPost')->count($filters);
         } else {
             $errors[] = 'Impossible de trouver le profil de candidat demandé,';
             $errors[] = 'Contactez l\'administrateur.';
@@ -27,7 +27,7 @@ class CandidatesController extends Controller
         $this->page->addVars(array(
             'user' => $this->app->user(),
             'candidate' => $candidate,
-            'savedPosts' => $savedPosts,
+            'nbSavedPosts' => $nbSavedPosts,
             'nbCandidacies' => $nbCandidacies,
             'title' => $candidate->userName() . ' | YannsJobs',
             'errors' => $errors
@@ -35,14 +35,14 @@ class CandidatesController extends Controller
     }
     
     public function executeUpdateSavedPosts(HTTPRequest $request) {
-        $action = $request->getData('action') . 'Post';
+        $action = $request->getData('action');
         $post = $this->managers->getManagerOf('Post')->getSingle($request->getData('post'));
         $page = $request->getData('page');
         $index = $request->getData('index');
         $ext = $request->getData('ext');
 
         if ($post !== null) {
-            $this->managers->getManagerOf('Member')->$action($this->app->user()->getAttribute('userId'), $post->id());
+            $this->managers->getManagerOf('SavedPost')->$action($this->app->user()->getAttribute('userId'), $post->id());
             if ($page === null){
                 return $this->app->httpResponse()->redirect('/');
             } 

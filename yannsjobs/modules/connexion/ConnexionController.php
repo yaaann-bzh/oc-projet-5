@@ -19,7 +19,6 @@ class ConnexionController extends Controller
 
             if ($member !== null) {
                 $this->app->user()->connect($member);
-                $memberManager->actualizeSavedPosts($this->app->config()->get('tables', 'posts'), $member);
 
                 $rememberMeTokenId = $this->app->user()->rememberMeToken($request, $member->role());
                 $memberManager->saveConnexionId($member->id(), $rememberMeTokenId);
