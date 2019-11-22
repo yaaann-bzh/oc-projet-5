@@ -23,6 +23,7 @@ class PostsController extends Controller
             $savedPosts = $this->managers->getManagerOf('SavedPost')->getPostIdList($this->app->user()->getAttribute('userId'));
             foreach ($pager->list() as $post) {
                 $post->setSaved(in_array($post->id(), $savedPosts));
+                $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($this->app->user()->getAttribute('userId'), $post->id()));
             }
         }
 
@@ -63,6 +64,7 @@ class PostsController extends Controller
        
         foreach ($pager->list() as $post) {
             $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
+            $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($candidate->id(), $post->id()));
         }
 
         $this->page->setTemplate('posts/posts_list.twig');
@@ -141,7 +143,10 @@ class PostsController extends Controller
         $post = $this->managers->getManagerOf('Post')->getSingle($postId);
         
         $interface = $this->app->checkContentAccess($post, $member);
-        
+
+        $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
+        $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($member->id(), $post->id()));
+                
         $this->page->setTemplate('posts/post.twig');
 
         $this->page->addVars(array(

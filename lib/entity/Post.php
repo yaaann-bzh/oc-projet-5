@@ -13,6 +13,7 @@ class Post
     protected $expirationDate;
     protected $duration;
     protected $saved;
+    protected $applied;
 
     //Mother
     public function __construct(array $donnees = [])
@@ -124,6 +125,10 @@ class Post
     public function setSaved(bool $saved) {
         $this->saved = $saved;
     }
+    
+    public function setApplied(bool $applied) {
+        $this->applied = $applied;
+    }
 
     // GETTERS //
 
@@ -174,5 +179,9 @@ class Post
     
     public function saved() {
         return $this->saved;
+    }
+    
+    public function applied() {
+        return $this->applied;
     }
 }

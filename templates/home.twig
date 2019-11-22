@@ -24,7 +24,9 @@
                                 <p class="m-0">{{ post.location }}</p>
                                 <small>
                                     {{ post.addDate | showAge }} | 
-                                    {% if post.saved %}
+                                    {% if post.applied %}
+                                        Vous avez envoyé une candidature
+                                    {% elseif post.saved %}
                                         Sauvegardée dans "Mes offres"
                                     {% else %}
                                         <a href="/candidate/add-{{ post.id }}/index-{{ pagination.current }}/active" class="sublink">Sauvegarder</a>
@@ -66,7 +68,11 @@
                                             <i class="far fa-bookmark fa-2x"></i>
                                         </a>
                                     {% endif %}
-                                    <a href="/candidate/apply-{{ post.id }}" class="btn-success text-white rounded-pill col-8 col-sm-6 col-lg-4 p-2 text-center text-decoration-none" role="button">Postuler</a>
+                                    {% if post.applied %}
+                                        <span> Déjà Envoyé !<span>
+                                    {% else %}
+                                        <a href="/candidate/apply-{{ post.id }}" class="btn-success text-white rounded-pill col-8 col-sm-6 col-lg-4 p-2 text-center text-decoration-none" role="button">Postuler</a>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="p-4 bg-white post-content">

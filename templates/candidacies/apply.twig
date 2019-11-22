@@ -17,23 +17,28 @@
             <form method="post" action="" class="mb-3 col-12 offset-md-1 col-md-10 col-xl-6 offset-xl-0" enctype="multipart/form-data">
                 <div class="p-3 border rounded bg-white mb-3">
                     <h1 class="h3 text-center mb-3">Candidature</h1>
-                    <p class="m-0">{{ member.firstName }} {{ member.lastname }}</p>
-                    <p class="m-0">{{ member.email }}</p>
-                    <p>{{ member.phone }}</p>
-                    <a href="#">Modifier mes coordonnées</a>
-                </div>
-                <div class="mb-3 form-group">
-                    <label class="" for="resume">CV : <small class="text-muted ml-2">(facultatif) .doc(x) .pdf .odt | Taille max : 500 ko</small></label>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input cursor" id="resume" name="resume" lang="fr">
-                      <label class="custom-file-label" for="resume" data-browse="Parcourir">Selectionner un fichier</label>
+                    {% if post.applied %}
+                        <p>Vous avez envoyé une candidature pour cette offre</p>
                     </div>
-                </div>
-                <div class="mb-3 form-group">
-                    <label for="cover">Motivation : </label>
-                    <textarea name="cover" class="form-control" id="content" cols="30" rows="15" required>{{ values.cover }}</textarea>
-                </div>
-                <input type="submit" class="btn btn-primary" name="submit" value="Envoyer !">
+                    {% else %}
+                        <p class="m-0">{{ member.firstName }} {{ member.lastname }}</p>
+                        <p class="m-0">{{ member.email }}</p>
+                        <p>{{ member.phone }}</p>
+                        <a href="#">Modifier mes coordonnées</a>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label class="" for="resume">CV : <small class="text-muted ml-2">(facultatif) .doc(x) .pdf .odt | Taille max : 500 ko</small></label>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input cursor" id="resume" name="resume" lang="fr">
+                          <label class="custom-file-label" for="resume" data-browse="Parcourir">Selectionner un fichier</label>
+                        </div>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label for="cover">Motivation : </label>
+                        <textarea name="cover" class="form-control" id="content" cols="30" rows="15" required>{{ values.cover }}</textarea>
+                    </div>
+                    <input type="submit" class="btn btn-primary" name="submit" value="Envoyer !">
+                    {% endif %}
             </form>
                     
         </div> 

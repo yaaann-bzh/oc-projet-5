@@ -8,14 +8,12 @@ use framework\HTTPRequest;
 class CandidatesController extends Controller
 {
     public function executeProfile(HTTPRequest $request) {
-        $nbCandidacies = null;
-        $savedPosts = [];
+        $nbSavedPosts = null;
         $errors = [];
         $candidate = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
                 
         if ($candidate !== null) {
             $filters['candidateId'] = '=' . $candidate->id();
-            //$nbCandidacies = $this->managers->getManagerOf('Candidacies')->count($filters);
             $nbSavedPosts = $this->managers->getManagerOf('SavedPost')->count($filters);
         } else {
             $errors[] = 'Impossible de trouver le profil de candidat demandé,';
@@ -28,7 +26,6 @@ class CandidatesController extends Controller
             'user' => $this->app->user(),
             'candidate' => $candidate,
             'nbSavedPosts' => $nbSavedPosts,
-            'nbCandidacies' => $nbCandidacies,
             'title' => $candidate->userName() . ' | YannsJobs',
             'errors' => $errors
         )); 

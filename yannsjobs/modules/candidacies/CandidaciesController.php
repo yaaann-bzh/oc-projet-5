@@ -15,7 +15,7 @@ class CandidaciesController extends Controller
         $post = $this->managers->getManagerOf('Post')->getSingle((int)$request->getData('post'));
         $member = $this->managers->getManagerOf('Member')->getSingle((int)$this->app->user()->getAttribute('userId'));
         $this->app->checkContentAccess($post, $member);
-        
+        $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($member->id(), $post->id()));
         $inputs = $this->app->config()->getFormConfigJSON('inputs', ['cover', 'resume']);
      
         $form = new Form($inputs);
@@ -33,8 +33,6 @@ class CandidaciesController extends Controller
                 $values['resumeFile'] = $form->file('resume')->name();
                 $candidacy = new Candidacy($values);
                 $this->managers->getManagerOf('Candidacy')->add($candidacy);
-
-                return $this->app->httpResponse()->redirect('/candidate/candidacies-1');
                 
             } catch (\Exception $e) {
                 $errors[] = $e->getMessage();

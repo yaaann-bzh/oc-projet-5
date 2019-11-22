@@ -61,6 +61,19 @@ class CandidacyManager extends \framework\Manager
         }
         return null;  
     }
+    
+    public function exists($candidateId, $postId) {
+        $sql = 'SELECT id FROM ' . $this->table . ' WHERE candidateId = :candidateId AND postId = :postId';
+        $req = $this->dao->prepare($sql);
+        $req->bindValue(':candidateId', (int) $candidateId, \PDO::PARAM_INT);
+        $req->bindValue(':postId', (int) $postId, \PDO::PARAM_INT);
+        
+        $req->execute();
+
+        $res = $req->fetch();
+
+        return is_array($res);
+    }
 
     public function add(Candidacy $candidacy)
     {
@@ -74,7 +87,7 @@ class CandidacyManager extends \framework\Manager
         $req->bindValue(':cover', $candidacy->cover());
         
         $resumeFile = !empty($candidacy->resumeFile())? $candidacy->resumeFile() :NULL;
-        var_dump($resumeFile);
+
         $req->bindValue(':resumeFile', $resumeFile);
 
         $req->execute();
