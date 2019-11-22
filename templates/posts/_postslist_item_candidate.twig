@@ -1,36 +1,34 @@
-{% for post in postsList %}
-    <div id="post-item-{{ post.id }}" class="list-group-item p-0 d-flex justify-content-between flex-wrap p-3 {% if post.expirationDate < date() %} bg-light {% endif %}">
-        <div class="">
-            <div class="d-flex align-items-end flex-wrap flex-fill">
-                <h3 class="mb-0 mr-3 h4">
-                    {% if post.expirationDate > date() %}
-                        <a href="/post-{{ post.id }}" class="">
-                    {% else %}
-                        <a href="#" class="text-muted">
-                    {% endif %}
-                            {{ post.title }}
-                        </a>
-                </h3>
-                <p class="m-0">{{ post.location }}</p>
-            </div>
-            <small>
-                Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} 
+<div id="post-item-{{ post.id }}" class="list-group-item p-0 d-flex justify-content-between flex-wrap p-3 {% if post.expirationDate < date() %} bg-light {% endif %}">
+    <div class="">
+        <div class="d-flex align-items-end flex-wrap flex-fill">
+            <h3 class="mb-0 mr-3 h4">
                 {% if post.expirationDate > date() %}
-                    - Fin le {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}
+                    <a href="/post-{{ post.id }}" class="">
                 {% else %}
-                    <span class="badge badge-warning p-1">Expirée</span>
+                    <a href="#" class="text-muted">
                 {% endif %}
-            </small>
+                        {{ post.title }}
+                    </a>
+            </h3>
+            <p class="m-0">{{ post.location }}</p>
         </div>
-        <div class="">
-            {% if post.applied %}
-                <span>Déjà Envoyé !<span>
-            {% elseif post.expirationDate > date() %}
-                <a href="/candidate/apply-{{ post.id }}" class="btn btn-success text-white rounded-pill p-2 pr-3 pl-3 text-center" role="button">Postuler</a>
+        <small>
+            Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} 
+            {% if post.expirationDate > date() %}
+                - Fin le {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}
+            {% else %}
+                <span class="badge badge-warning p-1">Expirée</span>
             {% endif %}
-            <a href="/candidate/delete-{{ post.id }}/candidate/postslist-{{ pagination.current }}" title="Enlever de ma liste" class="m-3 btn btn-outline-danger" role="button">
-                <i class="far fa-trash-alt"></i>
-            </a>  
-        </div>
+        </small>
     </div>
-{% endfor %}
+    <div class="">
+        {% if post.applied %}
+            <span>Déjà Envoyé !</span>
+        {% elseif post.expirationDate > date() %}
+            <a href="/candidate/apply-{{ post.id }}" class="btn btn-success text-white rounded-pill p-2 pr-3 pl-3 text-center" role="button">Postuler</a>
+        {% endif %}
+        <a href="/candidate/delete-{{ post.id }}/candidate/postslist/index-{{ pagination.current }}" title="Enlever de ma liste" class="m-3 btn btn-outline-danger" role="button">
+            <i class="far fa-trash-alt"></i>
+        </a>  
+    </div>
+</div>

@@ -2,7 +2,9 @@
 /.idea/
 /.vs/
 /.vscode/
+/nbproject/
 /composer.phar
 /nbproject/private/
 /public/assets/profile_pic/profile_pict*
 /yannsjobs/modules/candidacies/resume/resume_*
+/public/resume/resume_*

@@ -11,12 +11,12 @@
     {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}</p>
 
 <div class="d-flex justify-content-between align-items-center flex-wrap ">
-    <a href="/candidate/postslist-1" class="m-1 flex-fill">Retour à la liste
+    <a href="/candidate/postslist/index-1" class="m-1 flex-fill">Retour à la liste
     <a href="/candidate/delete-{{ post.id }}/candidate/postslist-1" title="Enlever de ma liste" class="m-1 mr-3 btn btn-outline-danger " role="button">
         <i class="far fa-trash-alt"></i>
     </a>
     {% if post.applied %}
-        <span>Déjà Envoyé !<span>
+        <span>Déjà Envoyé !</span>
     {% else %}
         <a href="/candidate/apply-{{ post.id }}" class="btn btn-success text-white rounded-pill p-2 pr-3 pl-3 text-center {% if values is defined %} d-none {% endif %}" role="button">Postuler</a>
     {% endif %}

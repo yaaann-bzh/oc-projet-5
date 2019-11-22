@@ -1,5 +1,4 @@
 
-{% for post in postsList %}
     <div id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action {% if post.expirationDate < date() %} bg-light {% endif %}">
         <div class="d-flex align-items-end flex-wrap">
             <h3 class="mb-0 mr-3 h4"><a href="/post-{{ post.id }}" class="stretched-link {% if post.expirationDate < date() %} text-muted {% endif %}" >{{ post.title }}</a></h3>
@@ -12,5 +11,4 @@
             {% endif %}
         </small>
     </div>
-{% endfor %}
 

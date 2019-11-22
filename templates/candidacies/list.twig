@@ -12,12 +12,17 @@
                         <p class="text-muted text-center">Pas de candidatures reçues !</p>
                     {% else %}
                         <div class="list-group mt-3 mb-3">
-                            {% include('candidacies/_post_item.twig') %}
+                            {% for post in postsList %}
+                                {% include('candidacies/_post_item.twig') %}
+                            {% endfor %}
                         </div>
                     {% endif %}
                 {% else %}
                     <div class="list-group mt-3 mb-3">
-                        {% include('candidacies/_candidacy_item.twig') %}
+                        {% include 'posts/_postslist_item_recruiter.twig' %}
+                        {% for candidacy in candidacies %}
+                            {% include('candidacies/_candidacy_item.twig') %}
+                        {% endfor %}
                     </div>
                 {% endif %}
                 

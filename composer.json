@@ -6,7 +6,8 @@
         "pagerfanta/pagerfanta": "^2.1",
         "twig/twig": "^2.12",
         "michelf/php-markdown": "^1.8",
-        "twig/intl-extra": "^2.12"
+        "twig/intl-extra": "^2.12",
+        "apfelbox/php-file-download": "^2.1"
     },
     "authors": [
         {

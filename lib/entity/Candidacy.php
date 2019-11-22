@@ -12,8 +12,7 @@ class Candidacy
     protected $isRead;
     protected $isArchived;
     protected $resumeFile;
-    protected $recruiterName;
-    protected $candidateName;
+    protected $candidate;
 
     //Mother
     public function __construct(array $donnees = [])
@@ -140,6 +139,10 @@ class Candidacy
     public function setResumeFile($resumeFile) {
         $this->resumeFile = $resumeFile;
     }
+    
+    public function setCandidate(Member $candidate) {
+        $this->candidate = $candidate;
+    }
 
     // GETTERS //
 
@@ -194,6 +197,10 @@ class Candidacy
     public function resumeFile()
     {
         return $this->resumeFile;
+    }
+    
+    public function candidate() {
+        return $this->candidate;
     }
     
 }

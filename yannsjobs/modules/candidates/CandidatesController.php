@@ -54,7 +54,7 @@ class CandidatesController extends Controller
                 $location .= '/' . $ext . '-' . $post->id();
 
             }
-
+            var_dump($location);
             return $this->app->httpResponse()->redirect($location);
         }
         

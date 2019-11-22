@@ -11,7 +11,9 @@
                     <p class="text-muted text-center">Pas d'offres à afficher ici !</p>
                 {% else %}
                     <div class="list-group mt-3 mb-3">
-                        {% include('posts/_postslist_item_' ~ session.role ~ '.twig') %}
+                        {% for post in postsList %}
+                            {% include('posts/_postslist_item_' ~ session.role ~ '.twig') %}
+                        {% endfor %}
                     </div>
                 {% endif %}
                 

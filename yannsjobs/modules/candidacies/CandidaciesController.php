@@ -85,4 +85,49 @@ class CandidaciesController extends Controller
             'errors' => array_merge($pager->errors(), $errors)
         ));
     }
+    
+    public function executeListByPost(HTTPRequest $request) {
+        $post = $this->managers->getManagerOf('Post')->getSingle((int)$request->getData('post'));
+        $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        $this->app->checkContentAccess($post, $recruiter);
+
+        $filters = array(
+            'recruiterId' => '=' . $recruiter->id(),
+            'postId' => '=' . $post->id()
+                );
+        $candidacies = $this->managers->getManagerOf('Candidacy')->getList($filters);
+        
+        foreach ($candidacies as $candidacy) {
+            $candidacy->setCandidate($this->managers->getManagerOf('Member')->getSingle($candidacy->candidateId()));
+        }
+        
+        $pager = new Pager($this->app(), $candidacies);
+        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_candidacies'));
+
+        $this->page->setTemplate('candidacies/list.twig');
+
+        $this->page->addVars(array(
+            'pagination' => $pager->pagination(),
+            'user' => $this->app->user(),
+            'candidacies' => $pager->list(),
+            'post' => $post,
+            'title' => 'Candidatures recues | YannsJobs',
+            'errors' => $pager->errors()
+        ));
+    }
+    
+    public function executeDownload(HTTPRequest $request) {
+        $candidacy = $this->managers->getManagerOf('Candidacy')->getSingle((int)$request->getData('candidacy'));
+        $post = $this->managers->getManagerOf('Post')->getSingle($candidacy->postId());
+        $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        $this->app->checkContentAccess($post, $recruiter);
+        
+        $lastSlashPos = strrpos($candidacy->resumeFile(), '/');
+        
+        $file = substr($candidacy->resumeFile(), $lastSlashPos+1);
+        
+        $fileDownload = \Apfelbox\FileDownload\FileDownload::createFromFilePath($candidacy->resumeFile());
+        $fileDownload->sendDownload($file);
+        
+    }
 }

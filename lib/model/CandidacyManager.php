@@ -19,7 +19,7 @@ class CandidacyManager extends \framework\Manager
             $sql = substr($sql, 0, -5);
         }
         
-        $sql .= ' ORDER BY postId DESC, sendDate DESC';
+        $sql .= ' ORDER BY isRead, sendDate DESC';
         
         $req = $this->dao->query($sql);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'entity\Candidacy');
@@ -28,8 +28,8 @@ class CandidacyManager extends \framework\Manager
         foreach ($candidacies as $candidacy)
         {
             $candidacy->setSendDate(new \DateTime($candidacy->sendDate()));
-            $candidacy->setIsRead($candidacy->isRead() === '0' ? true : false);
-            $candidacy->setIsArchived($candidacy->isArchived() === '0' ? true : false);
+            $candidacy->setIsRead($candidacy->isRead() === '0' ? false : true);
+            $candidacy->setIsArchived($candidacy->isArchived() === '0' ? false : true);
         }
         
         $req->closeCursor();
@@ -81,8 +81,8 @@ class CandidacyManager extends \framework\Manager
         if ($candidacy = $req->fetch())
         {
             $candidacy->setSendDate(new \DateTime($candidacy->sendDate()));
-            $candidacy->setIsRead($candidacy->isRead() === '0' ? true : false);
-            $candidacy->setIsArchived($candidacy->isArchived() === '0' ? true : false);
+            $candidacy->setIsRead($candidacy->isRead() === '0' ? false : true);
+            $candidacy->setIsArchived($candidacy->isArchived() === '0' ? false : true);
 
             return $candidacy;
         }

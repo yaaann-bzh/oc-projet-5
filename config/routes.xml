@@ -10,14 +10,15 @@
     <route url="/recruiter/edit-profile" module="recruiters" action="edit"></route>
     <route url="/recruiter/edit-password" module="recruiters" action="password"></route>
     <route url="/recruiter/publication" module="posts" action="publication"></route>
-    <route url="/recruiter/candidacies-([0-9]+)" module="candidacies" action="list" vars="page"></route>
-    <route url="/recruiter/postslist-([0-9]+)" module="posts" action="list" vars="page"></route>
+    <route url="/recruiter/candidacies/index-([0-9]+)" module="candidacies" action="list" vars="index"></route>
+    <route url="/recruiter/candidacies/post-([0-9]+)/index-([0-9]+)" module="candidacies" action="listByPost" vars="post,index"></route>
+    <route url="/recruiter/postslist/index-([0-9]+)" module="posts" action="list" vars="index"></route>
+    <route url="/recruiter/candidacies-([0-9]+)/resume-([0-9]+)" module="candidacies" action="download" vars="post,candidacy"></route>
     
     <route url="/candidate/profile" module="candidates" action="profile"></route>
     <route url="/candidate/edit-profile" module="candidates" action="edit"></route>
     <route url="/candidate/edit-password" module="candidates" action="password"></route>
-    <route url="/candidate/postslist-([0-9]+)" module="posts" action="savedList" vars="page"></route>
-    <route url="/candidate/candidacies-([0-9]+)" module="candidacies" action="list" vars="page"></route>
+    <route url="/candidate/postslist/index-([0-9]+)" module="posts" action="savedList" vars="index"></route>
     <route url="/candidate/([a-z]+)-([0-9]+)/([a-z/]+)-?([0-9]+)?/?([a-z/]+)?" module="candidates" action="updateSavedPosts" vars="action,post,page,index,ext"></route>
     <route url="/candidate/apply-([0-9]+)" module="candidacies" action="apply" vars="post"></route>
 

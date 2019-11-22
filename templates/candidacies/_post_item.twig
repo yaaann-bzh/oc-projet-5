@@ -1,32 +1,30 @@
 
-{% for post in postsList %}
-
-    <div id="post-item-{{ post.post.id }}"class="post-items list-group-item list-group-item-action p-0 d-flex justify-content-between flex-wrap p-3 ">
-        <div>
-            <div class="d-flex align-items-end flex-wrap flex-fill">
-                <h3 class="mb-0 mr-3 h4"><a href="/recruiter/candidacies-{{ post.post.id }}" class="stretched-link" >{{ post.post.title }}</a></h3>
-                <p class="m-0">{{ post.post.location }}</p>
-            </div>
-            <small>
-                Publiée le {{ post.post.addDate | format_datetime('medium', 'none', locale='fr')}} - Fin le {{ post.post.expirationDate | format_datetime('medium', 'none', locale='fr')}}
-                {% if post.post.expirationDate < date() %}
-                    <span class="badge badge-warning p-1">Expirée</span>
-                {% endif %}
-            </small>
+<div id="post-item-{{ post.post.id }}"class="post-items list-group-item list-group-item-action p-0 d-flex justify-content-between flex-wrap p-3 ">
+    <div>
+        <div class="d-flex align-items-end flex-wrap flex-fill">
+            <h3 class="mb-0 mr-3 h4"><a href="/recruiter/candidacies/post-{{ post.post.id }}/index-1" class="stretched-link" >{{ post.post.title }}</a></h3>
+            <p class="m-0">{{ post.post.location }}</p>
         </div>
-        <div class="d-flex align-items-center">
-            <div class="">
-                <div class="d-flex align-items-center justify-content-between ">
-                    <span class="mr-2 ml-2">Reçues : </span>
-                    <span class="badge badge-pill badge-secondary mr-2 ml-2">{{ post.candidacies }}</span>
-                </div>
-                <div class="d-flex align-items-center justify-content-between ">
-                    <span class="mr-2 ml-2">Non lues : </span>
-                    <span class="badge badge-pill badge-primary mr-2 ml-2">{{ post.unread }}</span>
-                </div>
-            </div>
-            <span class="m-2">Voir</span>
-            <i class="fas fa-2x fa-long-arrow-alt-right m-3"></i>
-        </div>
+        <small>
+            Publiée le {{ post.post.addDate | format_datetime('medium', 'none', locale='fr')}} - Fin le {{ post.post.expirationDate | format_datetime('medium', 'none', locale='fr')}}
+            {% if post.post.expirationDate < date() %}
+                <span class="badge badge-warning p-1">Expirée</span>
+            {% endif %}
+        </small>
     </div>
-{% endfor %}
+    <div class="d-flex align-items-center">
+        <div class="">
+            <div class="d-flex align-items-center justify-content-between ">
+                <span class="mr-2 ml-2">Reçues : </span>
+                <span class="badge badge-pill badge-secondary mr-2 ml-2">{{ post.candidacies }}</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between ">
+                <span class="mr-2 ml-2">Non lues : </span>
+                <span class="badge badge-pill badge-primary mr-2 ml-2">{{ post.unread }}</span>
+            </div>
+        </div>
+        <span class="m-2">Voir</span>
+        <i class="fas fa-2x fa-long-arrow-alt-right m-3"></i>
+    </div>
+</div>
+
