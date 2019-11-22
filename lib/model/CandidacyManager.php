@@ -19,11 +19,7 @@ class CandidacyManager extends \framework\Manager
             $sql = substr($sql, 0, -5);
         }
         
-        $sql .= ' ORDER BY sendDate DESC';
-
-        if ($debut !== null && $limit !== null) {
-            $sql .= ' LIMIT ' .(int) $limit.' OFFSET '.(int) $debut; 
-        }
+        $sql .= ' ORDER BY postId DESC, sendDate DESC';
         
         $req = $this->dao->query($sql);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'entity\Candidacy');
@@ -41,6 +37,37 @@ class CandidacyManager extends \framework\Manager
         return $candidacies;
     }
 
+    public function getPosts($filters = []) {
+
+        $sql = 'SELECT postId, COUNT(id) AS candidacies, SUM(isRead) AS areRead FROM ' . $this->table;
+        
+        if (!empty($filters)) {
+            $sql .= ' WHERE ';
+            foreach ($filters as $key => $filter) {
+                $sql .= $key . $filter . ' AND ';
+            }
+            $sql = substr($sql, 0, -5);
+        }
+        
+        $sql .= ' GROUP BY postId DESC';
+
+        $req = $this->dao->query($sql);
+        $req->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $res = $req->fetchAll();
+        
+        $req->closeCursor();
+        
+        $list = [];
+        foreach ($res as $id) {
+            $list[$id['postId']] = array(
+                'candidacies' => $id['candidacies'],
+                'unread' => $id['candidacies'] - $id['areRead']
+                );
+        }
+        return $list;   
+    }
+    
     public function getSingle($id)
     {
         $sql = 'SELECT * FROM ' . $this->table . ' WHERE id = :id';

@@ -42,7 +42,7 @@ class CandidatesController extends Controller
             $this->managers->getManagerOf('SavedPost')->$action($this->app->user()->getAttribute('userId'), $post->id());
             if ($page === null){
                 return $this->app->httpResponse()->redirect('/');
-            } 
+            }
             
             $location = '/' . $page . '-';
             

@@ -1,0 +1,29 @@
+{% extends 'default/default.twig' %}
+
+{% block content %}
+    <section class="container">
+        <div class="row">
+            <div class="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+                <h2 class="h3">Candidatures : </h2>
+                {% include('pagination/_pagination.twig') %}
+                
+                {% if postsList is defined %}
+                    {% if postsList is empty %}
+                        <p class="text-muted text-center">Pas de candidatures reçues !</p>
+                    {% else %}
+                        <div class="list-group mt-3 mb-3">
+                            {% include('candidacies/_post_item.twig') %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="list-group mt-3 mb-3">
+                        {% include('candidacies/_candidacy_item.twig') %}
+                    </div>
+                {% endif %}
+                
+                {% include('pagination/_pagination.twig') %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

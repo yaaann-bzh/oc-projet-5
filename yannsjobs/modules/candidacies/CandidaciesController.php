@@ -7,6 +7,7 @@ use framework\Controller;
 use framework\HTTPRequest;
 use entity\Candidacy;
 use framework\Form;
+use framework\Pager;
 
 
 class CandidaciesController extends Controller 
@@ -33,6 +34,8 @@ class CandidaciesController extends Controller
                 $values['resumeFile'] = $form->file('resume')->name();
                 $candidacy = new Candidacy($values);
                 $this->managers->getManagerOf('Candidacy')->add($candidacy);
+
+                return $this->app->httpResponse()->redirect('');
                 
             } catch (\Exception $e) {
                 $errors[] = $e->getMessage();
@@ -50,6 +53,36 @@ class CandidaciesController extends Controller
             'title' => 'Candidature | YannsJobs',
             'values' => $form->values(),
             'errors' => isset($errors) ? $errors : null
+        ));
+    }
+    
+    public function executeList(HTTPRequest $request) {
+        $posts = [];
+        $errors = [];
+        $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+
+        if ($recruiter !== null) {
+            $posts = $this->managers->getManagerOf('Candidacy')->getPosts(array('recruiterId' => '=' . $recruiter->id()));
+            
+            foreach ($posts as $key => $post) {
+                $posts[$key]['post'] = $this->managers->getManagerOf('Post')->getSingle($key);
+            }
+        } else {
+            $errors[] = 'Impossible de trouver le profil de candidat demandé,';
+            $errors[] = 'Contactez l\'administrateur.';
+        }
+        
+        $pager = new Pager($this->app(), $posts);
+        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
+
+        $this->page->setTemplate('candidacies/list.twig');
+
+        $this->page->addVars(array(
+            'pagination' => $pager->pagination(),
+            'user' => $this->app->user(),
+            'postsList' => $pager->list(),
+            'title' => 'Candidatures recues | YannsJobs',
+            'errors' => array_merge($pager->errors(), $errors)
         ));
     }
 }

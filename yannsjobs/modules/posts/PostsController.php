@@ -74,7 +74,7 @@ class PostsController extends Controller
             'user' => $this->app->user(),
             'postsList' => $pager->list(),
             'title' => 'Offres sauvegardées | YannsJobs',
-            'errors' => $pager->errors()
+            'errors' => array_merge($pager->errors(), $errors)
         ));
     }
     
@@ -94,7 +94,7 @@ class PostsController extends Controller
                 $post = new Post($values);
                 $this->managers->getManagerOf('Post')->add($post);
 
-                return $this->app->httpResponse()->redirect('/recruiter/post-' . $post->id());
+                return $this->app->httpResponse()->redirect('/post-' . $post->id());
                 
             } catch (\Exception $e) {
                 $errors[] = $e->getMessage();
@@ -141,7 +141,7 @@ class PostsController extends Controller
         $member = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
 
         $post = $this->managers->getManagerOf('Post')->getSingle($postId);
-        
+
         $interface = $this->app->checkContentAccess($post, $member);
 
         $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());

@@ -11,7 +11,7 @@ class Pager extends ApplicationComponent
     protected $pagerfanta;
     protected $pagination;
     protected $list;
-    protected $errors;
+    protected $errors = [];
 
     public function __construct(Application $app, $entities)
     {

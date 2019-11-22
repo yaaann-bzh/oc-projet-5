@@ -8,9 +8,7 @@ use framework\HTTPRequest;
 class RecruitersController extends Controller
 {
     public function executeProfile(HTTPRequest $httpRequest) {
-        $errors = [];
         $posts = [];
-        $nbPosts = [];
         $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
         
         $nbLastPosts = $this->app->config()->get('display', 'last_posts');
@@ -18,6 +16,7 @@ class RecruitersController extends Controller
         if ($recruiter !== null) {
             $filters['recruiterId'] = '=' .$recruiter->id();
             $nbPosts['total'] = $this->managers->getManagerOf('Post')->count($filters);
+            $nbCandidacies = $this->managers->getManagerOf('Candidacy')->count($filters);
             $filters['expirationDate'] = '>NOW()';
             $posts = $this->managers->getManagerOf('Post')->getList($filters, 0, $nbLastPosts);
             $nbPosts['active'] = $this->managers->getManagerOf('Post')->count($filters);
@@ -32,9 +31,10 @@ class RecruitersController extends Controller
             'user' => $this->app->user(),
             'recruiter' => $recruiter,
             'posts' => $posts,
-            'nbPosts' => $nbPosts,
+            'nbPosts' => isset($nbPosts) ? $nbPosts : null,
+            'nbCandidacies' => isset($nbCandidacies) ? $nbCandidacies : 0,
             'title' => $recruiter->userName() . ' | YannsJobs',
-            'errors' => $errors
+            'errors' => isset($errors) ? $errors : null
         )); 
     }
     
