@@ -42,13 +42,15 @@ class Upload {
             throw new \Exception('Le chemin spécifié pour l\'enregistrement du fichier n\'existe pas');
         }
         
-        $this->name = $path . '/' . $prefix . $id . '.' . $ext;
+        $this->name = strtolower(str_replace('\\', '/', $path) . '/' . $prefix . $id . '.' . $ext);
         
         if (file_exists($this->name) AND $overwrite === false){
             throw new \Exception('Il existe déjà un fichier portant ce nom');
         }
         
         move_uploaded_file($this->tmp_name, $this->name);
+        
+        return $this->name;
         
     }
     

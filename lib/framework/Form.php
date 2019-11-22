@@ -83,7 +83,7 @@ class Form{
                 $this->errors[] = 'La taille pour le fichier "'. $key . '" semble faible (<' . $input['max'] . ' ko), vérifier qu\'il n\'y a pas d\'erreur';
             } 
 
-            if (!in_array(substr($file['name'], strrpos($file['name'], '.')+1), $input['ext'])){
+            if (!in_array(strtolower(substr($file['name'], strrpos($file['name'], '.')+1)), $input['ext'])){
                 $this->errors[] = 'L\'extension du fichier n\'est pas valide';
             }   
         }

@@ -29,9 +29,8 @@ class CandidaciesController extends Controller
 
             try {
                 $path = __DIR__ . '/resume';
-                $id = $post->id() . '_' . $member->id();
-                $form->file('resume')->save($path, 'resume_', $id);
-                $values['resumeFile'] = $form->file('resume')->name();
+                $id = $member->lastname() . $post->id() . $member->id();
+                $values['resumeFile'] = $form->file('resume')->save($path, 'resume_', $id);
                 $candidacy = new Candidacy($values);
                 $this->managers->getManagerOf('Candidacy')->add($candidacy);
 
