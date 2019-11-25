@@ -67,7 +67,7 @@ class Member
             throw new \Exception('Nom non valide');
         }
 
-        $this->lastname = $lastname;
+        $this->lastname = ucfirst(strtolower($lastname));
     }
     
     public function setFirstname($firstname)
@@ -77,12 +77,12 @@ class Member
             throw new \Exception('Prénom non valide');
         }
 
-        $this->firstname = $firstname;
+        $this->firstname = ucfirst(strtolower($firstname));
     }
     
     public function setEmail($email)
     {
-        if (!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
+        if (!is_string($email) || empty($email))
         {
             throw new\ Exception('Adresse email non valide');
         }
@@ -92,7 +92,7 @@ class Member
 
     public function setPhone($phone)
     {
-        if (!preg_match("#^\+?[0-9]{1,3}([-. ]?[0-9]{2}){4}#", $phone))
+        if (!is_string($phone) || empty($phone))
         {
             throw new \Exception('Numéro de téléphone invalide');
         }

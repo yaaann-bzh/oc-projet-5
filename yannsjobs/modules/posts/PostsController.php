@@ -81,27 +81,22 @@ class PostsController extends Controller
     public function executePublication(HTTPRequest $request)
     {
         $inputs = $this->app->config()->getFormConfigJSON('inputs', ['title', 'location', 'duration', 'content']);
-        $errors = [];
-        $values = [];
         
         $form = new Form($inputs);
 
         if ($request->postExists('submit') AND $form->isValid($request)) {
-            $values = $form->values();
-            $values['recruiterId'] = (int)$this->app->user()->getAttribute('userId');
+            $form->setValues('recruiterId', (int)$this->app->user()->getAttribute('userId'));
             
             try {
-                $post = new Post($values);
+                $post = new Post($form->values());
                 $this->managers->getManagerOf('Post')->add($post);
 
                 return $this->app->httpResponse()->redirect('/post-' . $post->id());
                 
             } catch (\Exception $e) {
-                $errors[] = $e->getMessage();
+                $form->setErrors('',  $e->getMessage());
             }
-        } else {
-            $errors = $form->errors();
-        }
+        } 
 
         $this->page->setTemplate('posts/redaction.twig');
 
@@ -109,7 +104,7 @@ class PostsController extends Controller
             'user' => $this->app->user(),
             'title' => 'Nouvelle offre | YannsJobs',
             'values' => $form->values(),
-            'errors' => $errors
+            'errors' => $form->errors()
         ));
     }
 

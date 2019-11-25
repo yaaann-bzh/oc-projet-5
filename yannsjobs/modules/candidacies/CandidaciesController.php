@@ -22,25 +22,22 @@ class CandidaciesController extends Controller
         $form = new Form($inputs);
 
         if ($request->postExists('submit') AND $form->isValid($request)) {
-            $values = $form->values();
-            $values['candidateId'] = (int)$member->id();
-            $values['recruiterId'] = (int)$post->recruiterId();
-            $values['postId'] = (int)$post->id();
+            $form->setValues('candidateId', (int)$member->id());
+            $form->setValues('recruiterId', (int)$post->recruiterId());
+            $form->setValues('postId', (int)$post->id());
 
             try {
                 $path = __DIR__ . '/resume';
                 $id = $member->lastname() . $post->id() . $member->id();
-                $values['resumeFile'] = $form->file('resume')->save($path, 'resume_', $id);
-                $candidacy = new Candidacy($values);
+                $form->setValues('resumeFile', $form->file('resume')->save($path, 'resume_', $id));
+                $candidacy = new Candidacy($form->values());
                 $this->managers->getManagerOf('Candidacy')->add($candidacy);
 
                 return $this->app->httpResponse()->redirect('');
                 
             } catch (\Exception $e) {
-                $errors[] = $e->getMessage();
+                $form->setErrors('',  $e->getMessage());
             }
-        } else {
-            $errors = $form->errors();
         }
 
         $this->page->setTemplate('candidacies/apply.twig');
@@ -51,7 +48,7 @@ class CandidaciesController extends Controller
             'member' => $member,
             'title' => 'Candidature | YannsJobs',
             'values' => $form->values(),
-            'errors' => isset($errors) ? $errors : null
+            'errors' => $form->errors()
         ));
     }
     

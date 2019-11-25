@@ -1,0 +1,17 @@
+{% extends 'default/default.twig' %}
+
+{% block content %}
+
+    <div class="container-fluid d-flex align-items-center justify-content-around bg-light flex-column" style="min-height: 50%">
+
+        <div class="text-center mb-3">
+            <h1 class="h3 font-weight-normal">Quel type de profil souhaitez-vous créer ?</h1>
+        </div>
+
+        <div class="container">
+            <a href="/inscription/candidate" class="btn btn-lg btn-info mb-3 rounded-lg p-3 text-center col-8 offset-2 col-md-4 offset-md-1 col-lg-2 offset-lg-3" role="button">Candidat</a>
+            <a href="/inscription/recruiter" class="btn btn-lg btn-danger mb-3 rounded-lg p-3 text-center col-8 offset-2 col-md-4 offset-md-2 col-lg-2 offset-lg-2" role="button">Recruteur</a>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,12 +1,8 @@
 {% extends 'default/default.twig' %}
 
-{% block title %}
-    {{ title }}
-{% endblock %}
-
 {% block content %}
 
-    <div class="container-fluid d-flex vh-80 align-items-center justify-content-center bg-light">
+    <div class="container-fluid d-flex align-items-center justify-content-center bg-light">
         <form method="post" action="" class="form-signin">
 
             <div class="text-center mb-3">
@@ -20,13 +16,13 @@
             </div>
 
             <div class="form-label-group">
-                <input type="text" name="email" id="inputLogin" class="form-control" placeholder="Adresse Email" required="" autofocus="">
-                <label for="inputLogin">Adresse Email</label>
+                <input type="text" name="emailLogin" id="emailLogin" class="form-control" placeholder="Adresse Email" required="" autofocus="">
+                <label for="emailLogin">Adresse Email</label>
             </div>
 
             <div class="form-label-group">
-                <input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Mot de passe" required="">
-                <label for="inputPassword">Mot de passe</label>
+                <input type="password" name="passLogin" id="passLogin" class="form-control" placeholder="Mot de passe" required="">
+                <label for="passLogin">Mot de passe</label>
             </div>
 
             <div class="checkbox mb-3">

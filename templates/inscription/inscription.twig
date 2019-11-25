@@ -1,0 +1,130 @@
+{% extends 'default/default.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-12 col-md-8 offset-md-2">
+            <h1 class="h3 mb-3">Inscription</h1>
+            <form method="post" action="" class="needs-validation mb-5" novalidate="">
+                <div class="row {% if role is same as('recruiter')%} d-none {% endif %}">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstname">Prénom</label>
+                        <input type="text" class="form-control" id="firstname" name="firstname" required 
+                               value="{% if role is same as('recruiter')%} defaut {% else %} {{ form.values.firstname }} {% endif %}">
+                        <div class="invalid-feedback">
+                            Un prénom valide est requis
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastname">Nom</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" required 
+                               value="{% if role is same as('recruiter')%} defaut {% else %} {{ form.values.lastname }} {% endif %}">
+                        <div class="invalid-feedback">
+                            Un nom valide est requis
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username" 
+                    {% if role is same as('recruiter')%}
+                        >Nom de la société</label>
+                    {% else %}
+                        class="mb-0">Pseudo</label>
+                        <small class="m-0 form-text text-muted">Ce champ ne sera pas visible des recruteurs</small>
+                    {% endif %}
+                    <input type="text" 
+                        class="form-control {% if errors.pseudo is defined %} border-danger invalid-input {% endif %}" 
+                        id="pseudo" name="username" required 
+                        value="{{ form.values.username }}">
+                    <div class="invalid-feedback" style="width: 100%;">
+                        Champ requis requis
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">E-mail</label>
+                    <input type="email" 
+                        class="form-control {% if errors.email is defined %} border-danger invalid-input {% endif %}" 
+                        id="email" name="email" placeholder="you@example.com" required 
+                        value="{{ form.values.email }}">
+                    <div class="invalid-feedback">
+                        Merci de renseigner une adresse mail valide
+                    </div>
+                </div>
+
+                <div class="mb-3 {% if role is same as('recruiter')%} d-none {% endif %}">
+                    <label for="phone" class="mb-0">Téléphone</label>
+                        <small class="m-0 form-text text-muted">facultatif</small>
+                    <input type="phone" 
+                        class="form-control {% if errors.phone is defined %} border-danger invalid-input {% endif %}" 
+                        id="email" name="phone" placeholder="00 00 00 00 00 " 
+                        value="{{ form.values.phone }}">
+                    <div class="invalid-feedback">
+                        Merci de renseigner un numéro de téléphone valide
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="pass">Mot de passe <span class="text-muted">00000aA=</span></label>
+                    <input type="password" class="form-control {% if errors.pass_same is defined %} border-danger invalid-input {% endif %}" id="pass" name="pass" required>
+                    <div class="invalid-feedback">
+                        Mot de passe requis
+                    </div>
+                    <small id="emailHelp" class="form-text {% if errors.pass_secu is defined %} text-danger {% else %} text-muted {% endif %}">
+                        <p class="m-0">Votre mot de passe doit contenir au minimum :</p>
+                        <ul>
+                            <li>8 caractères</li>
+                            <li>1 minuscule et 1 majuscule</li>
+                            <li>1 chiffre</li>
+                            <li>1 caractère spécial</li>
+                        </ul>
+                    </small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="confirm">Confirmation du mot de passe</label>
+                    <input type="password" class="form-control {% if errors.pass_same is defined %} border-danger invalid-input {% endif %}" id="confirm" name="confirm" required>
+                    <div class="invalid-feedback">
+                        Confirmer votre mot de passe
+                    </div>
+                </div>
+
+                <div class="custom-control custom-checkbox mb-3">
+                    <input type="checkbox" class="custom-control-input" id="agree" name="agree" required>
+                    <label class="custom-control-label" for="agree">J'ai pris connaissance des <a href="#" target="_blank">conditions d'utilisation</a> et les accepte sans réserves.</label>
+                </div>
+                <input type="submit" class="btn btn-primary btn-lg mb-5" type="submit" name="submit" value="S'inscrire">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // starter JavaScript for disabling form submissions if there are invalid fields from https://getbootstrap.com/docs/4.3/examples/checkout/
+        (function () {
+        'use strict';
+
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation')
+
+                // Loop over them and prevent submission
+                Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        }());
+
+        let invalidInputs = document.getElementsByClassName('invalid-input');
+        for (let i = 0; i < invalidInputs.length; i++) {
+            invalidInputs[i].addEventListener('change', function () {
+                invalidInputs[i].classList.remove('border-danger');
+            }); 
+        }
+    </script>
+{% endblock %}

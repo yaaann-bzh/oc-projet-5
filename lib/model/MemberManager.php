@@ -35,11 +35,6 @@ class MemberManager extends \framework\Manager
     public function getList($filters = [], $debut = null, $limit = null) {
         # code...
     }
-    
-    public function checkPassword(string $login, string $password) {
-
-        
-    }
 
     public function saveConnexionId($id, $connexionId)
     {
@@ -74,19 +69,33 @@ class MemberManager extends \framework\Manager
         return null; 
     }
 
-    public function add(Member $recruiter)
-    {
-        $sql = 'INSERT INTO ' . $this->table . ' SET pseudo = :pseudo, email = :email, pass = :pass, lastname = :lastname, firstname = :firstname, inscriptionDate = NOW()';
+    public function add(Member $member)
+    {        
+        $sql = 'INSERT INTO ' . $this->table . ' SET username = :username, role = :role, lastname = :lastname, firstname = :firstname, email = :email, phone = :phone, pass = :pass, inscriptionDate = NOW()';
 
         $req = $this->dao->prepare($sql);
         
-        $req->bindValue(':pseudo', $recruiter->pseudo());
-        $req->bindValue(':email', $recruiter->email());
-        $req->bindValue(':pass', $recruiter->pass());
-        $req->bindValue(':lastname', $recruiter->lastname());
-        $req->bindValue(':firstname', $recruiter->firstname());
+        $req->bindValue(':username', $member->username());
+        $req->bindValue(':role', $member->role());
+        $req->bindValue(':lastname', $member->lastname());
+        $req->bindValue(':firstname', $member->firstname());
+        $req->bindValue(':email', $member->email());
+        $req->bindValue(':phone', $member->phone());        
+        $req->bindValue(':pass', $member->pass());
         
         $req->execute();
+    }
+    
+    public function checkUniqColumn(Member $member) {
+        $columns = array(
+            'ce nom d\'utilisateur' => $member->username(),
+            'cette adresse mail' => $member->email(),
+            'ce numéro de téléphone' => $member->phone()
+        );
+        
+        foreach ($columns as $key => $$column) {
+            
+        }
     }
 
     public function update($id, array $values)

@@ -9,7 +9,6 @@ class CandidatesController extends Controller
 {
     public function executeProfile(HTTPRequest $request) {
         $nbSavedPosts = null;
-        $errors = [];
         $candidate = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
                 
         if ($candidate !== null) {
@@ -27,7 +26,7 @@ class CandidatesController extends Controller
             'candidate' => $candidate,
             'nbSavedPosts' => $nbSavedPosts,
             'title' => $candidate->userName() . ' | YannsJobs',
-            'errors' => $errors
+            'errors' => isset($errors) ? $errors : null
         )); 
     }
     
