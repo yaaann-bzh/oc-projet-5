@@ -9,7 +9,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="firstname">Prénom</label>
                         <input type="text" class="form-control" id="firstname" name="firstname" required 
-                               value="{% if role is same as('recruiter')%} defaut {% else %} {{ form.values.firstname }} {% endif %}">
+                               value="{% if role is same as('recruiter')%} defaut {% else %}{{ form.values.firstname }}{% endif %}">
                         <div class="invalid-feedback">
                             Un prénom valide est requis
                         </div>
@@ -17,7 +17,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="lastname">Nom</label>
                         <input type="text" class="form-control" id="lastname" name="lastname" required 
-                               value="{% if role is same as('recruiter')%} defaut {% else %} {{ form.values.lastname }} {% endif %}">
+                               value="{% if role is same as('recruiter')%} defaut {% else %}{{ form.values.lastname }}{% endif %}">
                         <div class="invalid-feedback">
                             Un nom valide est requis
                         </div>
@@ -34,10 +34,10 @@
                     {% endif %}
                     <input type="text" 
                         class="form-control {% if errors.pseudo is defined %} border-danger invalid-input {% endif %}" 
-                        id="pseudo" name="username" required 
+                        id="username" name="username" required 
                         value="{{ form.values.username }}">
                     <div class="invalid-feedback" style="width: 100%;">
-                        Champ requis requis
+                        Champ requis 
                     </div>
                 </div>
 
@@ -90,8 +90,11 @@
                 </div>
 
                 <div class="custom-control custom-checkbox mb-3">
-                    <input type="checkbox" class="custom-control-input" id="agree" name="agree" required>
+                    <input type="checkbox" class="custom-control-input" id="agree" name="agree" value="agree" required>
                     <label class="custom-control-label" for="agree">J'ai pris connaissance des <a href="#" target="_blank">conditions d'utilisation</a> et les accepte sans réserves.</label>
+                    <div class="invalid-feedback">
+                        Votre consentement est requis
+                    </div> 
                 </div>
                 <input type="submit" class="btn btn-primary btn-lg mb-5" type="submit" name="submit" value="S'inscrire">
             </form>
@@ -100,7 +103,7 @@
 
     <script>
         // starter JavaScript for disabling form submissions if there are invalid fields from https://getbootstrap.com/docs/4.3/examples/checkout/
-        (function () {
+        /*(function () {
         'use strict';
 
             window.addEventListener('load', function () {
@@ -118,7 +121,7 @@
                     }, false);
                 });
             }, false);
-        }());
+        }());*/
 
         let invalidInputs = document.getElementsByClassName('invalid-input');
         for (let i = 0; i < invalidInputs.length; i++) {
