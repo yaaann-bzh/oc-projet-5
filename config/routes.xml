@@ -23,5 +23,6 @@
     <route url="/candidate/([a-z]+)-([0-9]+)/([a-z/]+)-?([0-9]+)?/?([a-z/]+)?" module="candidates" action="updateSavedPosts" vars="action,post,page,index,ext"></route>
     <route url="/candidate/apply-([0-9]+)" module="candidacies" action="apply" vars="post"></route>
 
+    <route url="/form-validation/([a-z,]+)" module="form" action="getStandards" vars="inputs"></route>
 
 </routes>

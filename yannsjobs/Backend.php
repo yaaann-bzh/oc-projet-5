@@ -1,9 +1,8 @@
 <?php
 
 namespace yannsjobs;
+
 use yannsjobs\modules\connexion\ConnexionController;
-
-
 use framework\Application;
 
 class Backend extends Application{

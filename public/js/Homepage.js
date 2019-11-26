@@ -1,10 +1,10 @@
 class Homepage {
     constructor(itemClass, viewClass){
-        let itemsCollection = document.getElementsByClassName(itemClass);
-        let viewsCollection = document.getElementsByClassName(viewClass);
-        if (itemsCollection.length > 0 && viewsCollection.length > 0 ){
-            this.items = this.setElts(itemsCollection);
-            this.views = this.setElts(viewsCollection);
+        let $itemsCollection = $('.' + itemClass);
+        let $viewsCollection = $('.' + viewClass);
+        if ($itemsCollection.length > 0 && $viewsCollection.length > 0 ){
+            this.items = this.setElts($itemsCollection);
+            this.views = this.setElts($viewsCollection);
             this.process();
         }
     }

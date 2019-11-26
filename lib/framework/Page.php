@@ -30,12 +30,6 @@ class Page extends ApplicationComponent
         $this->twig->addExtension(new DebugExtension());
     }
 
-    public function setActiveNav(string $nav)
-    {
-        $this->activeNav = $nav;
-        $this->addVars(array('activeNav' => $this->activeNav));
-    }
-
     public function vars()
     {
         return $this->vars;
@@ -53,7 +47,14 @@ class Page extends ApplicationComponent
 
     public function getGenerated()
     {
-        echo $this->twig->render($this->template, $this->vars);
+        if ($this->template !== null) {
+            echo $this->twig->render($this->template, $this->vars);
+        } elseif ($this->content !== null) {
+            echo $this->content;
+        } else {
+            throw new \Exception('Aucun Template ni contenu défini pour la page');
+        }
+        
     }
 
     public function setContent($content)
