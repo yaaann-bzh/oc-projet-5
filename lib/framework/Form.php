@@ -51,7 +51,7 @@ class Form{
         if (strlen($value) < $input['min']) {
             $this->errors[$key] = 'Le champ "' . $key . '" doit avoir au moins ' . $input['min'] . ' caractères';
         } elseif (strlen($value) > $input['max']) {
-            $this->errors[$input] = 'Le champ "' . $key . '" ne doit pas dépasser ' . $input['max'] . ' caractères';
+            $this->errors[$key] = 'Le champ "' . $key . '" ne doit pas dépasser ' . $input['max'] . ' caractères';
         } else {
             $this->values[$key] = $value;
         }
