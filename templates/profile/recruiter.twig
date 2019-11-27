@@ -6,10 +6,10 @@
                 <div class="col-12 col-md-6 p-4">
                     <div class="row bg-white p-3 border rounded" id="id_card">
                         <div class="col-4">
-                            {% if profile_pict_pic_exists(recruiter.id) %}
-                                <img alt="profile_pict_picture" src="/assets/profile_pict_pic/profile_pict_{{ recruiter.id }}.png" id="profile_pict_pic">
+                            {% if profile_pic_exists(recruiter.id) %}
+                                <img alt="profile_pict_picture" src="/assets/profile_pic/profile_pict_{{ recruiter.id }}.png" id="profile_pict_pic">
                             {% else %}
-                                <img alt="profile_pict_picture" src="/assets/profile_pict_pic/default.png" id="profile_pict_pic">
+                                <img alt="profile_pict_default" src="/assets/profile_pic/default.png" id="profile_pict_pic">
                             {% endif %}
                         </div>
                         <div class="col-8">

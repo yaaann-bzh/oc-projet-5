@@ -19,7 +19,7 @@ class Extension extends AbstractExtension
     
     public function getFunctions() {
         return [
-            new TwigFunction('profile_pict_pic_exists', [$this, 'profilePicExists'])
+            new TwigFunction('profile_pic_exists', [$this, 'profilePicExists'])
         ];
     }
 
@@ -46,7 +46,7 @@ class Extension extends AbstractExtension
     }
     
     public function profilePicExists($id) {
-        $fileName = '../public/assets/profile_pict_pic/profile_pict_' . $id . '.png';
+        $fileName = '../public/assets/profile_pic/profile_pict_' . $id . '.png';
 
         if (file_exists($fileName)) {
             return true;

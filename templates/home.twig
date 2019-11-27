@@ -17,8 +17,8 @@
                                         <h3 class="mb-0">{{ post.title }}</h3>
                                         <p class="m-0 lead">{{ post.recruiterName }}</p>
                                     </div>
-                                    {% if profile_pict_pic_exists(post.recruiterId) %}
-                                        <img alt="profile_pict_picture" class="thumbnail mr-3 mt-2" src="/assets/profile_pict_pic/profile_pict_{{ post.recruiterId }}.png">
+                                    {% if profile_pic_exists(post.recruiterId) %}
+                                        <img alt="profile_pict_picture" class="thumbnail mr-3 mt-2" src="/assets/profile_pic/profile_pict_{{ post.recruiterId }}.png">
                                     {% endif %}
                                 </div>
                                 <p class="m-0">{{ post.location }}</p>
@@ -46,7 +46,7 @@
                         <div id="post-view-{{ post.id }}" class="col-12 col-md-6 offset-md-6 post-view position-absolute" {% if post.id is same as(activePost) %}{{ 'style="display:block;"' }}{% endif %}>
                             <div class="border-bottom border-success p-3 bg-white">
                                 <div class="d-flex mb-0">
-                                    {% if profile_pict_pic_exists(post.recruiterId) %}
+                                    {% if profile_pic_exists(post.recruiterId) %}
                                         <img alt="profile_pict_picture" class="thumbnail mr-3 mt-2" src="/assets/profile_pict_pic/profile_pict_{{ post.recruiterId }}.png">
                                     {% endif %}                                    
                                     <div class="m-0 flex-fill">
