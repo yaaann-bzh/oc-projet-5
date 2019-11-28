@@ -4,19 +4,17 @@
     <div class="container">
         <div class="col-12 col-md-8 offset-md-2">
             <h1 class="h3 mb-3">Inscription</h1>
-            <form method="post" action="" class="needs-validation mb-5" novalidate="">
+            <form method="post" action="" class="form-validation mb-5">
                 <div class="row {% if role is same as('recruiter')%} d-none {% endif %}">
                     <div class="col-md-6 mb-3">
                         <label for="firstname">Prénom</label>
                         <input type="text" class="form-control" id="firstname" name="firstname" required 
                                value="{% if role is same as('recruiter')%} defaut {% else %}{{ form.values.firstname }}{% endif %}">
-                        <div class="invalid-feedback"></div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="lastname">Nom</label>
                         <input type="text" class="form-control" id="lastname" name="lastname" required 
                                value="{% if role is same as('recruiter')%} defaut {% else %}{{ form.values.lastname }}{% endif %}">
-                        <div class="invalid-feedback"></div>
                     </div>
                 </div>
 
@@ -32,7 +30,6 @@
                         class="form-control {% if errors.pseudo is defined %} border-danger  {% endif %}" 
                         id="username" name="username" required 
                         value="{{ form.values.username }}">
-                    <div class="invalid-feedback" style="width: 100%;"></div>
                 </div>
 
                 <div class="mb-3">
@@ -41,7 +38,6 @@
                         class="form-control {% if errors.email is defined %} border-danger  {% endif %}" 
                         id="email" name="email" placeholder="you@example.com" required 
                         value="{{ form.values.email }}">
-                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div class="mb-3 {% if role is same as('recruiter')%} d-none {% endif %}">
@@ -49,15 +45,13 @@
                         <small class="m-0 form-text text-muted">facultatif</small>
                     <input type="phone" 
                         class="form-control {% if errors.phone is defined %} border-danger  {% endif %}" 
-                        id="phone" name="phone" placeholder="00 00 00 00 00 " 
+                        id="phone" name="phone" placeholder="10 chiffres ou indicatif (+XX) & 9 chiffres " 
                         value="{{ form.values.phone }}">
-                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="pass">Mot de passe <span class="text-muted">00000aA=</span></label>
                     <input type="password" class="form-control {% if errors.pass_same is defined %} border-danger  {% endif %}" id="pass" name="pass" required>
-                    <div class="invalid-feedback pass-same"></div>
                     <small class="form-text info-compl {% if errors.pass_secu is defined %} text-danger {% else %} text-muted {% endif %}">
                         <p class="m-0">Votre mot de passe doit contenir au minimum :</p>
                         <ul>
@@ -78,7 +72,6 @@
                 <div class="custom-control custom-checkbox mb-3">
                     <input type="checkbox" class="custom-control-input form-control" id="agree" name="agree" value="agree" required>
                     <label class="custom-control-label" for="agree">J'ai pris connaissance des <a href="#" target="_blank">conditions d'utilisation</a> et les accepte sans réserves.</label>
-                    <div class="invalid-feedback"></div> 
                 </div>
                 <input type="submit" class="btn btn-primary btn-lg mb-5" type="submit" name="submit" value="S'inscrire">
             </form>

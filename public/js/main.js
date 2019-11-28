@@ -7,33 +7,67 @@ let homepage = new Homepage('post-items', 'post-view');
 
 // Validation des formulaires avant envoi - DEBUT ---------------------------------------------------------------------
 
-let prefixUrl = 'http://projet-5/form-validation/';
+let prefixUrl = '/form-validation/';
 let form;
+                                        
+function tinymce_getContent() {
+    return tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerHTML;
+}
 
-if ($('form.needs-validation').length > 0 ) {
+function progressBar(e) {
+    let textarea = e.currentTarget;
+    let id, value, progress, color;
+
+    if (textarea.id === 'tinymce') {
+        id = textarea.getAttribute('data-id');
+        value = textarea.innerHTML;
+    } else {
+        id = textarea.id;
+        value = textarea.value;
+    }
+
+    if (value.length < form.standards[id].min) {
+        progress = form.standards[id].min / form.standards[id].max * 100;
+        color = 'danger';
+    } else if (value.length >= form.standards[id].max) {
+        progress = 100;
+        color = 'danger';
+    } else {
+        progress = value.length / form.standards[id].max * 100;
+        if (progress > 90) {
+            color = 'warning';
+        } else {
+            color = 'success';
+        }
+    }
+    $('#progress-bar-' + id).css('width', progress + '%').removeClass('bg-success bg-warning bg-danger').addClass('bg-' + color);
+}
+
+if ($('form.form-validation').length > 0 ) {
             
     form = new Form(document.querySelector('form'), prefixUrl);
 
-    $('input').on('change', function (e) {
-        e.currentTarget.classList.remove('border-danger');
-        $('#' + e.currentTarget.id + ' ~ .invalid-feedback').css('display', 'none');
+    form.inputs.on('change', function (e) {
+        let input = e.currentTarget;
+        form.contentControll(input);
+        input.classList.remove('border-danger');
     });
 
     ajaxGet(form.url, function (reponse){
         Object.assign(form.standards, JSON.parse(reponse));
     });
-    
+
     form.form.addEventListener('submit', function (e) {
-        form.errors = [];
-        $('.invalid-feedback').css('display', 'none').empty();
-        if (!form.isValid()){
-            console.log('formulaire recalé');
+        //e.preventDefault();
+        console.log(form.form);
+        if(!form.submitControll()){
             e.preventDefault();
-        } else {
-            console.log('formulaire envoyé');
-            e.preventDefault();
-        }
+        };
     });
+
+    $('textarea').on('input', progressBar);
+    
 }
+
 
 // Validation des formulaires avant envoi - FIN ---------------------------------------------------------------------

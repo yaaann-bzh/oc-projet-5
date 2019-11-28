@@ -1,10 +1,9 @@
 class Form {
     constructor(formElt, prefixUrl){
         this.form = formElt;
+        this.inputs = $('.form-validation [name]:not(:submit)');
         this.url = this.setUrl(prefixUrl);
-        console.log(this.url);
         this.standards = {};
-        this.errors = [];
     }
     
     setUrl(prefixUrl){
@@ -12,66 +11,77 @@ class Form {
         for (var i = 0; i < this.form.elements.length - 1 ; i++) {
             names[i] = this.form.elements[i].name;
         }
-
         names = names.toString();
         return prefixUrl + names;
     }
     
-    isValid() {
-        //console.log(this.form.elements);
-        //console.log(this.standards);
-
+    submitControll() {
         for (let standard in this.standards) {
             let input = this.form.elements.namedItem(standard);
-            
-            if (input.type === 'checkbox' && !input.checked && this.standards[standard].required) {
+            if (input.type === 'textarea' && input.classList.contains('tinymce')){
+                input.innerHTML = tinymce_getContent();
+            } else if (input.type === 'checkbox' && !input.checked && this.standards[standard].required) {
                 this.showError(input, 'Champ requis');
             } else if (input.value.length === 0 && this.standards[standard].required) {
                 this.showError(input, 'Champ requis');
-            } 
-            
-            if (input.value.length > 0) {       
-                switch (this.standards[standard].type) {
-                    case 'text':
-                        this.textControl(this.standards[standard], input);
-                        break;
-                    case 'int':
-                        this.intControl(this.standards[standard], input);
-                        break;
-                    case 'email':
-                    case 'phone':
-                    case 'pass':
-                        this.regexControl(this.standards[standard], input);
-                        break;                  
-                    case 'confirm':
-                        this.confirmControl(input);
-                        break;
-                    case 'file':
-                        this.fileControl(this.standards[standard], input);
-                        break;
-                }
             }
         }
-        console.log(this.errors.length);
-        return this.errors.length === 0;
-
+        
+        return this.form.reportValidity();
     }
     
     showError(input, message) {
-        input.classList.add('border-danger');
-        $('#' + input.id + ' ~ .invalid-feedback').css('display', 'block').append(message);
-        this.errors.push(input.id + ' : ' + message);
+        $('#' + input.id + '~ .invalid-input').remove();
+        $('#' + input.id).after('<div class="invalid-input">' + message + '</div>');
+        input.setCustomValidity(message);
+    }
+    
+    removeError(input) {
+        $('#' + input.id + '~ .invalid-input').remove();
+        input.setCustomValidity('');
+    }
+    
+    contentControll(input) {
+        let standard = this.standards[input.id];
+        let errorMessage;
+        
+        switch (standard.type) {
+            case 'text':
+                errorMessage = this.textControl(standard, input);
+                break;
+            case 'int':
+                errorMessage = this.intControl(standard, input);
+                break;
+            case 'email':
+            case 'phone':
+            case 'pass':
+                errorMessage = this.regexControl(standard, input);
+                break;                  
+            case 'confirm':
+                errorMessage = this.confirmControl(input);
+                break;
+            case 'file':
+                errorMessage = this.fileControl(standard, input);
+                break;
+        }
+        
+        if (typeof errorMessage === 'string') {
+            this.showError(input, errorMessage);
+        } else {
+            this.removeError(input);
+        }
+        
     }
     
     textControl(standard, input){
         if (input.value.length < standard.min || input.value.length > standard.max){
-            this.showError(input, 'Ce champ doit comporter entre ' + standard.min + ' et ' + standard.max + ' caractères');
+            return 'Ce champ doit comporter entre ' + standard.min + ' et ' + standard.max + ' caractères';
         }
     }
     
     intControl(standard, input){
         if (input.value < standard.min || input.value > standard.max){
-            this.showError(input, 'La valeur doit être comprise entre ' + standard.min + ' et ' + standard.max);
+            return  'La valeur doit être comprise entre ' + standard.min + ' et ' + standard.max;
         }
     }
     
@@ -95,22 +105,31 @@ class Form {
         let regex = new RegExp(standard.regex.substring(1, standard.regex.length-1));
         
         if (!regex.test(input.value)){
-            this.showError(input, message);
-            $('#' + input.id + ' ~ .info-compl').addClass('text-danger').removeClass('text-muted');
+            return  message;
         }
     }
     
     confirmControl (input) {
         if (input.value !== this.form.elements.namedItem('pass').value) {
-            let message = 'Les deux mots de passe doivent être identiques';
-            this.showError(input, message);
-            this.form.elements.namedItem('pass').classList.add('border-danger');
-            $('#' + this.form.elements.namedItem('pass').id + ' ~ .invalid-feedback').css('display', 'block').append('<br/>' + message);
+            return  'Les deux mots de passe doivent être identiques';
         }
     }
     
     fileControl (standard, input){
+        let message;
+        if (input.files[0].size < standard.min * 1024){
+            message = 'La taille du fichier semble faible (<' + standard.min + ' ko), vérifier qu\'il n\'y a pas d\'erreur ';
+        } else if (input.files[0].size > standard.max * 1024){
+            message = 'La taille doit être inférieure à ' + standard.max + ' ko ';
+        }
         
+        let ext = input.files[0].name.substring(input.files[0].name.lastIndexOf('.')+1, input.files[0].name.length);
+        
+        if (standard.ext.indexOf(ext) < 0) {
+            message +=  '- L\'extension du fichier n\'est pas valide';
+        } 
+        
+        return message;
     }
 
 }
