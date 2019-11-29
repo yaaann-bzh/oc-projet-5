@@ -67,7 +67,6 @@ class Form {
         
         if (errorMessage === undefined && standard.uniq) {
             errorMessage = this.uniqInputControl(input);
-            console.log(errorMessage);
         }
         
         if (errorMessage !== undefined) {

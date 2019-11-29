@@ -13,6 +13,7 @@ class FormController extends Controller {
         
         $standards = $this->app->config()->getFormConfigJSON('inputs', $inputs);
 
+        $this->app->httpResponse()->addHeader('Content-Type: application/json');
         $json = json_encode($standards);
         $this->page->setContent($json);
     }
