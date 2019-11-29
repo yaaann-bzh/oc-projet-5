@@ -24,5 +24,6 @@
     <route url="/candidate/apply-([0-9]+)" module="candidacies" action="apply" vars="post"></route>
 
     <route url="/form-validation/([a-z,]+)" module="form" action="getStandards" vars="inputs"></route>
+    <route url="/input-validation/([a-z]+)-([a-zA-Z]+)-(.+)" module="form" action="existsControl" vars="manager,column,value"></route>
 
 </routes>

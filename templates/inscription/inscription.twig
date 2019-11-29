@@ -4,7 +4,7 @@
     <div class="container">
         <div class="col-12 col-md-8 offset-md-2">
             <h1 class="h3 mb-3">Inscription</h1>
-            <form method="post" action="" class="form-validation mb-5">
+            <form method="post" id="member-add" action="" class="form-validation mb-5">
                 <div class="row {% if role is same as('recruiter')%} d-none {% endif %}">
                     <div class="col-md-6 mb-3">
                         <label for="firstname">Prénom</label>
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="pass">Mot de passe <span class="text-muted">00000aA=</span></label>
+                    <label for="pass">Mot de passe</label>
                     <input type="password" class="form-control {% if errors.pass_same is defined %} border-danger  {% endif %}" id="pass" name="pass" required>
                     <small class="form-text info-compl {% if errors.pass_secu is defined %} text-danger {% else %} text-muted {% endif %}">
                         <p class="m-0">Votre mot de passe doit contenir au minimum :</p>

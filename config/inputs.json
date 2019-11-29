@@ -65,7 +65,7 @@
     },
     "username": {
         "required": true,
-        "uniq": false,
+        "uniq": true,
         "type": "text",
         "max": 25,
         "min": 4

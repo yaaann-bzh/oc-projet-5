@@ -18,6 +18,15 @@ class HTTPResponse extends ApplicationComponent
         header('Location:'.$location);
         exit;
     }
+    
+    public function send204()
+    {
+        $this->page = new Page($this->app);
+
+        $this->addHeader('HTTP/1.0 204 No Content');
+        
+        $this->send();
+    }
 
     public function redirect404()
     {

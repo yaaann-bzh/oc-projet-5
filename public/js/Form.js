@@ -1,18 +1,18 @@
 class Form {
-    constructor(formElt, prefixUrl){
+    constructor(formElt){
         this.form = formElt;
         this.inputs = $('.form-validation [name]:not(:submit)');
-        this.url = this.setUrl(prefixUrl);
+        this.url = this.setUrl();
         this.standards = {};
     }
     
-    setUrl(prefixUrl){
+    setUrl(){
         let names=[];
         for (var i = 0; i < this.form.elements.length - 1 ; i++) {
             names[i] = this.form.elements[i].name;
         }
         names = names.toString();
-        return prefixUrl + names;
+        return '/form-validation/' + names;
     }
     
     submitControll() {
@@ -65,7 +65,12 @@ class Form {
                 break;
         }
         
-        if (typeof errorMessage === 'string') {
+        if (errorMessage === undefined && standard.uniq) {
+            errorMessage = this.uniqInputControl(input);
+            console.log(errorMessage);
+        }
+        
+        if (errorMessage !== undefined) {
             this.showError(input, errorMessage);
         } else {
             this.removeError(input);
@@ -130,6 +135,20 @@ class Form {
         } 
         
         return message;
+    }
+    
+    uniqInputControl(input) {
+        let manager = this.form.id.replace('-add', '');
+        let url = '/input-validation/' + manager + '-' + input.id + '-' + input.value;
+        let req = new XMLHttpRequest();
+        req.open("GET", url, false);
+        req.addEventListener("error", function () {
+            console.error("Erreur réseau avec l'URL " + url);
+        });
+        req.send(null);
+        if (req.status === 204) {
+            return 'Déjà utilisé(e), merci d\'en saisir un(e) autre';
+        }
     }
 
 }

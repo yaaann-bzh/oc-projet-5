@@ -7,7 +7,6 @@ let homepage = new Homepage('post-items', 'post-view');
 
 // Validation des formulaires avant envoi - DEBUT ---------------------------------------------------------------------
 
-let prefixUrl = '/form-validation/';
 let form;
                                         
 function tinymce_getContent() {
@@ -45,7 +44,7 @@ function progressBar(e) {
 
 if ($('form.form-validation').length > 0 ) {
             
-    form = new Form(document.querySelector('form'), prefixUrl);
+    form = new Form(document.querySelector('form'));
 
     form.inputs.on('change', function (e) {
         let input = e.currentTarget;
@@ -66,8 +65,6 @@ if ($('form.form-validation').length > 0 ) {
     });
 
     $('textarea').on('input', progressBar);
-    
 }
-
 
 // Validation des formulaires avant envoi - FIN ---------------------------------------------------------------------
