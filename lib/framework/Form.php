@@ -10,15 +10,17 @@ class Form{
     protected $files = [];
 
 
-    public function __construct(array $inputs) {
+    public function __construct(array $inputs, array $values = []) {
                 
         $this->inputs = $inputs;
+        $this->values = $values;
     }
     
     public function isValid(HTTPRequest $request, Manager $manager = null) {
         foreach ($this->inputs as $key => $input) {
+            $methode = '';
             if($request->postExists($key)) {  
-                $methode = $input['type'] . 'Check';
+                $methode = str_replace('Login', '', $input['type']) . 'Check';
                 $value = $request->postData($key);
             } elseif($request->fileExists($key)){
                 $methode = $input['type'] . 'Check';
@@ -35,8 +37,6 @@ class Form{
 
             if (is_callable([$this, $methode])) {
                 $this->$methode($key, $input, $value);            
-            } else {
-                $this->errors[] = 'Methode de contrôle inconnue pour le champ ' . $key . '.';
             }
         }
         

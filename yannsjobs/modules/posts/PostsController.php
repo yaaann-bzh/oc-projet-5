@@ -78,18 +78,19 @@ class PostsController extends Controller
         ));
     }
     
-    public function executePublication(HTTPRequest $request)
+    public function executePublication(HTTPRequest $request,array $values = [], Post $editedPost = null)
     {
         $inputs = $this->app->config()->getFormConfigJSON('inputs', ['title', 'location', 'duration', 'content']);
         
-        $form = new Form($inputs);
+        $form = new Form($inputs, $values);
 
         if ($request->postExists('submit') AND $form->isValid($request)) {
             $form->setValues('recruiterId', (int)$this->app->user()->getAttribute('userId'));
             
             try {
                 $post = new Post($form->values());
-                $this->managers->getManagerOf('Post')->add($post);
+                !is_null($editedPost) ? $post->setId((int)$editedPost->id()): null;
+                $this->managers->getManagerOf('Post')->process($post);
 
                 return $this->app->httpResponse()->redirect('/post-' . $post->id());
                 
@@ -98,14 +99,84 @@ class PostsController extends Controller
             }
         } 
 
+        $pageTitle = is_null($editedPost)? 'Nouvelle offre' : $editedPost->title();
         $this->page->setTemplate('posts/redaction.twig');
 
         $this->page->addVars(array(
             'user' => $this->app->user(),
-            'title' => 'Nouvelle offre | YannsJobs',
+            'title' => $pageTitle . ' | YannsJobs',
             'values' => $form->values(),
             'errors' => $form->errors()
         ));
+    }
+    
+    public function executeCopy(HTTPRequest $request) {
+        $postId = (int)$request->getData('post');
+        $post = $this->managers->getManagerOf('Post')->getSingle($postId);
+        $member = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        $this->app->checkContentAccess($post, $member);
+        $values = array(
+            'title' => $post->title(),
+            'location' => $post->location(),
+            'content' => $post->content()
+        );
+        
+        $this->executePublication($request, $values);
+    }
+    
+    public function executeEdit(HTTPRequest $request) {
+        $postId = (int)$request->getData('post');
+        $post = $this->managers->getManagerOf('Post')->getSingle($postId);
+        $member = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        $this->app->checkContentAccess($post, $member);
+        $values = array(
+            'edition' => true,
+            'title' => $post->title(),
+            'location' => $post->location(),
+            'content' => $post->content()
+        );
+        
+        $this->executePublication($request, $values, $post);
+    }
+    
+    public function executeHide(HTTPRequest $request) {
+        $postId = (int)$request->getData('post');
+        $post = $this->managers->getManagerOf('Post')->getSingle($postId);
+        $member = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        
+        $this->app->checkContentAccess($post, $member);
+        
+        $errors = [];
+        
+        try {
+            $this->managers->getManagerOf('Post')->setExpired($post->id());
+        } catch (\Exception $e) {
+            $errors[] = $e->getMessage();
+        }
+        
+        $this->executeShow($request, $errors);
+    }
+    
+    public function executeDelete(HTTPRequest $request) {
+        $postId = (int)$request->getData('post');
+        $post = $this->managers->getManagerOf('Post')->getSingle($postId);
+        $member = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
+        
+        $this->app->checkContentAccess($post, $member);
+  
+        $errors = [];
+
+        try {
+            $resumes = new \framework\Files($this->managers->getManagerOf('Candidacy')->getResumeFileList(array( 'postId=' => $post->id())));
+            $resumes->delete();
+            $this->managers->getManagerOf('Post')->delete($post->id());           
+            return $this->app->httpResponse()->redirect('/recruiter/postslist/index-1');
+            
+        } catch (\Exception $e) {
+            $errors[] = $e->getMessage();
+        }
+        
+        $this->executeShow($request, $errors);
     }
 
     public function executeList(HTTPRequest $request) {
@@ -129,7 +200,7 @@ class PostsController extends Controller
         ));
     }
     
-    public function executeShow(HTTPRequest $request)
+    public function executeShow(HTTPRequest $request, array $errors = [])
     {
         $postId = (int)$request->getData('post');
 
@@ -148,12 +219,9 @@ class PostsController extends Controller
             'user' => $this->app->user(),
             'interface' => $interface,
             'post' => $post,
-            'title' => $post->title() . ' | YannsJobs'
+            'title' => $post->title() . ' | YannsJobs',
+            'errors'=> $errors
         ));
     }
     
-    public function executeUpdate(HTTPRequest $request)
-    {
-        
-    }
 }

@@ -14,6 +14,7 @@ function tinymce_getContent() {
 }
 
 function progressBar(e) {
+    e.stopPropagation();
     let textarea = e.currentTarget;
     let id, value, progress, color;
 
@@ -63,8 +64,22 @@ if ($('form.form-validation').length > 0 ) {
             e.preventDefault();
         };
     });
-
+    
     $('textarea').on('input', progressBar);
+    
+    setTimeout(function () {
+        $('textarea').trigger('input');
+    },500);
 }
 
 // Validation des formulaires avant envoi - FIN ---------------------------------------------------------------------
+
+// Evènements ponctuels sur éléments de page - DEBUT ---------------------------------------------------------------------
+
+$('.hard-confirm').on('click', function () {
+    if(window.confirm("Attention, cette action est irréversible !")){
+        return;
+    }
+});
+
+// Evènements ponctuels sur éléments de page - FIN ---------------------------------------------------------------------

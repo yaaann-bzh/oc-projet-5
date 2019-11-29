@@ -45,7 +45,7 @@ class CandidatesController extends Controller
             
             $location = '/' . $page . '-';
             
-            $num = is_null($index) ? '1' : $index;
+            $num = (is_null($index) OR empty($index)) ? '1' : $index;
 
             $location .= $num;
             
@@ -53,7 +53,7 @@ class CandidatesController extends Controller
                 $location .= '/' . $ext . '-' . $post->id();
 
             }
-            var_dump($location);
+
             return $this->app->httpResponse()->redirect($location);
         }
         

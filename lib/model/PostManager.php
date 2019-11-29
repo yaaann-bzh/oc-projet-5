@@ -58,6 +58,14 @@ class PostManager extends \framework\Manager
         }
         return null;  
     }
+    
+    public function process(Post $post) {
+        if ($post->id() !== null) {
+            $this->update($post);
+        } else {
+            $this->add($post);
+        }
+    }
 
     public function add(Post $post)
     {
@@ -75,28 +83,33 @@ class PostManager extends \framework\Manager
 
         $post->setId((int)$this->dao->lastInsertId());
     }
-
-    public function update($id, $title, $content)
-    {
-        $sql = 'UPDATE ' . $this->table . ' SET title = :title, content = :content, updateDate = NOW() WHERE id = :id';
-
-        $q = $this->dao->prepare($sql);
+    
+    public function update(Post $post) {
+        $sql = 'UPDATE ' . $this->table . ' SET location = :location, title = :title, content = :content WHERE id = :id';
         
-        $q->bindValue(':title', $title);
-        $q->bindValue(':content', $content);
-        $q->bindValue(':id', $id, \PDO::PARAM_INT);
+        $req = $this->dao->prepare($sql);
+        
+        $req->bindValue(':location', $post->location());
+        $req->bindValue(':title', $post->title());
+        $req->bindValue(':content', $post->content());
+        $req->bindValue(':id', $post->id(), \PDO::PARAM_INT);
 
-        $q->execute();
+        $req->execute();
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         $sql = 'DELETE FROM ' . $this->table . ' WHERE id = '.(int) $id;
         $this->dao->exec($sql);
     }
+    
+    public function setExpired($id) {
+        $sql = 'UPDATE ' . $this->table . ' SET expirationDate = DATE_SUB(NOW(), interval 1 HOUR) WHERE id = :id';       
+        $req = $this->dao->prepare($sql);
+        $req->bindValue(':id', $id, \PDO::PARAM_INT);
+        $req->execute();
+    }
 
-    public function getIdList()
-    {
+    public function getIdList() {
         $sql = 'SELECT id FROM ' . $this->table;
         $req = $this->dao->query($sql);
         $req->setFetchMode(\PDO::FETCH_ASSOC);

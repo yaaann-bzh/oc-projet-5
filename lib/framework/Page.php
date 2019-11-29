@@ -26,6 +26,7 @@ class Page extends ApplicationComponent
         ]);
         $this->twig->addGlobal('session', $_SESSION);
         $this->twig->addExtension(new Extension());
+        $this->twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('Europe/Paris');
         $this->twig->addExtension(new IntlExtension());
         $this->twig->addExtension(new DebugExtension());
     }

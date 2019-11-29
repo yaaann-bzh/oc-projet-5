@@ -9,10 +9,13 @@
                     {% if candidacy.candidate.phone is not null %}
                         ">{{ candidacy.candidate.phone }}
                     {% else %}
-                        text-muted">non communiqué
+                        text-muted">NC
                     {% endif %}
                     </span>
                 </p>
+                {% if candidacy.resumeFile is null %}
+                    <p class="mb-0"><em>Ce candidat n'a pas fourni de CV</em></p>
+                {% endif %}
             </div>
         </div>
         <div class="">
@@ -20,7 +23,10 @@
             <button class="m-2 btn btn-outline-info" type="button" data-toggle="collapse" data-target="#cover-{{ candidacy.id }}" aria-controls="cover-{{ candidacy.id }}" aria-expanded="false" aria-label="Toggle" title="Lettre motivation">
                 <i class="far fa-file-alt"></i>
             </button>
-            <a href="/recruiter/candidacies-{{ candidacy.postId }}/resume-{{ candidacy.id }}" title="Curriculum Vitae" class="m-2 btn btn-outline-primary" role="button">
+            <a href="/recruiter/candidacies-{{ candidacy.postId }}/resume-{{ candidacy.id }}" 
+               title="Curriculum Vitae" 
+               class="m-2 btn btn-outline-primary {% if candidacy.resumeFile is null %} d-none {% endif %}" 
+               role="button">
                 <i class="far fa-id-card"></i>
             </a>
             {% if candidacy.isRead %}

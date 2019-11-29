@@ -12,6 +12,7 @@
             </h3>
             <p class="m-0">{{ post.location }}</p>
         </div>
+        <p class="m-0 lead">{{ post.recruiterName }}</p>
         <small>
             Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} 
             {% if post.expirationDate > date() %}

@@ -4,7 +4,13 @@
     <section class="container">
         <div class="row">
             <div class="col-12 offset-md-1 col-md-10">
-                <h1 class="h2">Nouvelle annonce</h1>
+                <h1 class="h2">
+                    {% if values.edition is not defined %}
+                        Nouvelle annonce
+                    {% else %}
+                        Modification de l'annonce
+                    {% endif %}
+                </h1>
                 
                 <form method="post" id="post-add" action="" class="form-validation mb-3">
                     <div class="form-group">
@@ -15,15 +21,16 @@
                         <label for="location">Localisation du poste :</label>
                         <input class="form-control col-12 col-md-10 col-lg-8" type="text" name="location" id="location" value="{{ values.location }}">
                     </div>
-                    <div class="form-group">
-                        <label for="duration">Durée de visibilité</label>
-                        <select class="custom-select d-block col-md-5 col-lg-3" name="duration" id="duration" >
-                            <option value="1">1 mois</option>
-                            <option value="2">2 mois</option>
-                            <option value="3">3 mois</option>
-                        </select>
-                    </div>
-
+                    {% if values.edition is not defined %}
+                        <div class="form-group">
+                            <label for="duration">Durée de visibilité</label>
+                            <select class="custom-select d-block col-md-5 col-lg-3" name="duration" id="duration" >
+                                <option value="1">1 mois</option>
+                                <option value="2">2 mois</option>
+                                <option value="3">3 mois</option>
+                            </select>
+                        </div>
+                    {% endif %}
 
                     <div class="form-group">
                         <label for="content">Texte de l'annonce :</label>

@@ -127,5 +127,28 @@ class CandidacyManager extends \framework\Manager
         $sql = 'DELETE FROM ' . $this->table . ' WHERE id = '.(int) $id;
         $this->dao->exec($sql);
     }
+    
+    public function getResumeFileList($filters = []) {
+
+        $sql = 'SELECT resumeFile FROM ' . $this->table;
+        
+        if (!empty($filters)) {
+            $sql .= ' WHERE ';
+            foreach ($filters as $key => $filter) {
+                $sql .= $key . $filter . ' AND ';
+            }
+            $sql = substr($sql, 0, -5);
+        }
+        
+
+        $req = $this->dao->query($sql);
+        $req->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $list = $req->fetchAll(\PDO::FETCH_COLUMN, 0);
+        var_dump($list);
+        $req->closeCursor();
+        
+        return $list;          
+    }
 }
 

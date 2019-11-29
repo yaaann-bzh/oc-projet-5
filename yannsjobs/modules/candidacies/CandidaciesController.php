@@ -122,8 +122,13 @@ class CandidaciesController extends Controller
         
         $file = substr($candidacy->resumeFile(), $lastSlashPos+1);
         
-        $fileDownload = \Apfelbox\FileDownload\FileDownload::createFromFilePath($candidacy->resumeFile());
-        $fileDownload->sendDownload($file);
+        if (file_exists($candidacy->resumeFile())) {
+            $fileDownload = \Apfelbox\FileDownload\FileDownload::createFromFilePath($candidacy->resumeFile());
+            $fileDownload->sendDownload($file);
+        } else {
+            $this->app->httpResponse()->redirect404();
+        }
+
         
     }
 }

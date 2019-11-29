@@ -1,12 +1,13 @@
+<p class="m-0 lead">{{ post.recruiterName }}</p>
 <h3 class="m-0">{{ post.title }}</h3>
-<p class="mb-0 lead">{{ post.location }}</p>
+<p class="mb-0">{{ post.location }}</p>
 
-<p class="mb-0">Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} </p> 
-<p class="
+<p class="mb-0 font-italic">Publiée le {{ post.addDate | format_datetime('medium', 'none', locale='fr')}} </p> 
+<p class=" 
     {% if post.expirationDate < date() %} 
         badge badge-danger"> Terminée depuis le 
     {% else %}
-        ">Jusqu'au  
+        font-italic">Jusqu'au  
     {% endif %}
     {{ post.expirationDate | format_datetime('medium', 'none', locale='fr')}}</p>
 

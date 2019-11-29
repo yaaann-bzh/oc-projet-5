@@ -65,7 +65,6 @@ class SavedPostManager extends \framework\Manager
     public function delete(int $candidateId, int $postId) {
         
         $sql = 'DELETE FROM ' . $this->table . ' WHERE candidateId = ' . $candidateId . ' AND postId = ' . $postId;
-        var_dump($sql);
         $this->dao->exec($sql);
  
     }

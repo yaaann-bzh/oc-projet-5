@@ -11,6 +11,11 @@
     <route url="/recruiter/edit-profile" module="recruiters" action="edit"></route>
     <route url="/recruiter/edit-password" module="recruiters" action="password"></route>
     <route url="/recruiter/publication" module="posts" action="publication"></route>
+    <route url="/recruiter/post-([0-9]+)/edit" module="posts" action="edit" vars="post"></route>
+    <route url="/recruiter/post-([0-9]+)/copy" module="posts" action="copy" vars="post"></route>
+    <route url="/recruiter/post-([0-9]+)/hide" module="posts" action="hide" vars="post"></route>
+    <route url="/recruiter/post-([0-9]+)/delete" module="posts" action="delete" vars="post"></route>
+
     <route url="/recruiter/candidacies/index-([0-9]+)" module="candidacies" action="list" vars="index"></route>
     <route url="/recruiter/candidacies/post-([0-9]+)/index-([0-9]+)" module="candidacies" action="listByPost" vars="post,index"></route>
     <route url="/recruiter/postslist/index-([0-9]+)" module="posts" action="list" vars="index"></route>
