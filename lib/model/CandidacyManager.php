@@ -145,7 +145,6 @@ class CandidacyManager extends \framework\Manager
         $req->setFetchMode(\PDO::FETCH_ASSOC);
 
         $list = $req->fetchAll(\PDO::FETCH_COLUMN, 0);
-        var_dump($list);
         $req->closeCursor();
         
         return $list;          

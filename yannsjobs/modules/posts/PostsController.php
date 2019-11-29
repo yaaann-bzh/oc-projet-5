@@ -6,37 +6,44 @@ use entity\Post;
 use framework\Pager;
 use framework\HTTPRequest;
 use framework\Form;
+use framework\Search;
 
 
 class PostsController extends Controller
 {
     public function executeIndex(HTTPRequest $request)
-    {
-        $filters['expirationDate'] = '>NOW()';
-        $posts = $this->managers->getManagerOf('Post')->getList($filters);
-
-        $pager = new Pager($this->app(), $posts);
-        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
+    {        
+        $search = new Search (array(            
+            'title' => $request->postData('titleSearch'),
+            'location' => $request->postData('locationSearch')
+        ));
         
-        if ($this->app->user()->getAttribute('role') === 'candidate') {
-            
+        $search->setFilter('expirationDate', '>NOW()');
+        
+        $postsId = $this->managers->getManagerOf('Post')->getIdList('addDate DESC', $search->filters(), $search->search());
+
+        $pager = new Pager($this->app(), $postsId, (int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
+
+        $posts = $pager->getEntities($this->managers->getManagerOf('Post'));
+        foreach ($posts as $post) {
+            $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
+        }      
+        
+        if ($this->app->user()->getAttribute('role') === 'candidate') {   
             $savedPosts = $this->managers->getManagerOf('SavedPost')->getPostIdList($this->app->user()->getAttribute('userId'));
-            foreach ($pager->list() as $post) {
+            foreach ($posts as $post) {
                 $post->setSaved(in_array($post->id(), $savedPosts));
                 $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($this->app->user()->getAttribute('userId'), $post->id()));
             }
-        }
-
-        foreach ($pager->list() as $post) {
-            $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
         }
 
         $this->page->setTemplate('home.twig');
 
         $this->page->addVars(array(
             'pagination' => $pager->pagination(),
+            'search' => $search->search(),
             'user' => $this->app->user(),
-            'postsList' => $pager->list(),
+            'postsList' => $posts,
             'activePost' => $request->getData('post'),
             'title' => 'Accueil | YannsJobs',
             'errors' => $pager->errors()
@@ -45,24 +52,22 @@ class PostsController extends Controller
     
     public function executeSavedList(HTTPRequest $request)
     {
-        $posts = [];
+        $savedPostsIds = [];
         $errors = [];
         $candidate = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
 
         if ($candidate !== null) {
-            $savedPosts = $this->managers->getManagerOf('SavedPost')->getList(array('candidateId' => '=' . $candidate->id()));
-            foreach ($savedPosts as $savedPost) {
-                $posts[] = $this->managers->getManagerOf('Post')->getSingle($savedPost->postId());
-            }
+            $savedPostsIds = $this->managers->getManagerOf('SavedPost')->getIdList('', array('candidateId' => '=' . $candidate->id()));
         } else {
             $errors[] = 'Impossible de trouver le profil de candidat demandé,';
             $errors[] = 'Contactez l\'administrateur.';
         }
         
-        $pager = new Pager($this->app(), $posts);
-        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
+        $pager = new Pager($this->app(), $savedPostsIds, (int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
        
-        foreach ($pager->list() as $post) {
+        $posts = $pager->getEntities($this->managers->getManagerOf('Post'));
+        
+        foreach ($posts as $post) {
             $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
             $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($candidate->id(), $post->id()));
         }
@@ -72,7 +77,7 @@ class PostsController extends Controller
         $this->page->addVars(array(
             'pagination' => $pager->pagination(),
             'user' => $this->app->user(),
-            'postsList' => $pager->list(),
+            'postsList' => $posts,
             'title' => 'Offres sauvegardées | YannsJobs',
             'errors' => array_merge($pager->errors(), $errors)
         ));
@@ -186,8 +191,7 @@ class PostsController extends Controller
         
         $posts = $this->managers->getManagerOf('Post')->getList($filters);
 
-        $pager = new Pager($this->app(), $posts);
-        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
+        $pager = new Pager($this->app(), $posts, (int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
 
         $this->page->setTemplate('posts/posts_list.twig');
 

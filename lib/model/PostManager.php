@@ -109,17 +109,5 @@ class PostManager extends \framework\Manager
         $req->execute();
     }
 
-    public function getIdList() {
-        $sql = 'SELECT id FROM ' . $this->table;
-        $req = $this->dao->query($sql);
-        $req->setFetchMode(\PDO::FETCH_ASSOC);
-        $res = $req->fetchAll();
-        $idList = [];
-        foreach ($res as $id) {
-            $idList[] = (int)$id['id'];
-        }
-        return $idList;
-    }
-
 }
 

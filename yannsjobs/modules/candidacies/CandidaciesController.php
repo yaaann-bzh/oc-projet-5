@@ -68,8 +68,7 @@ class CandidaciesController extends Controller
             $errors[] = 'Contactez l\'administrateur.';
         }
         
-        $pager = new Pager($this->app(), $posts);
-        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
+        $pager = new Pager($this->app(), $posts, (int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
 
         $this->page->setTemplate('candidacies/list.twig');
 
@@ -97,8 +96,7 @@ class CandidaciesController extends Controller
             $candidacy->setCandidate($this->managers->getManagerOf('Member')->getSingle($candidacy->candidateId()));
         }
         
-        $pager = new Pager($this->app(), $candidacies);
-        $pager->setListPagination((int)$request->getData('index'), $this->app->config()->get('display', 'nb_candidacies'));
+        $pager = new Pager($this->app(), $candidacies, (int)$request->getData('index'), $this->app->config()->get('display', 'nb_candidacies'));
 
         $this->page->setTemplate('candidacies/list.twig');
 

@@ -56,5 +56,31 @@ abstract class Manager
         $sql = 'SELECT id FROM ' . $this->table . ' WHERE ' . $key . '="' . $var . '"';
         return $this->dao->query($sql)->fetchColumn();
     }
+    
+    public function getIdList(string $order = '', array $filters = [], array $search = []) {
+
+        $sql = 'SELECT * FROM ' . $this->table;
+        
+        if (!empty($filters) || !empty($search)) {
+            $sql .= ' WHERE ';
+            foreach ($filters as $key => $filter) {
+                $sql .= $key . $filter . ' AND ';
+            }
+            foreach ($search as $key => $value) {
+                $sql .= 'LOWER(' . $key . ') REGEXP \'' . $value . '\' AND ';
+            }
+            $sql = substr($sql, 0, -5);
+        }
+           
+        !empty($order) ? $sql .= ' ORDER BY ' . $order : null;
+
+        $req = $this->dao->query($sql);
+        $req->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $list = $req->fetchAll(\PDO::FETCH_COLUMN, 0);
+        $req->closeCursor();
+        
+        return $list;  
+    }
 
 }

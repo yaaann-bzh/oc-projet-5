@@ -13,12 +13,13 @@ class Pager extends ApplicationComponent
     protected $list;
     protected $errors = [];
 
-    public function __construct(Application $app, $entities)
+    public function __construct(Application $app, $entities, int $currentPage, $maxPerPage)
     {
         parent::__construct($app);
 
         $this->adapter = new ArrayAdapter($entities);
         $this->pagerfanta = new Pagerfanta($this->adapter);
+        $this->setListPagination($currentPage, $maxPerPage);
     }
 
     public function setListPagination($currentPage, $maxPerPage)
@@ -52,36 +53,13 @@ class Pager extends ApplicationComponent
         $this->setList();
     }
     
-    public function setSinglePagination(string $entity, $id, $maxPerPage = 1) {
-
-        $this->pagerfanta->setMaxPerPage($maxPerPage);
-        if ($this->pagerfanta->haveToPaginate()) {
-            $this->pagination = array(
-                'previous' => '#',
-                'next' => '#',
-                'total' => $this->pagerfanta->getNbPages()
-            );
-
-            if ((int)$id !== 0) {
-                try {
-                    foreach ($this->adapter->getArray() as $key => $object) {
-                        if ((int)$object->id() === $id) {
-                            $this->pagerfanta->setCurrentPage($key + 1);
-                        }
-                    }
-                    $this->pagination['current'] = $this->pagerfanta->getCurrentPage();
-                } catch (\Exception $e) {
-                    $this->errors[] = $e->getMessage();
-                }
-            }
-
-            if ($this->pagerfanta->hasPreviousPage()) {
-                $this->pagination['previous'] = $entity . '-' . $this->adapter->getArray()[$this->pagerfanta->getCurrentPage() - 2]->id();
-            }
-            if ($this->pagerfanta->hasNextPage()) {
-                $this->pagination['next'] = $entity . '-' . $this->adapter->getArray()[$this->pagerfanta->getCurrentPage()]->id();
-            }
-        }
+    public function getEntities(Manager $manager) {
+        $list = [];
+        foreach ($this->list() as $postId) {
+            $entity = $manager->getSingle($postId);
+            !is_null($entity) ? $list[] = $entity : null;
+        }  
+        return $list;
     }
 
     public function setList()

@@ -4,6 +4,7 @@
     <section class="container">
         <div class="row">
             <div class="col-12 col-md-6">
+                {% include 'posts/_search_bar.twig' %}
                 {% include('pagination/_pagination.twig') %}
 
                 {% if postsList is empty %}
