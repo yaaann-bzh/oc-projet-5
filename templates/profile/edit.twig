@@ -5,11 +5,14 @@
         <div class="col-12 col-md-8 offset-md-2">
             <h1 class="h3 mb-3">Mettre à jour mes informations</h1>
             <form method="post" id="member-add" action="" class="form-validation mb-5">
-                {% include 'forms/_lastname_firstname.twig' %}
-
-                {% include 'forms/_email.twig' %}
+                {% if session.role is same as('recruiter') %}
+                    {% include 'forms/_username.twig' %}
+                {% else %}
+                    {% include 'forms/_lastname_firstname.twig' %}
+                    {% include 'forms/_phone.twig' %}
+                {% endif %}
                 
-                {% include 'forms/_phone.twig' %}
+                {% include 'forms/_email.twig' %}
                 
                 {% include 'forms/_pass_control.twig' %}
                 

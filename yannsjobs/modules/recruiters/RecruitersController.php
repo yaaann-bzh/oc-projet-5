@@ -7,6 +7,8 @@ use framework\HTTPRequest;
 
 class RecruitersController extends Controller
 {
+    use \framework\MemberEditor;
+    
     public function executeProfile(HTTPRequest $httpRequest) {
         $posts = [];
         $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
@@ -37,5 +39,11 @@ class RecruitersController extends Controller
             'errors' => isset($errors) ? $errors : null
         )); 
     }
+    
+    public function executeEditRecruiter(HTTPRequest $request) {
+        $inputs = $this->app->config()->getFormConfigJSON('inputs', ['username', 'email', 'passControl']);
+        
+        $this->executeEditProfile($request, $inputs);
+    } 
     
 }

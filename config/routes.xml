@@ -8,7 +8,7 @@
     <route url="/inscription/?(recruiter|candidate)?" module="connexion" action="inscription" vars="role"></route>
    
     <route url="/recruiter/profile" module="recruiters" action="profile"></route>
-    <route url="/recruiter/edit-profile" module="recruiters" action="editProfile"></route>
+    <route url="/recruiter/edit-profile" module="recruiters" action="editRecruiter"></route>
     <route url="/recruiter/edit-password" module="recruiters" action="editPassword"></route>
     <route url="/recruiter/publication" module="posts" action="publication"></route>
     <route url="/recruiter/post-([0-9]+)/edit" module="posts" action="edit" vars="post"></route>
@@ -22,7 +22,7 @@
     <route url="/recruiter/candidacies-([0-9]+)/resume-([0-9]+)" module="candidacies" action="download" vars="post,candidacy"></route>
     
     <route url="/candidate/profile" module="candidates" action="profile"></route>
-    <route url="/candidate/edit-profile" module="candidates" action="editProfile"></route>
+    <route url="/candidate/edit-profile" module="candidates" action="editCandidate"></route>
     <route url="/candidate/edit-password" module="candidates" action="editPassword"></route>
     <route url="/candidate/postslist/index-([0-9]+)" module="posts" action="savedList" vars="index"></route>
     <route url="/candidate/([a-z]+)-([0-9]+)/([a-z/]+)-?([0-9]+)?/?([a-z/]+)?" module="candidates" action="updateSavedPosts" vars="action,post,page,index,ext"></route>
