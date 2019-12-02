@@ -74,6 +74,28 @@ if ($('form.form-validation').length > 0 ) {
 
 // Validation des formulaires avant envoi - FIN ---------------------------------------------------------------------
 
+// Marquer une candidature Lue/non-lue - DEBUT ---------------------------------------------------------------------
+
+$('.readSet').on('click', function (e) {
+    let id = e.currentTarget.id.replace('readSet-', '');
+    ajaxGet('/recruiter/candidacy/change-status-' + id, function (reponse) {
+        $('#readSet-' + id).addClass('d-none');
+        $('#unreadSet-' + id).removeClass('d-none');
+        $('#item-' + id).addClass('text-muted bg-light');
+    });
+});
+
+$('.unreadSet').on('click', function (e) {
+    let id = e.currentTarget.id.replace('unreadSet-', '');
+    ajaxGet('/recruiter/candidacy/change-status-' + id, function (reponse) {
+        $('#unreadSet-' + id).addClass('d-none');
+        $('#readSet-' + id).removeClass('d-none');
+        $('#item-' + id).removeClass('text-muted bg-light');
+    });
+});
+
+// Marquer une candidature Lue/non-lue - FIN ---------------------------------------------------------------------
+
 // Evènements ponctuels sur éléments de page - DEBUT ---------------------------------------------------------------------
 
 $('.hard-confirm').on('click', function () {

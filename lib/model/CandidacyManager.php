@@ -149,5 +149,34 @@ class CandidacyManager extends \framework\Manager
         
         return $list;          
     }
+    
+    public function changeReadStatus($id) {
+        $select = 'SELECT isRead FROM ' . $this->table . ' WHERE id=:id';
+
+        $req = $this->dao->prepare($select);
+        $req->bindValue(':id', (int) $id, \PDO::PARAM_INT);
+        $req->execute();
+        
+        $status = $req->fetchColumn();
+        
+        switch ($status) {
+            case '1':
+                $isRead = '0';
+                break;
+            default:
+                $isRead = '1';
+                break;
+        }
+        
+        $sql = 'UPDATE ' . $this->table . ' SET isRead = :isRead WHERE id = :id';
+        var_dump($sql);
+        
+        $update = $this->dao->prepare($sql);
+        
+        $update->bindValue(':isRead', $isRead, \PDO::PARAM_INT);
+        $update->bindValue(':id', (int) $id, \PDO::PARAM_INT);
+
+        $update->execute();
+    }
 }
 

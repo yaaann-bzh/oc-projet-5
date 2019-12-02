@@ -125,8 +125,18 @@ class CandidaciesController extends Controller
             $fileDownload->sendDownload($file);
         } else {
             $this->app->httpResponse()->redirect404();
-        }
+        }        
+    }
+    
+    public function executeChangeStatus(HTTPRequest $request) {
+        $candidacy = $this->managers->getManagerOf('Candidacy')->getSingle((int)$request->getData('candidacy'));
+        $post = $this->managers->getManagerOf('Post')->getSingle($candidacy->postId());
+        $recruiter = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
 
+        $this->app->checkContentAccess($post, $recruiter);
         
+        $this->managers->getManagerOf('Candidacy')->changeReadStatus($candidacy->id());
+        
+        $this->app->httpResponse()->send204();
     }
 }
