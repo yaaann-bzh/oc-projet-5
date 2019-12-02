@@ -1,0 +1,12 @@
+<div class="row {% if role is same as('recruiter')%} d-none {% endif %}">
+    <div class="col-md-6 mb-3">
+        <label for="firstname">Prénom</label>
+        <input type="text" class="form-control" id="firstname" name="firstname" required 
+               value="{% if role is same as('recruiter')%} defaut {% else %}{{ values.firstname }}{% endif %}">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="lastname">Nom</label>
+        <input type="text" class="form-control" id="lastname" name="lastname" required 
+               value="{% if role is same as('recruiter')%} defaut {% else %}{{ values.lastname }}{% endif %}">
+    </div>
+</div>

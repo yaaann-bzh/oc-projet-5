@@ -1,0 +1,8 @@
+<div class="mb-3 {% if role is same as('recruiter')%} d-none {% endif %}">
+    <label for="phone" class="mb-0">Téléphone</label>
+        <small class="m-0 form-text text-muted">facultatif</small>
+    <input type="phone" 
+        class="form-control {% if errors.phone is defined %} border-danger  {% endif %}" 
+        id="phone" name="phone" placeholder="10 chiffres ou indicatif (+XX) & 9 chiffres " 
+        value="{{ values.phone }}">
+</div>

@@ -1,0 +1,7 @@
+<div class="mb-3">
+    <label for="email">E-mail</label>
+    <input type="email" 
+        class="form-control {% if errors.email is defined %} border-danger  {% endif %}" 
+        id="email" name="email" placeholder="you@example.com" required 
+        value="{{ values.email }}">
+</div>

@@ -4,6 +4,8 @@ namespace yannsjobs\modules\candidates;
 
 use framework\Controller;
 use framework\HTTPRequest;
+use framework\Form;
+
 
 class CandidatesController extends Controller
 {
@@ -58,5 +60,36 @@ class CandidatesController extends Controller
         }
         
         $this->app->httpResponse()->redirect404();
-    }    
+    }
+    
+    public function executeEditProfile(HTTPRequest $request) {
+        $candidateManager = $this->managers->getManagerOf('Member');
+        $candidate = $candidateManager->getSingle($this->app->user()->getAttribute('userId'));             
+        $inputs = $this->app->config()->getFormConfigJSON('inputs', ['lastname', 'firstname', 'phone', 'email', 'passControl']);
+        
+        $form = new Form($inputs);
+        $form->getValues($candidate);
+        
+        if ($request->postExists('submit') AND $form->isValid($request, $candidateManager, $candidate->id())) {
+            
+            try {
+                $form->unsetValues('passControl');
+                $candidateManager->update($candidate->id(), $form->values());
+
+                return $this->app->httpResponse()->redirect('/candidate/profile');
+                
+            } catch (\Exception $e) {
+                $form->setErrors('',  $e->getMessage());
+            }
+        }
+        
+        $this->page->setTemplate('profile/edit.twig');
+
+        $this->page->addVars(array(
+            'user' => $this->app->user(),
+            'title' => 'Mettre à jour | YannsJobs',
+            'values' => isset($form) ? $form->values() : null,
+            'errors' => $form->errors()
+        ));
+    }
 }

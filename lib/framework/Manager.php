@@ -51,9 +51,14 @@ abstract class Manager
     }
    
     
-    public function getId($key, $var)
+    public function getId($key, $var, int $exclId = 0)
     {
         $sql = 'SELECT id FROM ' . $this->table . ' WHERE ' . $key . '="' . $var . '"';
+        
+        if ($exclId > 0) {
+            $sql .= ' AND id!=' . $exclId;
+        }
+        
         return $this->dao->query($sql)->fetchColumn();
     }
     
@@ -92,5 +97,6 @@ abstract class Manager
         
         return $list;  
     }
+    
 
 }

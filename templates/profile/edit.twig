@@ -1,0 +1,21 @@
+{% extends 'default/default.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-12 col-md-8 offset-md-2">
+            <h1 class="h3 mb-3">Mettre à jour mes informations</h1>
+            <form method="post" id="member-add" action="" class="form-validation mb-5">
+                {% include 'forms/_lastname_firstname.twig' %}
+
+                {% include 'forms/_email.twig' %}
+                
+                {% include 'forms/_phone.twig' %}
+                
+                {% include 'forms/_pass_control.twig' %}
+                
+                <input type="submit" class="btn btn-primary btn-lg mb-5" type="submit" name="submit" value="Appliquer">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

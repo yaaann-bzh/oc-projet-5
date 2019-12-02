@@ -2,7 +2,7 @@
 
 namespace framework;
 
-class Form{
+class Form extends ApplicationComponent{
 
     protected $inputs;
     protected $values = [];
@@ -16,7 +16,7 @@ class Form{
         $this->values = $values;
     }
     
-    public function isValid(HTTPRequest $request, Manager $manager = null) {
+    public function isValid(HTTPRequest $request, Manager $manager = null, int $userId = 0) {
         foreach ($this->inputs as $key => $input) {
             $methode = '';
             if($request->postExists($key)) {  
@@ -32,7 +32,7 @@ class Form{
             }
             
             if ($input['uniq'] AND !empty($value)){
-                $this->checkExists($manager, $key, $value);
+                $this->checkExists($manager, $key, $value, $userId);
             }
 
             if (is_callable([$this, $methode])) {
@@ -68,7 +68,7 @@ class Form{
     }
     
     public function loginCheck($key, array $input, string $value) {
-        $keyMod = substr($key, 0, -5);
+        $keyMod = str_replace('Login', '', $key);
         if (strlen($value) < $input['min'] OR strlen($value) > $input['max']) {
             $this->errors[$keyMod] = "Identifiant ou mot de passe incorrect";
         } else {
@@ -83,6 +83,8 @@ class Form{
             } else {
                 $this->values[$key] = $value;
             }
+        } else {
+            $this->values[$key] = null;
         }
     }
     
@@ -168,15 +170,31 @@ class Form{
         return null;
     }
     
-    public function checkExists(Manager $manager, string $key, string $value) {
-        $id = $manager->getId($key, $value);
+    public function passwordVerify(int $id, Manager $manager) {
+        
+    }
+    
+    public function checkExists(Manager $manager, string $key, string $value, int $userId) {
+        $id = $manager->getId($key, $value, $userId);
         if ($id){
             $this->errors[$key] = 'Il existe déjà une entrée ' . $value;
         }
     }
     
+    public function getValues($entity) {
+        foreach ($this->inputs as $input => $standards) {
+            if(is_callable([$entity, $input])) {
+                $this->values[$input] = $entity->$input();
+            }
+        }
+    }
+    
     public function setValues(string $key, $value) {
         $this->values[$key] = $value;
+    }
+    
+    public function unsetValues(string $key) {
+        unset($this->values[$key]);
     }
     
     public function setErrors(string $key, $message) {

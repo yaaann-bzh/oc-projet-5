@@ -108,7 +108,7 @@ class Form {
         
         let regex = new RegExp(standard.regex.substring(1, standard.regex.length-1));
         
-        if (!regex.test(input.value)){
+        if (!regex.test(input.value) && input.value.length > 0){
             return  message;
         }
     }

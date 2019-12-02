@@ -9,7 +9,8 @@
                             <h2>{{ candidate.username }}</h2>
                             <p class="mb-0">Nom : {{ candidate.lastname }}</p>
                             <p class="mb-0">Prénom : {{ candidate.firstname }}</p>
-                            <p>{{ candidate.email }}</p>
+                            <p class="mb-0">{{ candidate.email }}</p>
+                            <p>Téléphone : {% if candidate.phone is not null %}{{ candidate.phone }} {% else %} NC {% endif %}</p>
                             <p>Inscrit depuis le : <strong class="ml-2">{{ candidate.inscriptionDate | format_datetime('medium', 'none', locale='fr')}}</strong></p>
                         </div>
                     </div>

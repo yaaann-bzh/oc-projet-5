@@ -92,7 +92,11 @@ class Member
 
     public function setPhone($phone)
     {
-        if (!is_string($phone) || empty($phone))
+        if(is_null($phone)){
+            $this->phone = null;
+        }
+        
+        if (!is_string($phone))
         {
             throw new \Exception('Numéro de téléphone invalide');
         }

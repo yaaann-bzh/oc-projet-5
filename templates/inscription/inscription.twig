@@ -5,68 +5,15 @@
         <div class="col-12 col-md-8 offset-md-2">
             <h1 class="h3 mb-3">Inscription</h1>
             <form method="post" id="member-add" action="" class="form-validation mb-5">
-                <div class="row {% if role is same as('recruiter')%} d-none {% endif %}">
-                    <div class="col-md-6 mb-3">
-                        <label for="firstname">Prénom</label>
-                        <input type="text" class="form-control" id="firstname" name="firstname" required 
-                               value="{% if role is same as('recruiter')%} defaut {% else %}{{ form.values.firstname }}{% endif %}">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="lastname">Nom</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname" required 
-                               value="{% if role is same as('recruiter')%} defaut {% else %}{{ form.values.lastname }}{% endif %}">
-                    </div>
-                </div>
+                {% include 'forms/_lastname_firstname.twig' %}
 
-                <div class="mb-3">
-                    <label for="username" 
-                    {% if role is same as('recruiter')%}
-                        >Nom de la société</label>
-                    {% else %}
-                        class="mb-0">Pseudo</label>
-                        <small class="m-0 form-text text-muted">Ce champ ne sera pas visible des recruteurs</small>
-                    {% endif %}
-                    <input type="text" 
-                        class="form-control {% if errors.pseudo is defined %} border-danger  {% endif %}" 
-                        id="username" name="username" required 
-                        value="{{ form.values.username }}">
-                </div>
+                {% include 'forms/_username.twig' %}
 
-                <div class="mb-3">
-                    <label for="email">E-mail</label>
-                    <input type="email" 
-                        class="form-control {% if errors.email is defined %} border-danger  {% endif %}" 
-                        id="email" name="email" placeholder="you@example.com" required 
-                        value="{{ form.values.email }}">
-                </div>
-
-                <div class="mb-3 {% if role is same as('recruiter')%} d-none {% endif %}">
-                    <label for="phone" class="mb-0">Téléphone</label>
-                        <small class="m-0 form-text text-muted">facultatif</small>
-                    <input type="phone" 
-                        class="form-control {% if errors.phone is defined %} border-danger  {% endif %}" 
-                        id="phone" name="phone" placeholder="10 chiffres ou indicatif (+XX) & 9 chiffres " 
-                        value="{{ form.values.phone }}">
-                </div>
-
-                <div class="mb-3">
-                    <label for="pass">Mot de passe</label>
-                    <input type="password" class="form-control {% if errors.pass_same is defined %} border-danger  {% endif %}" id="pass" name="pass" required>
-                    <small class="form-text info-compl {% if errors.pass_secu is defined %} text-danger {% else %} text-muted {% endif %}">
-                        <p class="m-0">Votre mot de passe doit contenir au minimum :</p>
-                        <ul>
-                            <li>8 caractères</li>
-                            <li>1 minuscule et 1 majuscule</li>
-                            <li>1 chiffre</li>
-                            <li>1 caractère spécial</li>
-                        </ul>
-                    </small>
-                </div>
-
-                <div class="mb-3">
-                    <label for="confirm">Confirmation du mot de passe</label>
-                    <input type="password" class="form-control {% if errors.pass_same is defined %} border-danger {% endif %}" id="confirm" name="confirm" required>
-                </div>
+                {% include 'forms/_email.twig' %}
+                
+                {% include 'forms/_phone.twig' %}
+                
+                {% include 'forms/_pass.twig' %}
 
                 <div class="custom-control custom-checkbox mb-3">
                     <input type="checkbox" class="custom-control-input form-control" id="agree" name="agree" value="agree" required>

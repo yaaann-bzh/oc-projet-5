@@ -187,4 +187,5 @@ class MemberManager extends \framework\Manager
             $this->update($member->id(), array('savedPosts' => $saved));
         }
     } 
+    
 }

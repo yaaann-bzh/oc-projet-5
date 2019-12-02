@@ -1,0 +1,13 @@
+<div class="mb-3">
+    <label for="username" 
+    {% if role is same as('recruiter')%}
+        >Nom de la société</label>
+    {% else %}
+        class="mb-0">Pseudo</label>
+        <small class="m-0 form-text text-muted">Ce champ ne sera pas visible des recruteurs</small>
+    {% endif %}
+    <input type="text" 
+        class="form-control {% if errors.pseudo is defined %} border-danger  {% endif %}" 
+        id="username" name="username" required 
+        value="{{ values.username }}">
+</div>
