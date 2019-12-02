@@ -92,4 +92,34 @@ class CandidatesController extends Controller
             'errors' => $form->errors()
         ));
     }
+    
+    public function executeEditPassword(HTTPRequest $request) {
+        $candidateManager = $this->managers->getManagerOf('Member');
+        $candidate = $candidateManager->getSingle($this->app->user()->getAttribute('userId'));             
+        $inputs = $this->app->config()->getFormConfigJSON('inputs', ['pass', 'confirm', 'passControl']);
+        
+        $form = new Form($inputs);
+        
+        if ($request->postExists('submit') AND $form->isValid($request, $candidateManager)) {
+            
+            try {
+                $form->unsetValues('passControl');
+                $candidateManager->update($candidate->id(), $form->values());
+
+                return $this->app->httpResponse()->redirect('/candidate/profile');
+                
+            } catch (\Exception $e) {
+                $form->setErrors('',  $e->getMessage());
+            }
+        }
+        
+        $this->page->setTemplate('profile/edit_password.twig');
+
+        $this->page->addVars(array(
+            'user' => $this->app->user(),
+            'title' => 'Mot de passe | YannsJobs',
+            'errors' => $form->errors()
+        ));
+    }   
+    
 }
