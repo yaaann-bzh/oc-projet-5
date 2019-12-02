@@ -2,6 +2,12 @@
 
 let homepage = new Homepage('post-items', 'post-view');
 
+$('.close-view').on('click', function (e) {
+    let id = e.target.id.replace('close-', '');
+    $('#post-item-list').css('visibility', 'visible');
+    $('#post-view-' + id).css('display', 'none');
+});
+
 //Règles affichage liste et posts sur la page d'accueil - FIN --------------------------------------------------------------------
 
 

@@ -25,6 +25,9 @@ class Homepage {
         item.classList.add('active');
         let id = item.id.replace('item', 'view');
         homepage.showPost(id);
+        if (window.innerWidth < 768) {
+            $('#post-item-list').css('visibility', 'hidden');
+        }
     }
     
     showPost(id) {

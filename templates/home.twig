@@ -3,7 +3,7 @@
 {% block content %}
     <section class="container">
         <div class="row">
-            <div class="col-12 col-md-6">
+            <div id="post-item-list" class="col-12 col-md-6">
                 {% include 'posts/_search_bar.twig' %}
                 {% include('pagination/_pagination.twig') %}
 
@@ -43,6 +43,7 @@
 
             <div id="post-container" class="container">
                 <div class="row position-relative">
+                    <a href="#" id="hidden" class="d-none"></a>
                     {% for post in postsList %}
                         <div id="post-view-{{ post.id }}" class="col-12 col-md-6 offset-md-6 post-view position-absolute" {% if post.id is same as(activePost) %}{{ 'style="display:block;"' }}{% endif %}>
                             <div class="border-bottom border-success p-3 bg-white">
@@ -51,7 +52,10 @@
                                         <img alt="profile_pict_picture" class="thumbnail mr-3 mt-2" src="/assets/profile_pic/profile_pict_{{ post.recruiterId }}.png">
                                     {% endif %}                                    
                                     <div class="m-0 flex-fill">
-                                        <p class="mb-0"><strong>{{ post.recruiterName }}</strong> - {{ post.location }}</p>
+                                        <div class="m-0 d-flex">
+                                            <p class="mb-0 flex-fill"><strong>{{ post.recruiterName }}</strong> - {{ post.location }}</p>
+                                            <small class="mb-0 d-md-none close-view"><a href="#hidden" id="close-{{ post.id }}">Fermer</a></small>
+                                        </div>
                                         <h3 class="m-0">{{ post.title }}</h3>
                                     </div>
                                 </div>
