@@ -12,15 +12,15 @@ use framework\Search;
 class PostsController extends Controller
 {
     public function executeIndex(HTTPRequest $request)
-    {        
+    {    
         $search = new Search (array(            
             'title' => $request->postData('titleSearch'),
             'location' => $request->postData('locationSearch')
         ));
-        
+
         $search->setFilter('expirationDate', '>NOW()');
         
-        $postsId = $this->managers->getManagerOf('Post')->getIdList('addDate DESC', $search->filters(), $search->search());
+        $postsId = $this->managers->getManagerOf('Post')->getIdList('addDate DESC', $search->filters(), $search->search(), $search->charsReplace());
 
         $pager = new Pager($this->app(), $postsId, (int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
 

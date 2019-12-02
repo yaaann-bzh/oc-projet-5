@@ -57,21 +57,31 @@ abstract class Manager
         return $this->dao->query($sql)->fetchColumn();
     }
     
-    public function getIdList(string $order = '', array $filters = [], array $search = []) {
+    public function getIdList(string $order = '', array $filters = [], array $search = [], array $charsReplace = []) {
 
         $sql = 'SELECT * FROM ' . $this->table;
+        $keyPref = '';
+        $keySuf = '';
+        
+        if (!empty($charsReplace)) {
+            foreach ($charsReplace as $key => $value) {
+                $keyPref .= 'REPLACE(';
+                $keySuf .= ', "' . $key . '", "' . $value . '")';
+            }
+        }
         
         if (!empty($filters) || !empty($search)) {
             $sql .= ' WHERE ';
             foreach ($filters as $key => $filter) {
                 $sql .= $key . $filter . ' AND ';
             }
+            
             foreach ($search as $key => $value) {
-                $sql .= 'LOWER(' . $key . ') REGEXP \'' . $value . '\' AND ';
+                $sql .= 'LOWER(' . $keyPref . $key . $keySuf .') REGEXP \'' . $value . '\' AND ';
             }
             $sql = substr($sql, 0, -5);
         }
-           
+        
         !empty($order) ? $sql .= ' ORDER BY ' . $order : null;
 
         $req = $this->dao->query($sql);
