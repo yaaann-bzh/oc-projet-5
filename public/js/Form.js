@@ -8,7 +8,7 @@ class Form {
     
     setUrl(){
         let names=[];
-        for (var i = 0; i < this.form.elements.length - 1 ; i++) {
+        for (var i = 0; i < this.form.elements.length; i++) {
             names[i] = this.form.elements[i].name;
         }
         names = names.toString();

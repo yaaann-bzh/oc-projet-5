@@ -198,7 +198,11 @@ class Form extends ApplicationComponent{
     }
     
     public function setErrors(string $key, $message) {
-        $this->errors[$key] = $message;
+        if(empty($key)) {
+            $this->errors[] = $message;
+        } else {
+            $this->errors[$key] = $message;
+        }      
     }
     
     public function inputs() {

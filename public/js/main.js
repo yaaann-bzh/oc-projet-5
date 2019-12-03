@@ -8,8 +8,7 @@ $('.close-view').on('click', function (e) {
     $('#post-view-' + id).css('display', 'none');
 });
 
-//Règles affichage liste et posts sur la page d'accueil - FIN --------------------------------------------------------------------
-
+//Règles affichage liste et posts sur la page d'accueil - FIN -------------------------------------------------------------------
 
 // Validation des formulaires avant envoi - DEBUT ---------------------------------------------------------------------
 
@@ -101,6 +100,39 @@ $('.unreadSet').on('click', function (e) {
 });
 
 // Marquer une candidature Lue/non-lue - FIN ---------------------------------------------------------------------
+
+// Image profil recruteur - DEBUT ---------------------------------------------------------------------------------------
+
+function changeProfilePic(reponse) {
+    
+    let responses = JSON.parse(reponse);
+    
+    if (responses[0] !== 'valid'){
+        for (var response in responses) {
+            console.error(responses[response]);
+            $('#indications').removeClass('text-muted').addClass('text-danger font-weight-bold').text('Erreur !');
+        }
+    } else {
+        $('#profile_pict').attr('src', responses[1] + '?' + Date());
+        $('#indications').removeClass('text-danger font-weight-bold').addClass('text-muted').text('Changement effectué!');
+    }  
+}
+
+$('#changepic').on('click', function () {
+    $('#profilepic').trigger('click');
+});
+
+$('#profilepic').on('change', function (e) {
+    if (e.currentTarget.validity.customError) {
+        $('#indications').removeClass('text-muted').addClass('text-danger font-weight-bold');
+    } else {
+        $('#indications').removeClass('text-danger font-weight-bold').addClass('text-muted');
+        let picture = new FormData(form.form);
+        ajaxPost('/recruiter/newprofilepic', picture , changeProfilePic); 
+    }
+});
+
+// Image profil recruteur - FIN ---------------------------------------------------------------------------------------
 
 // Evènements ponctuels sur éléments de page - DEBUT ---------------------------------------------------------------------
 

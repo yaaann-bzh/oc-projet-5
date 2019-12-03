@@ -31,5 +31,6 @@
     <route url="/form-validation/([a-zA-Z,]+)" module="form" action="getStandards" vars="inputs"></route>
     <route url="/input-validation/([a-z]+)-([a-zA-Z]+)-(.+)" module="form" action="existsControl" vars="manager,column,value"></route>
     <route url="/recruiter/candidacy/change-status-([0-9]+)" module="candidacies" action="changeStatus" vars="candidacy"></route>
-
+    <route url="/recruiter/newprofilepic" module="recruiters" action="editProfilePic"></route>
+    
 </routes>

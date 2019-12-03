@@ -6,11 +6,21 @@
                 <div class="col-12 col-md-6 p-4">
                     <div class="row bg-white p-3 border rounded" id="id_card">
                         <div class="col-4">
+                            <figure class="w100 position-relative mb-2">
+                                <figcaption id="profile-pic-mask" class="position-absolute">
+                                    <a href="#" id="changepic" title="Modifier l'image" class="m-0"><i class="fas fa-camera text-white mr-2"></i></a>
+                                </figcaption>
                             {% if profile_pic_exists(recruiter.id) %}
-                                <img alt="profile_pict_picture" src="/assets/profile_pic/profile_pict_{{ recruiter.id }}.png" id="profile_pict_pic">
+                                <img alt="profile_pict_picture" src="/assets/profile_pic/profile_pict_{{ recruiter.id }}.png" id="profile_pict">
                             {% else %}
-                                <img alt="profile_pict_default" src="/assets/profile_pic/default.png" id="profile_pict_pic">
+                                <img alt="profile_pict_default" src="/assets/profile_pic/default.png" id="profile_pict">
                             {% endif %}
+                            </figure>
+                            <form method="post" id="profile-pic-form" action="" class="form-validation d-none" enctype="multipart/form-data">
+                                <input type="file" id="profilepic" name="profilepic" lang="fr" accept="image/png, image/jpeg">>
+                                <label class="" for="profilepic" data-browse="Parcourir">Selectionner un fichier</label>
+                            </form>
+                            <small id="indications" class="text-muted">png/jpeg/gif/bmp 50 ko max</small>
                         </div>
                         <div class="col-8">
                             <h2>{{ recruiter.username }}</h2>

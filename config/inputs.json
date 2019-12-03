@@ -129,6 +129,14 @@
         "required": true,
         "uniq": false,
         "type": "checkbox"
+    },    
+    "profilepic": {
+        "required": true,
+        "uniq": false,
+        "type": "file",
+        "max": 50,
+        "min": 1,
+        "ext" : ["jpg", "png", "gif", "bmp"]
     }
 }	
 

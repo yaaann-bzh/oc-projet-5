@@ -37,7 +37,7 @@ class Upload {
         }
         
         $ext = substr($this->name, strrpos($this->name, '.')+1);
-        
+       
         if (!file_exists($path)) {
             throw new \Exception('Le chemin spécifié pour l\'enregistrement du fichier n\'existe pas');
         }
@@ -49,6 +49,41 @@ class Upload {
         }
         
         move_uploaded_file($this->tmp_name, $this->name);
+        
+        return $this->name;
+        
+    }
+    
+    public function savePicture(string $path, string $targetExt = 'png', string $prefix = 'picture_', string $id = null, bool $overwrite = false) {
+        if (empty($this->name)){
+            return ;
+        }
+      
+        $ext = substr($this->name, strrpos($this->name, '.')+1);       
+        $extensions = array(
+            'jpg' => 'jpeg',
+            'png' => 'png',
+            'gif' => 'gif',
+            'bmp' => 'bmp'
+        );
+        
+        $createMethod = 'imagecreatefrom' . $extensions[$ext];
+        
+        if (!file_exists($path)) {
+            throw new \Exception('Le chemin spécifié pour l\'enregistrement du fichier n\'existe pas');
+        }
+        
+        $this->name = strtolower(str_replace('\\', '/', $path) . '/' . $prefix . $id . '.' . $targetExt);
+        
+        if (file_exists($this->name) AND $overwrite === false){
+            throw new \Exception('Il existe déjà un fichier portant ce nom');
+        }
+        
+        $picture = $createMethod($this->tmp_name);
+        
+        $saveMethod = 'image' . $targetExt;
+        
+        $saveMethod($picture, $this->name);
         
         return $this->name;
         
