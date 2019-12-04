@@ -17,9 +17,10 @@
                         <label for="title">Intitulé du poste :</label>
                         <input class="form-control col-12 col-md-10 col-lg-8" type="text" name="title" id="title" autofocus value="{{ values.title }}">
                    </div>
-                    <div class="form-group">
+                    <div class="form-group position-relative">
                         <label for="location">Localisation du poste :</label>
                         <input class="form-control col-12 col-md-10 col-lg-8" type="text" name="location" id="location" value="{{ values.location }}">
+                        <ul id="suggests" class="list-group position-absolute"></ul>
                     </div>
                     {% if values.edition is not defined %}
                         <div class="form-group">

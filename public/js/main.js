@@ -10,6 +10,50 @@ $('.close-view').on('click', function (e) {
 
 //Règles affichage liste et posts sur la page d'accueil - FIN -------------------------------------------------------------------
 
+// Suggestion de localisation - DEBUT ---------------------------------------------------------------------
+
+//API 
+const urlSearch = "http://api.geonames.org/searchJSON?";//cf. https://www.geonames.org/export/geonames-search.html
+const country = "&country=FR";// limite les résultats en France
+const featureClass = "&featureClass=P"; // tout type de ville et villages
+const format = "&style=FULL";//Quantité d'info retournée
+const limit = "&maxRows=10";//Nombre de résultat
+const isNameRequired = "&isNameRequired=true";
+const username = "&username=yaaann";
+const parameters = country + featureClass + format + limit + isNameRequired + username;
+
+function suggest(response) {
+    let results = JSON.parse(response).geonames;
+    if (results === null) {
+        console.error(JSON.parse(response).status.message);
+    } else {
+        results.forEach(result => {
+            $('#suggests').append('<li class="list-group-item suggest"><p>' + result.asciiName + ' (' + result.adminCode2 + ')</p></li>');
+        }); 
+        console.log(results);
+    }
+}
+
+$('#suggests').on('click', '.suggest', function (e) {
+    let input = document.getElementById('location');
+    input.value = e.target.textContent;
+    form.contentControll(input);
+});
+        
+$('#location').on('input', function (e) {
+    let query = e.currentTarget.value;
+    $('#suggests').children().remove();
+    if (query.length > 2) {
+        ajaxGet(urlSearch + "q=" + query + parameters, suggest);
+    }});
+
+$('html').on('click', function () {
+    $('#suggests').children().remove();
+});
+
+
+// Suggestion de localisation - FIN ---------------------------------------------------------------------
+
 // Validation des formulaires avant envoi - DEBUT ---------------------------------------------------------------------
 
 let form;
@@ -103,8 +147,7 @@ $('.unreadSet').on('click', function (e) {
 
 // Image profil recruteur - DEBUT ---------------------------------------------------------------------------------------
 
-function changeProfilePic(reponse) {
-    
+function changeProfilePic(reponse) {   
     let responses = JSON.parse(reponse);
     
     if (responses[0] !== 'valid'){
