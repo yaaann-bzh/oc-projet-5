@@ -21,8 +21,8 @@ class Page extends ApplicationComponent
 
         $this->loader = new FilesystemLoader('../templates');
         $this->twig = new Environment($this->loader, [
-            'debug' => true,
-            'cache' => false //'/tmp'
+            'debug' => false,
+            'cache' => __DIR__ . '/../../tmp'
         ]);
         $this->twig->addGlobal('session', $_SESSION);
         $this->twig->addExtension(new Extension());
