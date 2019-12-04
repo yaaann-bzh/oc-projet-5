@@ -25,14 +25,14 @@
         "uniq": false,
         "type": "text",
         "max": 50,
-        "min": 1
+        "min": 0
     },
     "locationSearch": {
         "required": false,
         "uniq": false,
         "type": "text",
         "max": 50,
-        "min": 1
+        "min": 0
     },
     "title": {
         "required": true,
@@ -134,7 +134,7 @@
         "required": true,
         "uniq": false,
         "type": "file",
-        "max": 50,
+        "max": 100,
         "min": 1,
         "ext" : ["jpg", "png", "gif", "bmp"]
     }

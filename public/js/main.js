@@ -13,7 +13,7 @@ $('.close-view').on('click', function (e) {
 // Suggestion de localisation - DEBUT ---------------------------------------------------------------------
 
 //API 
-const urlSearch = "http://api.geonames.org/searchJSON?";//cf. https://www.geonames.org/export/geonames-search.html
+const urlSearch = "http://secure.geonames.org/searchJSON?";//cf. https://www.geonames.org/export/geonames-search.html
 const country = "&country=FR";// limite les résultats en France
 const featureClass = "&featureClass=P"; // tout type de ville et villages
 const format = "&style=FULL";//Quantité d'info retournée
@@ -179,9 +179,11 @@ $('#profilepic').on('change', function (e) {
 
 // Evènements ponctuels sur éléments de page - DEBUT ---------------------------------------------------------------------
 
-$('.hard-confirm').on('click', function () {
+$('.hard-confirm').on('click', function (e) {
     if(window.confirm("Attention, cette action est irréversible !")){
         return;
+    } else {
+        e.preventDefault();
     }
 });
 
