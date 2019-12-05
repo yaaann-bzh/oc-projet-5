@@ -4,7 +4,7 @@
             <p class="m-0">{{ loop.index }} - Reçue le {{ candidacy.sendDate | format_datetime('medium', 'none', locale='fr') }}</p>
             <p class="m-0"><strong>{{ candidacy.candidate.firstname }} {{ candidacy.candidate.lastname }}</strong></p>
             <div class="p-2 border border-secondary rounded mr-5">
-                <p class="mb-0">E-mail : <a href="mailto:{{ candidacy.candidate.email }}" class="ml-3">{{ candidacy.candidate.email }}</a></p>
+                <p class="mb-0 text-wrap text-break">E-mail : <a href="mailto:{{ candidacy.candidate.email }}" class="ml-3">{{ candidacy.candidate.email }}</a></p>
                 <p class="mb-0">Téléphone :<span class="ml-3
                     {% if candidacy.candidate.phone is not null %}
                         ">{{ candidacy.candidate.phone }}

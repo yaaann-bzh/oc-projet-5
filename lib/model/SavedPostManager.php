@@ -68,4 +68,17 @@ class SavedPostManager extends \framework\Manager
         $this->dao->exec($sql);
  
     }
+    
+    public function exists($candidateId, $postId) {
+        $sql = 'SELECT id FROM ' . $this->table . ' WHERE candidateId = :candidateId AND postId = :postId';
+        $req = $this->dao->prepare($sql);
+        $req->bindValue(':candidateId', (int) $candidateId, \PDO::PARAM_INT);
+        $req->bindValue(':postId', (int) $postId, \PDO::PARAM_INT);
+        
+        $req->execute();
+
+        $res = $req->fetch();
+
+        return is_array($res);
+    }
 }

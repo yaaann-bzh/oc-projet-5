@@ -16,6 +16,7 @@ class CandidaciesController extends Controller
         $post = $this->managers->getManagerOf('Post')->getSingle((int)$request->getData('post'));
         $member = $this->managers->getManagerOf('Member')->getSingle((int)$this->app->user()->getAttribute('userId'));
         $this->app->checkContentAccess($post, $member);
+        $post->setSaved($this->managers->getManagerOf('SavedPost')->exists($member->id(), $post->id()));
         $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($member->id(), $post->id()));
         $inputs = $this->app->config()->getFormConfigJSON('inputs', ['cover', 'resume']);
      

@@ -25,7 +25,9 @@
                                 <p class="m-0">{{ post.location }}</p>
                                 <small>
                                     {{ post.addDate | showAge }} | 
-                                    {% if post.applied %}
+                                    {% if session.role is same as('recruiter')%}
+                                        <a href="/post-{{ post.id }}" class="sublink">Voir</a>
+                                    {% elseif post.applied %}
                                         Vous avez envoyé une candidature
                                     {% elseif post.saved %}
                                         Sauvegardée dans "Mes offres"
@@ -61,22 +63,24 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap">
                                     <small class="flex-fill mb-2">{{ post.addDate | showAge }}
-                                    {% if post.saved %}
-                                        <br/>
-                                        Sauvegardée dans "Mes offres"</small>
-                                        <a href="/candidate/delete-{{ post.id }}/index-{{ pagination.current }}/active" title="Enlever de ma liste" class="mr-3 ml-3 btn btn-outline-danger border-0" role="button">
-                                            <i class="far fa-trash-alt fa-2x"></i>
-                                        </a>  
-                                    {% else %}
-                                        </small>
-                                        <a href="/candidate/add-{{ post.id }}/index-{{ pagination.current }}/active" title="Ajouter à ma liste" class="mr-3 ml-3 btn btn-outline-secondary border-0" role="button">
-                                            <i class="far fa-bookmark fa-2x"></i>
-                                        </a>
-                                    {% endif %}
-                                    {% if post.applied %}
-                                        <span> Déjà Envoyé !</span>
-                                    {% else %}
-                                        <a href="/candidate/apply-{{ post.id }}" class="btn-success text-white rounded-pill col-8 col-sm-6 col-lg-4 p-2 text-center text-decoration-none" role="button">Postuler</a>
+                                    {% if session.role is not same as('recruiter')%}
+                                        {% if post.saved %}
+                                            <br/>
+                                            Sauvegardée dans "Mes offres"</small>
+                                            <a href="/candidate/delete-{{ post.id }}/index-{{ pagination.current }}/active" title="Enlever de ma liste" class="mr-3 ml-3 btn btn-outline-danger border-0" role="button">
+                                                <i class="far fa-trash-alt fa-2x"></i>
+                                            </a>  
+                                        {% else %}
+                                            </small>
+                                            <a href="/candidate/add-{{ post.id }}/index-{{ pagination.current }}/active" title="Ajouter à ma liste" class="mr-3 ml-3 btn btn-outline-secondary border-0" role="button">
+                                                <i class="far fa-bookmark fa-2x"></i>
+                                            </a>
+                                        {% endif %}
+                                        {% if post.applied %}
+                                            <span> Déjà Envoyé !</span>
+                                        {% else %}
+                                            <a href="/candidate/apply-{{ post.id }}" class="btn-success text-white rounded-pill col-8 col-sm-6 col-lg-4 p-2 text-center text-decoration-none" role="button">Postuler</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>

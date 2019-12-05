@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-8">
                             <h2>{{ recruiter.username }}</h2>
-                            <p>{{ recruiter.email }}</p>
+                            <p class="text-wrap text-break">{{ recruiter.email }}</p>
                             <p>Inscrit depuis le : <strong class="ml-2">{{ recruiter.inscriptionDate | format_datetime('medium', 'none', locale='fr')}}</strong></p>
                             <p>Offres publiés : <strong class="ml-2">{{ nbPosts.total }}</strong></p>
                             <p>Offres actives : <strong class="ml-2">{{ nbPosts.active }}</strong></p>

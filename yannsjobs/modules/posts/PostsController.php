@@ -57,7 +57,7 @@ class PostsController extends Controller
         $candidate = $this->managers->getManagerOf('Member')->getSingle($this->app->user()->getAttribute('userId'));
 
         if ($candidate !== null) {
-            $savedPostsIds = $this->managers->getManagerOf('SavedPost')->getIdList('', array('candidateId' => '=' . $candidate->id()));
+            $savedPostsIds = $this->managers->getManagerOf('SavedPost')->getPostIdList($candidate->id());
         } else {
             $errors[] = 'Impossible de trouver le profil de candidat demandé,';
             $errors[] = 'Contactez l\'administrateur.';
@@ -66,7 +66,7 @@ class PostsController extends Controller
         $pager = new Pager($this->app(), $savedPostsIds, (int)$request->getData('index'), $this->app->config()->get('display', 'nb_posts'));
        
         $posts = $pager->getEntities($this->managers->getManagerOf('Post'));
-        
+
         foreach ($posts as $post) {
             $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
             $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($candidate->id(), $post->id()));

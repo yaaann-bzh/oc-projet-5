@@ -24,7 +24,7 @@
     </div>
     <div class="">
         {% if post.applied %}
-            <span>Déjà Envoyé !</span>
+            <span>Envoyé !</span>
         {% elseif post.expirationDate > date() %}
             <a href="/candidate/apply-{{ post.id }}" class="btn btn-success text-white rounded-pill p-2 pr-3 pl-3 text-center" role="button">Postuler</a>
         {% endif %}

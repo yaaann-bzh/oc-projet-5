@@ -14,6 +14,6 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap">
     <a class="btn btn-outline-primary m-1 flex-fill " href="/recruiter/post-{{ post.id }}/edit" role="button">Modifier</a>
     <a class="btn btn-outline-success m-1 flex-fill " href="/recruiter/post-{{ post.id }}/copy" role="button">Copier</a>
-    <a class="btn btn-outline-secondary m-1 flex-fill hard-confirm" href="/recruiter/post-{{ post.id }}/hide" role="button">Masquer</a>
+    <a class="btn btn-outline-secondary m-1 flex-fill hard-confirm {% if post.expirationDate < date() %} d-none {% endif %}" href="/recruiter/post-{{ post.id }}/hide" role="button">Masquer</a>
     <a class="btn btn-outline-danger m-1 flex-fill hard-confirm" href="/recruiter/post-{{ post.id }}/delete" role="button">Supprimer</a>
 </div>
