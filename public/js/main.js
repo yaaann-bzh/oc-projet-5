@@ -167,7 +167,7 @@ $('#changepic').on('click', function () {
 
 $('#profilepic').on('change', function (e) {
     if (e.currentTarget.validity.customError) {
-        $('#indications').removeClass('text-muted').addClass('text-danger font-weight-bold');
+        $('#indications').removeClass('text-muted').addClass('text-danger font-weight-bold').text('png/jpeg/gif/bmp 100 ko max');
     } else {
         $('#indications').removeClass('text-danger font-weight-bold').addClass('text-muted');
         let picture = new FormData(form.form);

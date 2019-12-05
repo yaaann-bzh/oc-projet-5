@@ -31,6 +31,7 @@ trait MemberEditor {
         $this->page->addVars(array(
             'user' => $this->app->user(),
             'title' => 'Mettre à jour | YannsJobs',
+            'role' => $this->app->user()->getAttribute('role'),
             'values' => isset($form) ? $form->values() : null,
             'errors' => $form->errors()
         ));

@@ -2,7 +2,7 @@
 
 namespace framework;
 
-class Form extends ApplicationComponent{
+class Form{
 
     protected $inputs;
     protected $values = [];

@@ -3,7 +3,7 @@
         "required": false,
         "uniq": false,
         "type": "login",
-        "max": 25,
+        "max": 50,
         "min": 1
     },
     "passLogin": {
@@ -109,8 +109,8 @@
         "required": true,
         "uniq": true,
         "type": "email",
-        "max": 30,
-        "regex": "#^[a-z0-9._-]+@[a-z0-9._-]{2,}\\.[a-z]{2,4}$#"
+        "max": 50,
+        "regex": "#^[a-z0-9._+-]+@[a-z0-9._-]{2,}\\.[a-z]{2,4}$#"
     },
     "pass": {
         "required": true,
@@ -136,7 +136,7 @@
         "type": "file",
         "max": 100,
         "min": 1,
-        "ext" : ["jpg", "png", "gif", "bmp"]
+        "ext" : ["jpg", "jpeg", "png", "gif", "bmp"]
     }
 }	
 

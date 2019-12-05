@@ -62,6 +62,7 @@ class Upload {
         $ext = substr($this->name, strrpos($this->name, '.')+1);       
         $extensions = array(
             'jpg' => 'jpeg',
+            'jpeg' => 'jpeg',
             'png' => 'png',
             'gif' => 'gif',
             'bmp' => 'bmp'

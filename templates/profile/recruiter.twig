@@ -17,10 +17,10 @@
                             {% endif %}
                             </figure>
                             <form method="post" id="profile-pic-form" action="" class="form-validation d-none" enctype="multipart/form-data">
-                                <input type="file" id="profilepic" name="profilepic" lang="fr" accept="image/png, image/jpeg">>
+                                <input type="file" id="profilepic" name="profilepic" lang="fr" accept="image/png, image/jpeg, .gif, .bmp">>
                                 <label class="" for="profilepic" data-browse="Parcourir">Selectionner un fichier</label>
                             </form>
-                            <small id="indications" class="text-muted">png/jpeg/gif/bmp 50 ko max</small>
+                            <small id="indications" class="text-muted">png/jpeg/gif/bmp<br>100 ko max</small>
                         </div>
                         <div class="col-8">
                             <h2>{{ recruiter.username }}</h2>

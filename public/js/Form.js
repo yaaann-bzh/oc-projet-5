@@ -78,7 +78,7 @@ class Form {
     }
     
     textControl(standard, input){
-        if (input.value.length < standard.min || input.value.length > standard.max){
+        if (input.value.length < standard.min || input.value.length > standard.max -1){
             return 'Ce champ doit comporter entre ' + standard.min + ' et ' + standard.max + ' caractères';
         }
     }
