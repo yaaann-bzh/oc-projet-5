@@ -214,9 +214,12 @@ class PostsController extends Controller
 
         $interface = $this->app->checkContentAccess($post, $member);
 
-        $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
-        $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($member->id(), $post->id()));
-                
+        if ($member !== null){
+            $post->setRecruiterName($this->managers->getManagerOf('Member')->getSingle($post->recruiterId())->username());
+            $post->setApplied($this->managers->getManagerOf('Candidacy')->exists($member->id(), $post->id()));
+            $post->setSaved($this->managers->getManagerOf('SavedPost')->exists($member->id(), $post->id()));
+        }
+
         $this->page->setTemplate('posts/post.twig');
 
         $this->page->addVars(array(

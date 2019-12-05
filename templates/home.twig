@@ -12,7 +12,7 @@
                 {% else %}
                     <div class="list-group mt-3 mb-3">
                         {% for post in postsList %}
-                            <div id="post-item-{{ post.id }}"class="post-items list-group-item list-group-item-action cursor {% if post.id is same as(activePost) %}{{ 'active' }}{% endif %}">
+                            <div id="post-item-{{ post.id }}" class="post-items list-group-item list-group-item-action cursor {% if post.id is same as(activePost) %}{{ 'active' }}{% endif %}">
                                 <div class="d-flex mb-0">
                                     <div class="m-0 flex-fill">
                                         <h3 class="mb-0">{{ post.title }}</h3>
@@ -30,9 +30,9 @@
                                     {% elseif post.applied %}
                                         Vous avez envoyé une candidature
                                     {% elseif post.saved %}
-                                        Sauvegardée dans "Mes offres"
+                                        <span class="saved-{{ post.id }}">Sauvegardée dans "Mes offres"<span>
                                     {% else %}
-                                        <a href="/candidate/add-{{ post.id }}/index-{{ pagination.current }}/active" class="sublink">Sauvegarder</a>
+                                        <a href="#anchor" url="/post-add-{{ post.id }}" id="item-save-{{ post.id }}" class="sublink update-saved-posts">Sauvegarder</a>
                                     {% endif %}
                                 </small>
                             </div>
@@ -66,13 +66,13 @@
                                     {% if session.role is not same as('recruiter')%}
                                         {% if post.saved %}
                                             <br/>
-                                            Sauvegardée dans "Mes offres"</small>
-                                            <a href="/candidate/delete-{{ post.id }}/index-{{ pagination.current }}/active" title="Enlever de ma liste" class="mr-3 ml-3 btn btn-outline-danger border-0" role="button">
+                                            <span class="saved-{{ post.id }}">Sauvegardée dans "Mes offres"</span></small>
+                                            <a href="#anchor" url="/post-delete-{{ post.id }}" id="icon-delete-{{ post.id }}" title="Enlever de ma liste" class="update-saved-posts mr-3 ml-3 btn btn-outline-danger border-0" role="button">
                                                 <i class="far fa-trash-alt fa-2x"></i>
                                             </a>  
                                         {% else %}
                                             </small>
-                                            <a href="/candidate/add-{{ post.id }}/index-{{ pagination.current }}/active" title="Ajouter à ma liste" class="mr-3 ml-3 btn btn-outline-secondary border-0" role="button">
+                                            <a href="#anchor" url="/post-add-{{ post.id }}"id="icon-add-{{ post.id }}" title="Ajouter à ma liste" class="update-saved-posts mr-3 ml-3 btn btn-outline-secondary border-0" role="button">
                                                 <i class="far fa-bookmark fa-2x"></i>
                                             </a>
                                         {% endif %}
@@ -81,6 +81,8 @@
                                         {% else %}
                                             <a href="/candidate/apply-{{ post.id }}" class="btn-success text-white rounded-pill col-8 col-sm-6 col-lg-4 p-2 text-center text-decoration-none" role="button">Postuler</a>
                                         {% endif %}
+                                    {% else %}
+                                        </small>
                                     {% endif %}
                                 </div>
                             </div>

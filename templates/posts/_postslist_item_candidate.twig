@@ -1,4 +1,4 @@
-<div id="post-item-{{ post.id }}" class="list-group-item p-0 d-flex justify-content-between flex-wrap p-3 {% if post.expirationDate < date() %} bg-light {% endif %}">
+<div id="post-item-{{ post.id }}" class="saved-item list-group-item p-0 d-flex justify-content-between flex-wrap p-3 {% if post.expirationDate < date() %} bg-light {% endif %}">
     <div class="">
         <div class="d-flex align-items-end flex-wrap flex-fill">
             <h3 class="mb-0 mr-3 h4">
@@ -28,7 +28,7 @@
         {% elseif post.expirationDate > date() %}
             <a href="/candidate/apply-{{ post.id }}" class="btn btn-success text-white rounded-pill p-2 pr-3 pl-3 text-center" role="button">Postuler</a>
         {% endif %}
-        <a href="/candidate/delete-{{ post.id }}/candidate/postslist/index-{{ pagination.current }}" title="Enlever de ma liste" class="m-3 btn btn-outline-danger" role="button">
+        <a href="#anchor" url="/post-delete-{{ post.id }}" id="icon-delete-{{ post.id }}"  title="Enlever de ma liste" class="update-saved-posts m-3 btn btn-outline-danger" role="button">
             <i class="far fa-trash-alt"></i>
         </a>  
     </div>

@@ -25,12 +25,12 @@
     <route url="/candidate/edit-profile" module="candidates" action="editCandidate"></route>
     <route url="/candidate/edit-password" module="candidates" action="editPassword"></route>
     <route url="/candidate/postslist/index-([0-9]+)" module="posts" action="savedList" vars="index"></route>
-    <route url="/candidate/([a-z]+)-([0-9]+)/([a-z/]+)-?([0-9]+)?/?([a-z/]+)?" module="candidates" action="updateSavedPosts" vars="action,post,page,index,ext"></route>
     <route url="/candidate/apply-([0-9]+)" module="candidacies" action="apply" vars="post"></route>
 
     <route url="/form-validation/([a-zA-Z,]+)" module="form" action="getStandards" vars="inputs"></route>
     <route url="/input-validation/([a-z]+)-([a-zA-Z]+)-(.+)" module="form" action="existsControl" vars="manager,column,value"></route>
     <route url="/recruiter/candidacy/change-status-([0-9]+)" module="candidacies" action="changeStatus" vars="candidacy"></route>
     <route url="/recruiter/newprofilepic" module="recruiters" action="editProfilePic"></route>
+    <route url="/post-([a-z]+)-([0-9]+)" module="candidates" action="updateSavedPosts" vars="action,post"></route>
     
 </routes>

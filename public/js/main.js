@@ -10,6 +10,40 @@ $('.close-view').on('click', function (e) {
 
 //Règles affichage liste et posts sur la page d'accueil - FIN -------------------------------------------------------------------
 
+//Sauvegarde offre candidat - DEBUT  ---------------------------------------------------------------------
+
+function updateSavedPosts (e) {
+    e.preventDefault();   
+    let url = e.currentTarget.getAttribute('url');
+    let id = url.substring(url.lastIndexOf('-')+1, url.length);
+    ajaxGet(url, function (response) {
+        let redirect = JSON.parse(response).redirect;
+        if (redirect !== undefined) {
+            document.location.href = redirect;
+        } else {
+            $('.saved-item#post-item-' + id).remove();
+            $('#item-save-' + id).replaceWith('Sauvegardée dans "Mes offres"');
+            $('span.saved-' + id).text('Retirée de ma liste');
+            $('#icon-add-' + id).removeClass('btn-outline-secondary')
+                    .off('click', updateSavedPosts)
+                    .addClass('btn-outline-success')
+                    .attr('title', 'Ma liste')
+                    .attr('href', '/candidate/postslist/index-1')
+                    .children().replaceWith('<i class="fas fa-clipboard-list fa-2x"></i>');;
+            $('#icon-delete-' + id).removeClass('btn-outline-danger')
+                    .off('click', updateSavedPosts)
+                    .addClass('btn-outline-secondary')
+                    .attr('title', 'Retirée de ma liste')
+                    .children().replaceWith('<i class="fas fa-check fa-2x"></i>');
+        }          
+    });
+}
+
+$('.update-saved-posts').on('click', updateSavedPosts);
+
+
+//Sauvegarde offre candidat - FIN  ---------------------------------------------------------------------
+
 // Suggestion de localisation - DEBUT ---------------------------------------------------------------------
 
 //API 
@@ -24,7 +58,7 @@ const parameters = country + featureClass + format + limit + isNameRequired + us
 
 function suggest(response) {
     let results = JSON.parse(response).geonames;
-    if (results === null) {
+    if (results === undefined) {
         console.error(JSON.parse(response).status.message);
     } else {
         results.forEach(result => {

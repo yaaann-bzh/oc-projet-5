@@ -36,31 +36,21 @@ class CandidatesController extends Controller
     public function executeUpdateSavedPosts(HTTPRequest $request) {
         $action = $request->getData('action');
         $post = $this->managers->getManagerOf('Post')->getSingle($request->getData('post'));
-        $page = $request->getData('page');
-        $index = $request->getData('index');
-        $ext = $request->getData('ext');
-
-        if ($post !== null) {
-            $this->managers->getManagerOf('SavedPost')->$action($this->app->user()->getAttribute('userId'), $post->id());
-            if ($page === null){
-                return $this->app->httpResponse()->redirect('/');
-            }
-            
-            $location = '/' . $page . '-';
-            
-            $num = (is_null($index) OR empty($index)) ? '1' : $index;
-
-            $location .= $num;
-            
-            if ($ext !== null) {
-                $location .= '/' . $ext . '-' . $post->id();
-
-            }
-
-            return $this->app->httpResponse()->redirect($location);
+        
+        if ($post === null) {
+            return $this->app->httpResponse()->redirect404();
         }
         
-        $this->app->httpResponse()->redirect404();
+        $this->app->httpResponse()->addHeader('Content-Type: application/json');
+        
+        if ($this->app->user()->getAttribute('role') === 'candidate') {
+            $this->managers->getManagerOf('SavedPost')->$action($this->app->user()->getAttribute('userId'), $post->id());
+            $json = json_encode(array('success' => $action));
+        } else {
+            $json = json_encode(array('redirect' => '/candidate'));
+        }      
+        
+        $this->page->setContent($json);
     }
     
     public function executeEditCandidate(HTTPRequest $request) {
