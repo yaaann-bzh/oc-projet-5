@@ -37,7 +37,7 @@ class SavedPostManager extends \framework\Manager
     
     public function getPostIdList(int $candidateId)
     {
-        $sql = 'SELECT postId FROM ' . $this->table . ' WHERE candidateId = ' . $candidateId;
+        $sql = 'SELECT postId FROM ' . $this->table . ' WHERE candidateId = ' . $candidateId . ' ORDER BY id DESC';
 
         $req = $this->dao->query($sql);
         $req->setFetchMode(\PDO::FETCH_ASSOC);

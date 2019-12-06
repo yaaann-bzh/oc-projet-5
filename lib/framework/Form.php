@@ -170,10 +170,6 @@ class Form{
         return null;
     }
     
-    public function passwordVerify(int $id, Manager $manager) {
-        
-    }
-    
     public function checkExists(Manager $manager, string $key, string $value, int $userId) {
         $id = $manager->getId($key, $value, $userId);
         if ($id){
