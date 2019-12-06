@@ -12,7 +12,6 @@ class Backend extends Application{
         if ($this->user->isAuthenticated())
         {
             $controller = $this->getController();
-            $this->userConnect('Member', $controller);
             $this->checkUserRole();
         }
         else

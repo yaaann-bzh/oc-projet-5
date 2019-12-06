@@ -62,7 +62,8 @@ class HTTPResponse extends ApplicationComponent
      * Il s'agit d'une sécurité qu'il est toujours préférable d'activer. */
     public function setCookie($name, $value = '', $expire = 0, $path = null, $domain= null, $secure = false, $httpOnly = true)
     {
-        //var_dump('setCookie : ' . $name);
+        //$dump = 'setCookie : ' . $name;
+        //var_dump($dump);
         setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
     }
     

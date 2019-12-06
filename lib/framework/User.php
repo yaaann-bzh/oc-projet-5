@@ -51,7 +51,7 @@ class User extends ApplicationComponent
         $ticket = session_id().microtime().rand(0, mt_getrandmax());
         $ticket = hash('sha512', $ticket);
 
-        $this->app->httpResponse()->setCookie($this->ticketName, $ticket, time() + 60*15, '/'); // Expire au bout de 15 min
+        $this->app->httpResponse()->setCookie($this->ticketName, $ticket, 0, '/'); 
         $this->setAttribute(array('auth' => $ticket));
 
     }

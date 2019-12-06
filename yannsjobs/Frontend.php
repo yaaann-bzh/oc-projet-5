@@ -8,7 +8,10 @@ class Frontend extends Application
     public function run()
     {
         $controller = $this->getController();
-        $this->userConnect('Member', $controller);
+        
+        if (empty($_SESSION)) {
+            $this->user->tryToReconnect('Member', $controller);
+        }
 
         $controller->execute();
       
